@@ -291,6 +291,7 @@ class LiturgicalCalendarEvent:
         self.name = name
         self.urls = urls
         self.additional_urls = {'ja': [], 'en': []}
+        self.description_lead = None
         self.rank = rank
         self.color = color
         self.titles = titles
@@ -439,7 +440,13 @@ class LiturgicalCalendarEvent:
         """
         description = ''
         with_titles = ranking_feast
-        if self.holy_day:
+        if self.description_lead is not None:
+            description += self.description_lead
+            if self.color:
+                description += '\n'
+                description += self.translator.format_color(self.color)
+
+        if self.description_lead is None and self.holy_day:
             description += self.translator.format_holy_day(
                 self.full_name(with_titles=with_titles)
             )
@@ -448,7 +455,11 @@ class LiturgicalCalendarEvent:
         if description != '' and description[-1] == '.':
             description += ' '
 
-        if self.liturgical_event and self.rank < 4:
+        if (
+            self.description_lead is None
+            and self.liturgical_event
+            and self.rank < 4
+        ):
             if self.holy_day:
                 if self.lang == 'ja':
                     name = '今日'
@@ -468,14 +479,20 @@ class LiturgicalCalendarEvent:
                 with_titles = False
             description += self.translator.format_class_feria(
                 name, self.rank, self.feast)
-        elif self.liturgical_event and self.rank == 4 and ranking_feast:
+        elif (
+            self.description_lead is None
+            and self.liturgical_event
+            and self.rank == 4
+            and ranking_feast
+        ):
             description += self.translator.format_commemoration()
-        elif not self.liturgical_event:
+        elif self.description_lead is None and not self.liturgical_event:
             description += self.translator.format_no_special_liturgy(
                 self.full_name(with_titles=with_titles)
             )
             with_titles = False
         if all([
+            self.description_lead is None,
             ranking_feast,
             self.season.name in ['Lent', 'Passiontide'],
             self.liturgical_event,
@@ -489,7 +506,7 @@ class LiturgicalCalendarEvent:
                 utils.feria_name(self.date, self.translator)
             )
             with_titles = False
-        if ranking_feast:
+        if self.description_lead is None and ranking_feast:
             if len(description) > 0 and description[-1] == '.':
                 description += ' '
             description += self.translator.format_color(self.color)
@@ -724,6 +741,7 @@ class LiturgicalYear:
         if self.lang == 'ja':
             self._load_extra_ja_feasts()
             self._apply_ja_hide_feasts()
+            self._apply_ja_description_overrides()
             self._apply_ja_additional_links()
             self._apply_ja_color_overrides()
 
@@ -945,6 +963,38 @@ class LiturgicalYear:
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 
+    def _apply_ja_description_overrides(self):
+        resource_path = 'i18n/ja/description_overrides.csv'
+        try:
+            package_path = resource_path.split('/')
+            filename = package_path[-1]
+            directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
+            content = resources.read_binary(directory, filename)
+            reader = csv.DictReader(io.StringIO(_decode_ja_csv_content(content)))
+            overrides = {}
+            for row in reader:
+                if row.get('match_type') != 'exact_date_and_name':
+                    continue
+                date_en = row.get('date')
+                event_name = row.get('english_name')
+                description_lead = row.get('description_lead')
+                if not (date_en and event_name and description_lead):
+                    continue
+                try:
+                    day, month_str = date_en.split('-')
+                    month = list(calendar.month_abbr).index(month_str)
+                except (ValueError, KeyError, IndexError):
+                    continue
+                overrides[(month, int(day), event_name)] = description_lead
+
+            for date in iterate_liturgical_year(self.year):
+                for event in self.calendar[date]:
+                    key = (date.month, date.day, event.name)
+                    if key in overrides:
+                        event.description_lead = overrides[key]
+        except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
+            pass
+
     def _include_season_info(self, event):
         if self.lang != 'ja':
             return True
@@ -991,21 +1041,22 @@ class LiturgicalYear:
                 description = ''
 
                 if i > 0 and elem.liturgical_event and not elem.addition:
-                    outranking_feast = self.calendar[date][0]
                     ics_name = '› ' + ics_name
-                    feast_name = elem.full_name(capitalize=True)
-                    outranking_feast_name = outranking_feast.full_name(
-                        capitalize=False)
-                    if self.lang == 'ja':
-                        feast_name = self.translator.format_summary(elem.name)
-                        outranking_feast_name = self.translator.format_summary(
-                            outranking_feast.name)
+                    if elem.description_lead is None:
+                        outranking_feast = self.calendar[date][0]
+                        feast_name = elem.full_name(capitalize=True)
+                        outranking_feast_name = outranking_feast.full_name(
+                            capitalize=False)
+                        if self.lang == 'ja':
+                            feast_name = self.translator.format_summary(elem.name)
+                            outranking_feast_name = self.translator.format_summary(
+                                outranking_feast.name)
 
-                    description += self.translator.format_outranking(
-                        feast_name,
-                        outranking_feast_name,
-                        outranking_feast.is_fixed() and elem.is_fixed()
-                    )
+                        description += self.translator.format_outranking(
+                            feast_name,
+                            outranking_feast_name,
+                            outranking_feast.is_fixed() and elem.is_fixed()
+                        )
 
                 if not elem.liturgical_event:
                     ics_name = '» ' + ics_name

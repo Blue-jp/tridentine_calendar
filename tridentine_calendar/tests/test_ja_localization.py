@@ -1,6 +1,10 @@
 """Tests for Japanese localization fixes."""
 
+import calendar
+import csv
 import datetime as dt
+import io
+from importlib import resources
 from pathlib import Path
 import tempfile
 import unittest
@@ -10,6 +14,7 @@ from icalendar import Calendar as IcsCalendar
 from tridentine_calendar import movable_feasts as mf
 from tridentine_calendar.tridentine_calendar import (
     LiturgicalCalendar,
+    _decode_ja_csv_content,
     _normalize_additional_link_url,
 )
 from tridentine_calendar.i18n import Translator
@@ -704,3 +709,268 @@ class TestJapaneseAdditionalLinks(unittest.TestCase):
                 'gen_saint50.php?id=011301',
                 description
             )
+
+
+class TestJapaneseDescriptionOverrides(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.years = [2025, 2026, 2027]
+        cls.ja_calendar = LiturgicalCalendar(cls.years, lang='ja')
+        cls.plain_events = _events_by_date(cls.ja_calendar)
+        cls.html_events = _events_by_date(
+            cls.ja_calendar, html_formatting=True)
+        cls.override_rows = cls._read_ja_csv('description_overrides.csv')
+
+    @staticmethod
+    def _read_ja_csv(filename):
+        content = (
+            resources.files('tridentine_calendar.i18n.ja') / filename
+        ).read_bytes()
+        return list(csv.DictReader(io.StringIO(
+            _decode_ja_csv_content(content))))
+
+    @staticmethod
+    def _date_for(year, date_key):
+        day, month_abbr = date_key.split('-')
+        month = list(calendar.month_abbr).index(month_abbr)
+        return dt.date(year, month, int(day))
+
+    def _component_for(self, year, row, events=None):
+        events = events or self.plain_events
+        date = self._date_for(year, row['date'])
+        translated_name = self.ja_calendar.translator.format_summary(
+            row['english_name'])
+        matches = [
+            event
+            for event in events.get(date, [])
+            if _bare_summary(str(event.get('SUMMARY'))) == translated_name
+        ]
+        self.assertEqual(
+            len(matches),
+            1,
+            f"{date}: expected one {row['english_name']!r} event",
+        )
+        return matches[0]
+
+    def _internal_event(self, year, row):
+        date = self._date_for(year, row['date'])
+        matches = [
+            event
+            for event in self.ja_calendar[date]
+            if event.name == row['english_name']
+        ]
+        self.assertEqual(len(matches), 1)
+        return matches[0]
+
+    def test_all_56_overrides_apply_in_each_year(self):
+        self.assertEqual(len(self.override_rows), 56)
+        self.assertEqual(len({
+            (row['date'], row['english_name'])
+            for row in self.override_rows
+        }), 56)
+
+        matched_occurrences = 0
+        for year in self.years:
+            for row in self.override_rows:
+                with self.subTest(
+                    year=year,
+                    date=row['date'],
+                    name=row['english_name'],
+                ):
+                    component = self._component_for(year, row)
+                    summary = str(component.get('SUMMARY'))
+                    description = str(component.get('DESCRIPTION'))
+                    internal_event = self._internal_event(year, row)
+
+                    self.assertTrue(summary.startswith('› '))
+                    self.assertNotIn('記念', summary)
+                    self.assertTrue(description.startswith('記念\n'))
+                    self.assertNotIn('第四級', description)
+                    self.assertEqual(internal_event.rank, 4)
+                    if internal_event.color:
+                        self.assertIn(
+                            self.ja_calendar.translator.format_color(
+                                internal_event.color),
+                            description,
+                        )
+
+                    html_component = self._component_for(
+                        year, row, self.html_events)
+                    html_description = str(
+                        html_component.get('DESCRIPTION'))
+                    self.assertTrue(html_description.startswith('記念\n'))
+                    self.assertNotIn('第四級', html_description)
+                    matched_occurrences += 1
+
+        self.assertEqual(matched_occurrences, 56 * len(self.years))
+
+    def test_existing_links_and_season_information_remain(self):
+        peter = self._component_for(2026, {
+            'date': '25-Jan',
+            'english_name': 'St. Peter',
+        })
+        peter_description = str(peter.get('DESCRIPTION'))
+        self.assertIn(
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=062901',
+            peter_description,
+        )
+        self.assertIn('季節の解説（英語）', peter_description)
+        self.assertIn(
+            'https://fisheaters.com/customstimeafterepiphany1.html',
+            peter_description,
+        )
+
+        martyrs = self._component_for(2026, {
+            'date': '12-Jun',
+            'english_name': 'SS. Basilides, Cyrinus, Nabor, & Nazarius',
+        })
+        martyrs_description = str(martyrs.get('DESCRIPTION'))
+        self.assertIn('英語の解説', martyrs_description)
+        self.assertIn(
+            'https://en.wikipedia.org/wiki/'
+            'Basilides,_Cyrinus,_Nabor_and_Nazarius',
+            martyrs_description,
+        )
+        self.assertIn('季節の解説（英語）', martyrs_description)
+
+    def test_html_output_uses_the_same_commemoration_lead(self):
+        event = self._component_for(
+            2026,
+            {'date': '25-Jan', 'english_name': 'St. Peter'},
+            self.html_events,
+        )
+        summary = str(event.get('SUMMARY'))
+        description = str(event.get('DESCRIPTION'))
+
+        self.assertEqual(summary, '› 聖ペトロ')
+        self.assertTrue(description.startswith('記念\n'))
+        self.assertNotIn('第四級', description)
+        self.assertIn(
+            '<a href=https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=062901>',
+            description,
+        )
+
+    def test_blank_colors_are_not_inferred(self):
+        cases = [
+            {'date': '25-Jan', 'english_name': 'St. Peter'},
+            {'date': '22-Feb', 'english_name': 'St. Paul'},
+        ]
+        for row in cases:
+            component = self._component_for(2026, row)
+            internal_event = self._internal_event(2026, row)
+            description = str(component.get('DESCRIPTION'))
+            with self.subTest(date=row['date'], name=row['english_name']):
+                self.assertEqual(internal_event.color, '')
+                self.assertNotIn('典礼色は', description)
+
+    def test_existing_first_through_third_class_terms_are_unchanged(self):
+        translator = Translator(lang='ja')
+        expected = {
+            1: 'この祝日は一級の祝日です。',
+            2: 'この祝日は二級の祝日です。',
+            3: 'この祝日は三級の祝日です。',
+        }
+        for rank, text in expected.items():
+            with self.subTest(rank=rank):
+                self.assertEqual(
+                    translator.format_class_feria(
+                        'この祝日', rank, is_feast=True),
+                    text,
+                )
+
+    def test_four_explicit_exclusions_are_unchanged(self):
+        excluded = [
+            (dt.date(2026, 12, 4), 'St. Barbara'),
+            (dt.date(2026, 12, 29), 'St. Thomas Becket'),
+            (dt.date(2026, 12, 31), 'Pope Sylvester I'),
+        ]
+        self.assertNotIn(
+            ('30-Jun', 'St. Peter'),
+            {
+                (row['date'], row['english_name'])
+                for row in self.override_rows
+            },
+        )
+        for date, name in excluded:
+            matches = [
+                event for event in self.ja_calendar[date]
+                if event.name == name
+            ]
+            with self.subTest(date=date, name=name):
+                self.assertEqual(len(matches), 1)
+                self.assertIsNone(matches[0].description_lead)
+
+    def test_other_excluded_events_are_unchanged(self):
+        seven_sorrows = [
+            event
+            for event in self.ja_calendar[mf.SevenSorrows.date(2026)]
+            if event.name == 'The Seven Sorrows'
+        ]
+        self.assertEqual(len(seven_sorrows), 1)
+        self.assertIsNone(seven_sorrows[0].description_lead)
+
+        june_30_events = self.ja_calendar[dt.date(2026, 6, 30)]
+        self.assertEqual(
+            [event.name for event in june_30_events],
+            ['Commemoration of St. Paul', 'St. Paul'],
+        )
+        self.assertTrue(all(
+            event.description_lead is None for event in june_30_events))
+
+        april_mark = [
+            event
+            for event in self.ja_calendar[dt.date(2026, 4, 25)]
+            if event.name == 'St. Mark'
+        ]
+        self.assertEqual(len(april_mark), 1)
+        self.assertIsNone(april_mark[0].description_lead)
+
+        christmas_names = [
+            event.name
+            for event in self.ja_calendar[dt.date(2026, 12, 25)]
+        ]
+        self.assertNotIn('St. Anastasia', christmas_names)
+
+    def test_japanese_proper_mass_events_are_unchanged(self):
+        fixed_rows = self._read_ja_csv('fixed_feasts_local.csv')
+        movable_rows = self._read_ja_csv('movable_feasts_local.csv')
+        self.assertEqual(len(fixed_rows), 15)
+        self.assertEqual(len(movable_rows), 1)
+
+        for row in fixed_rows:
+            date = self._date_for(2026, row['dates_en'])
+            matches = [
+                event for event in self.ja_calendar[date]
+                if event.name == row['en']
+            ]
+            with self.subTest(date=date, name=row['en']):
+                self.assertEqual(len(matches), 1)
+                self.assertIsNone(matches[0].description_lead)
+
+        movable_date = (
+            dt.date(2026, 2, 26)
+            if calendar.isleap(2026)
+            else dt.date(2026, 2, 25)
+        )
+        movable_matches = [
+            event for event in self.ja_calendar[movable_date]
+            if event.name == movable_rows[0]['en']
+        ]
+        self.assertEqual(len(movable_matches), 1)
+        self.assertIsNone(movable_matches[0].description_lead)
+
+    def test_english_and_french_are_not_affected(self):
+        for lang in ['en', 'fr']:
+            calendar_output = LiturgicalCalendar(
+                self.years, lang=lang)
+            ical_text = calendar_output.to_ical().decode('utf-8')
+            with self.subTest(lang=lang):
+                self.assertNotIn('記念', ical_text)
+                self.assertTrue(all(
+                    event.description_lead is None
+                    for year in calendar_output.liturgical_years.values()
+                    for events in year.calendar.values()
+                    for event in events
+                ))
