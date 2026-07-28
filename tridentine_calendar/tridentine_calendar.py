@@ -973,7 +973,17 @@ class LiturgicalYear:
         """
         ics_calendar = ical.Calendar()
         for date in iterate_liturgical_year(self.year):
-            for i, elem in enumerate(self.calendar[date]):
+            events = self.calendar[date]
+            day_has_order_marker = len(events) > 1 and any(
+                (
+                    i > 0
+                    and event.liturgical_event
+                    and not event.addition
+                )
+                or not event.liturgical_event
+                for i, event in enumerate(events)
+            )
+            for i, elem in enumerate(events):
                 ics_name = self.translator.format_summary(elem.name)
                 if self.lang == 'fr' and ics_name:
                     ics_name = self.translator._contract(ics_name)
@@ -1017,16 +1027,29 @@ class LiturgicalYear:
                     description += ' '
                 description += feast_description
                 description = description.strip()
+                unprefixed_ics_name = ics_name
+                if (
+                    self.lang == 'ja'
+                    and not html_formatting
+                    and day_has_order_marker
+                    and not ics_name.startswith((' ', '› ', '» '))
+                ):
+                    # Keep unmarked Japanese all-day events before › and » in
+                    # Google and Apple calendars without changing their visible title.
+                    ics_name = ' ' + ics_name
                 ics_event = ical.Event()
                 ics_event.add('summary', ics_name)
                 ics_event.add('dtstart', date)
                 ics_event.add('description', description)
                 ics_event.add('dtstamp', dt.datetime.now())
                 if self.uid_map is not None:
-                    key = (ics_name, date)
-                    if key in self.uid_map:
-                        uid = self.uid_map[key]
-                    else:
+                    uid = None
+                    for uid_name in (ics_name, unprefixed_ics_name):
+                        key = (uid_name, date)
+                        if key in self.uid_map:
+                            uid = self.uid_map[key]
+                            break
+                    if uid is None:
                         uid = gen_uid()
                 else:
                     uid = gen_uid()

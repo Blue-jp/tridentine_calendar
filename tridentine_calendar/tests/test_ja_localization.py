@@ -1,6 +1,8 @@
 """Tests for Japanese localization fixes."""
 
 import datetime as dt
+from pathlib import Path
+import tempfile
 import unittest
 
 from icalendar import Calendar as IcsCalendar
@@ -13,16 +15,22 @@ from tridentine_calendar.tridentine_calendar import (
 from tridentine_calendar.i18n import Translator
 
 
-def _events_by_date(liturgical_calendar, html_formatting=False):
-    ics_calendar = IcsCalendar.from_ical(
-        liturgical_calendar.to_ical(html_formatting))
+def _events_by_date_from_ical(ical_data):
+    ics_calendar = IcsCalendar.from_ical(ical_data)
     events = {}
     for component in ics_calendar.walk('VEVENT'):
         events.setdefault(component.get('DTSTART').dt, []).append(component)
     return events
 
 
+def _events_by_date(liturgical_calendar, html_formatting=False):
+    return _events_by_date_from_ical(
+        liturgical_calendar.to_ical(html_formatting))
+
+
 def _bare_summary(summary):
+    if summary.startswith(' '):
+        summary = summary[1:]
     for prefix in ['› ', '» ']:
         if summary.startswith(prefix):
             return summary[len(prefix):]
@@ -192,6 +200,132 @@ class TestJapaneseLocalizationPhase1(unittest.TestCase):
             str(event.get('SUMMARY'))
             for event in fr_events[mf.Pentecost.date(2026)]
         ])
+
+
+class TestJapaneseSameDaySummaryOrdering(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.years = [2025, 2026, 2027]
+        cls.ja_calendar = LiturgicalCalendar(cls.years, lang='ja')
+        cls.plain_ical = cls.ja_calendar.to_ical()
+        cls.html_ical = cls.ja_calendar.to_ical(html_formatting=True)
+        cls.plain_events = _events_by_date_from_ical(cls.plain_ical)
+        cls.html_events = _events_by_date_from_ical(cls.html_ical)
+
+    @staticmethod
+    def summaries(events, date):
+        return [str(event.get('SUMMARY')) for event in events.get(date, [])]
+
+    def test_representative_same_day_summaries(self):
+        self.assertEqual(
+            self.summaries(self.plain_events, dt.date(2026, 10, 4)),
+            [
+                ' 聖霊降臨後第十九主日',
+                '› アッシジの聖フランシスコ',
+                '» 祈り（ポンペイの聖母）',
+            ],
+        )
+        self.assertEqual(
+            self.summaries(self.plain_events, dt.date(2026, 9, 10)),
+            [
+                ' トレンティーノの聖ニコラオ',
+                '› 福者カルロ・スピノラ、福者セバスチアノ木村等殉教者',
+            ],
+        )
+        september_23 = self.summaries(
+            self.plain_events, dt.date(2026, 9, 23))
+        self.assertEqual(
+            september_23,
+            [' 9月の四季の斎日', '› 聖リノ教皇', '› 聖テクラ'],
+        )
+        self.assertFalse(any('Pio' in summary for summary in september_23))
+
+    def test_prefix_and_mark_codepoints_are_exact(self):
+        for date, events in self.plain_events.items():
+            summaries = [str(event.get('SUMMARY')) for event in events]
+            if len(summaries) < 2:
+                continue
+            has_marker = any(
+                summary.startswith(('› ', '» ')) for summary in summaries)
+            if not has_marker:
+                continue
+            for summary in summaries:
+                with self.subTest(date=date, summary=repr(summary)):
+                    if summary.startswith('› '):
+                        self.assertEqual(ord(summary[0]), 0x203A)
+                    elif summary.startswith('» '):
+                        self.assertEqual(ord(summary[0]), 0x00BB)
+                    else:
+                        self.assertEqual(repr(summary[:1]), repr(' '))
+                        self.assertEqual(ord(summary[0]), 0x0020)
+                        self.assertFalse(summary.startswith('  '))
+
+    def test_single_event_summary_is_not_prefixed(self):
+        date = dt.date(2026, 9, 9)
+        summaries = self.summaries(self.plain_events, date)
+        self.assertEqual(len(summaries), 1)
+        self.assertFalse(summaries[0].startswith(' '))
+
+    def test_multiple_unmarked_events_are_not_prefixed(self):
+        summaries = self.summaries(
+            self.plain_events, dt.date(2026, 4, 25))
+        self.assertEqual(summaries, ['聖マルコ', '大祈願祭'])
+        self.assertFalse(any(summary.startswith(' ') for summary in summaries))
+
+    def test_descriptions_and_html_summaries_are_not_prefixed(self):
+        for date in [
+            dt.date(2026, 9, 10),
+            dt.date(2026, 9, 23),
+            dt.date(2026, 10, 4),
+        ]:
+            for event in self.plain_events[date]:
+                self.assertFalse(str(event.get('DESCRIPTION')).startswith(' '))
+            for summary in self.summaries(self.html_events, date):
+                self.assertFalse(summary.startswith(' '))
+
+        self.assertEqual(
+            self.summaries(self.html_events, dt.date(2026, 10, 4)),
+            [
+                '聖霊降臨後第十九主日',
+                '› アッシジの聖フランシスコ',
+                '» 祈り（ポンペイの聖母）',
+            ],
+        )
+
+    def test_english_and_french_summaries_are_not_prefixed(self):
+        for lang in ['en', 'fr']:
+            events = _events_by_date(LiturgicalCalendar(2026, lang=lang))
+            with self.subTest(lang=lang):
+                self.assertFalse(any(
+                    str(event.get('SUMMARY')).startswith(' ')
+                    for day_events in events.values()
+                    for event in day_events
+                ))
+
+    def test_existing_unprefixed_uids_are_reused(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            old_ical = LiturgicalCalendar(2026, lang='ja').to_ical(
+                html_formatting=True)
+            filename = Path(tmp_dir) / 'old-ja.ics'
+            filename.write_bytes(old_ical)
+            old_events = _events_by_date_from_ical(old_ical)
+
+            updated = LiturgicalCalendar(
+                2026, reuse_uids_from=filename, lang='ja')
+            new_events = _events_by_date_from_ical(updated.to_ical())
+
+            old_uids = {
+                (date, str(event.get('SUMMARY'))): str(event.get('UID'))
+                for date, events in old_events.items()
+                for event in events
+            }
+            new_uids = {
+                (date, str(event.get('SUMMARY')).removeprefix(' ')):
+                str(event.get('UID'))
+                for date, events in new_events.items()
+                for event in events
+            }
+            self.assertEqual(old_uids, new_uids)
 
 
 class TestJapaneseHideFeasts(unittest.TestCase):
