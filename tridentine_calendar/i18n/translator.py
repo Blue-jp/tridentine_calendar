@@ -319,6 +319,12 @@ class Translator:
         plural_prefixes = ('Les ', 'les ', 'Sts ', 'Stes ', 'sts ', 'stes ')
         return name.lstrip('» ').lstrip('› ').startswith(plural_prefixes)
 
+    def _ja_name_includes_event_type(self, name):
+        return (
+            self.lang == 'ja'
+            and name.rstrip().endswith(('祝日', '主日', '記念'))
+        )
+
     def get_ordinal(self, n):
         return self.ordinals.get(n, str(n))
 
@@ -344,7 +350,11 @@ class Translator:
                             or translated_name.startswith('祝日'))
 
         if self.lang == 'ja':
-            if is_generic_sunday or is_already_feast:
+            if (
+                is_generic_sunday
+                or is_already_feast
+                or self._ja_name_includes_event_type(translated_name)
+            ):
                 return translated_name
             if rank == 4:
                 return self.templates['commemoration_full_name'].format(
@@ -429,7 +439,10 @@ class Translator:
             'outranking' if is_fixed_outranked_by_fixed
             else 'outranking_this_year')
         template = self.templates[template_key]
-        if self.lang == 'ja' and feast_is_full_name:
+        if self.lang == 'ja' and (
+            feast_is_full_name
+            or self._ja_name_includes_event_type(feast)
+        ):
             template = template.replace(
                 '{feast}の祝日に',
                 '{feast}に',

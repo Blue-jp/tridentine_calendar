@@ -208,6 +208,178 @@ class TestJapaneseLocalizationPhase1(unittest.TestCase):
         ])
 
 
+class TestJapaneseExpressionBlockers(unittest.TestCase):
+    years = [2025, 2026, 2027, 2028]
+    rosary_name = 'ロザリオの童貞マリアの祝日'
+    old_rosary_name = '童貞聖マリアの聖なるロザリオ'
+    typed_feast_names = [
+        '我らの主イエズス・キリストの御降誕の大祝日',
+        '主イエズス・キリストの御割礼の祝日',
+        'イエズスの聖名の祝日',
+        '主の御公現の祝日',
+        'キリストの聖体の祝日',
+        'イエズスの聖心の大祝日',
+    ]
+
+    @classmethod
+    def setUpClass(cls):
+        cls.calendar = LiturgicalCalendar(cls.years, lang='ja')
+        cls.plain_ical = cls.calendar.to_ical()
+        cls.html_ical = cls.calendar.to_ical(html_formatting=True)
+        cls.plain_events = _events_by_date_from_ical(cls.plain_ical)
+        cls.html_events = _events_by_date_from_ical(cls.html_ical)
+
+    def _event_with_summary(self, events, date, summary):
+        matches = [
+            event for event in events[date]
+            if _bare_summary(str(event.get('SUMMARY'))) == summary
+        ]
+        self.assertEqual(len(matches), 1)
+        return matches[0]
+
+    def test_holy_rosary_name_and_properties_for_all_years(self):
+        for year in self.years:
+            date = dt.date(year, 10, 7)
+            internal = [
+                event for event in self.calendar[date]
+                if event.name == 'The Holy Rosary'
+            ]
+            with self.subTest(year=year):
+                self.assertEqual(len(internal), 1)
+                self.assertEqual(internal[0].rank, 2)
+                self.assertEqual(internal[0].color, 'White')
+
+                for events in [self.plain_events, self.html_events]:
+                    event = self._event_with_summary(
+                        events, date, self.rosary_name)
+                    summary = str(event.get('SUMMARY'))
+                    description = str(event.get('DESCRIPTION'))
+                    self.assertNotIn(self.old_rosary_name, summary)
+                    self.assertNotIn(self.old_rosary_name, description)
+                    self.assertIn(
+                        'gen_saint365.php?id=100701', description)
+                    self.assertIn(
+                        'feastofthemostholyrosary.html', description)
+
+    def test_holy_rosary_does_not_affect_either_st_mark(self):
+        for year in self.years:
+            october_mark = self._event_with_summary(
+                self.plain_events,
+                dt.date(year, 10, 7),
+                '聖マルコ教皇',
+            )
+            april_mark = self._event_with_summary(
+                self.plain_events,
+                dt.date(year, 4, 25),
+                '聖マルコ',
+            )
+            with self.subTest(year=year):
+                self.assertEqual(
+                    str(october_mark.get('DESCRIPTION')).splitlines()[0],
+                    '記念',
+                )
+                self.assertNotIn(
+                    self.rosary_name,
+                    str(april_mark.get('SUMMARY')),
+                )
+
+    def test_old_holy_rosary_summaries_reuse_uids(self):
+        old_calendar = IcsCalendar()
+        old_calendar.add('prodid', '-//Rosary UID reuse test//EN')
+        old_calendar.add('version', '2.0')
+        expected_uids = {}
+        for year in self.years:
+            date = dt.date(year, 10, 7)
+            uid = f'old-holy-rosary-{year}@example.test'
+            expected_uids[date] = uid
+            event = IcsEvent()
+            event.add('summary', ' ' + self.old_rosary_name)
+            event.add('dtstart', date)
+            event.add('uid', uid)
+            old_calendar.add_component(event)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            old_path = Path(tmp_dir) / 'old.ics'
+            old_path.write_bytes(old_calendar.to_ical())
+            updated = LiturgicalCalendar(
+                self.years,
+                reuse_uids_from=old_path,
+                lang='ja',
+            )
+            outputs = [
+                _events_by_date_from_ical(updated.to_ical()),
+                _events_by_date_from_ical(
+                    updated.to_ical(html_formatting=True)),
+            ]
+
+        for events in outputs:
+            for date, uid in expected_uids.items():
+                event = self._event_with_summary(
+                    events, date, self.rosary_name)
+                with self.subTest(date=date, html=events is outputs[1]):
+                    self.assertEqual(str(event.get('UID')), uid)
+
+    def test_names_with_event_type_do_not_repeat_feast(self):
+        for events in [self.plain_events, self.html_events]:
+            all_events = [
+                event
+                for day_events in events.values()
+                for event in day_events
+            ]
+            for name in self.typed_feast_names:
+                matches = [
+                    event
+                    for event in all_events
+                    if _bare_summary(str(event.get('SUMMARY'))) == name
+                ]
+                with self.subTest(
+                        html=events is self.html_events, name=name):
+                    self.assertEqual(len(matches), len(self.years))
+                    for event in matches:
+                        description = str(event.get('DESCRIPTION'))
+                        self.assertTrue(description.startswith(name + 'は'))
+                        self.assertNotIn('祝日の祝日', description)
+
+    def test_japanese_event_type_suffixes_are_general(self):
+        translator = Translator(lang='ja')
+        outranking = '聖霊降臨後第十九主日'
+        for feast in [
+            '主の御公現の祝日',
+            '御復活後第三の主日',
+            '使徒聖パウロの記念',
+        ]:
+            with self.subTest(feast=feast):
+                self.assertEqual(
+                    translator.format_outranking(
+                        feast, outranking, False),
+                    f'今年は{outranking}が{feast}に優先します。',
+                )
+
+        self.assertEqual(
+            translator.format_outranking(
+                'アッシジの聖フランシスコ',
+                outranking,
+                False,
+            ),
+            f'今年は{outranking}が'
+            'アッシジの聖フランシスコの祝日に優先します。',
+        )
+
+    def test_forbidden_repeated_event_types_are_absent(self):
+        for output in [self.plain_ical, self.html_ical]:
+            text = output.decode('utf-8')
+            for repeated_text in [
+                '祝日の祝日',
+                '主日の祝日',
+                '記念の祝日',
+            ]:
+                with self.subTest(
+                        html=output is self.html_ical,
+                        repeated_text=repeated_text):
+                    self.assertNotIn(repeated_text, text)
+            self.assertNotIn(self.old_rosary_name, text)
+
+
 class TestJapaneseSameDaySummaryOrdering(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -833,10 +1005,30 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(matched_occurrences, 54 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 73)
+        self.assertEqual(len(self.override_rows), 74)
         self.assertEqual(len(self.commemoration_rows), 54)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
+        self.assertEqual(
+            [
+                (
+                    row['match_type'],
+                    row['date'],
+                    row['english_name'],
+                    row['uid_alias'],
+                )
+                for row in self.override_rows
+                if row['uid_alias'] and not row['description_append']
+            ],
+            [
+                (
+                    'exact_date_and_name',
+                    '7-Oct',
+                    'The Holy Rosary',
+                    '童貞聖マリアの聖なるロザリオ',
+                ),
+            ],
+        )
 
         keys = [
             (row['match_type'], row['date'], row['english_name'])
