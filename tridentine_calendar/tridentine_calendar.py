@@ -34,6 +34,15 @@ SEASON_DATA = json.loads(
 )
 
 
+def _decode_ja_csv_content(content):
+    for encoding in ['utf-8-sig', 'shift_jis']:
+        try:
+            return content.decode(encoding)
+        except UnicodeDecodeError:
+            continue
+    return content.decode('utf-8-sig')
+
+
 def get_args():
     """Define the command line arguments."""
     parser = argparse.ArgumentParser(description='Calculate a liturgical calendar.')
@@ -592,10 +601,13 @@ class LiturgicalYear:
         self.calendar[date].append(event)
 
         date = mf.Ascension.date(self.year) + dt.timedelta(3)
-        event_name = self.translator.translate('Ascension')
-        name = self.translator.templates['ordinal_sunday_after_full_name'].format(
-            ordinal='', event=event_name).replace('  ', ' ').strip()
-        # In Japanese, ''後主日 works. In English ' Sunday after Ascension' works.
+        if self.lang == 'ja':
+            name = self.translator.translate('Sunday after Ascension')
+        else:
+            event_name = self.translator.translate('Ascension')
+            name = self.translator.templates[
+                'ordinal_sunday_after_full_name'].format(
+                    ordinal='', event=event_name).replace('  ', ' ').strip()
         event = LiturgicalCalendarEvent(
             date, name=name, rank=1, lang=self.lang, translator=self.translator)
         self.calendar[date].append(event)
@@ -635,6 +647,7 @@ class LiturgicalYear:
 
         if self.lang == 'ja':
             self._load_extra_ja_feasts()
+            self._apply_ja_color_overrides()
 
         for date in iterate_liturgical_year(self.year):
             self.calendar[date] = sorted(self.calendar[date], key=_feast_sort_key)
@@ -651,7 +664,7 @@ class LiturgicalYear:
                 filename = package_path[-1]
                 directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
                 content = resources.read_binary(directory, filename)
-                decoded_content = content.decode('shift_jis')
+                decoded_content = _decode_ja_csv_content(content)
                 reader = csv.DictReader(io.StringIO(decoded_content))
                 for row in reader:
                     date_en = row.get('dates_en')
@@ -700,7 +713,7 @@ class LiturgicalYear:
             filename = package_path[-1]
             directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
             content = resources.read_binary(directory, filename)
-            decoded_content = content.decode('shift_jis')
+            decoded_content = _decode_ja_csv_content(content)
             reader = csv.DictReader(io.StringIO(decoded_content))
             for row in reader:
                 if calendar.isleap(self.year):
@@ -733,6 +746,33 @@ class LiturgicalYear:
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 
+    def _apply_ja_color_overrides(self):
+        resource_path = 'i18n/ja/color_overrides.csv'
+        try:
+            package_path = resource_path.split('/')
+            filename = package_path[-1]
+            directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
+            content = resources.read_binary(directory, filename)
+            reader = csv.DictReader(io.StringIO(_decode_ja_csv_content(content)))
+            for row in reader:
+                date_en = row.get('dates_en')
+                event_name = row.get('en')
+                color = row.get('color')
+                if not (date_en and event_name and color):
+                    continue
+                try:
+                    day, month_str = date_en.split('-')
+                    month = list(calendar.month_abbr).index(month_str)
+                except (ValueError, KeyError, IndexError):
+                    continue
+                for date in iterate_liturgical_year(self.year):
+                    if date.month == month and date.day == int(day):
+                        for event in self.calendar[date]:
+                            if event.name == event_name:
+                                event.color = color
+        except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
+            pass
+
     def __getitem__(self, key):
         """Return the events for a given day.
 
@@ -757,7 +797,7 @@ class LiturgicalYear:
         ics_calendar = ical.Calendar()
         for date in iterate_liturgical_year(self.year):
             for i, elem in enumerate(self.calendar[date]):
-                ics_name = self.translator.translate(elem.name)
+                ics_name = self.translator.format_summary(elem.name)
                 if self.lang == 'fr' and ics_name:
                     ics_name = self.translator._contract(ics_name)
                     ics_name = ics_name[0].upper() + ics_name[1:]
@@ -766,10 +806,17 @@ class LiturgicalYear:
                 if i > 0 and elem.liturgical_event and not elem.addition:
                     outranking_feast = self.calendar[date][0]
                     ics_name = '› ' + ics_name
+                    feast_name = elem.full_name(capitalize=True)
+                    outranking_feast_name = outranking_feast.full_name(
+                        capitalize=False)
+                    if self.lang == 'ja':
+                        feast_name = self.translator.format_summary(elem.name)
+                        outranking_feast_name = self.translator.format_summary(
+                            outranking_feast.name)
 
                     description += self.translator.format_outranking(
-                        elem.full_name(capitalize=True),
-                        outranking_feast.full_name(capitalize=False),
+                        feast_name,
+                        outranking_feast_name,
                         outranking_feast.is_fixed() and elem.is_fixed()
                     )
 

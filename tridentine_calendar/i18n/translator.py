@@ -63,9 +63,10 @@ class Translator:
             'feria_in_passion_week': '受難週の{weekday}',
             'class_feria': '{name}は{rank}の{type}です。',
             'liturgical_color': '典礼色は{color}です。',
-            'outranking': '{feast}は{outranking_feast}に優先されます。',
+            'outranking': (
+                '{outranking_feast}が{feast}の祝日に優先します。'),
             'outranking_this_year': (
-                '今年は{feast}は{outranking_feast}に優先されます。'),
+                '今年は{outranking_feast}が{feast}の祝日に優先します。'),
             'holy_day': '{name}は守るべき祝日です。',
             'no_special_liturgy': '{name}には特別な典礼はありません。',
             'today_is_commemoration': '今日は記念日です。',
@@ -115,6 +116,13 @@ class Translator:
                 'Calendrier liturgique utilisant les rubriques de 1962 de '
                 'l\'Église catholique romaine.'),
         }
+    }
+    SUMMARY_TRANSLATIONS = {
+        'ja': {
+            'Easter': '御復活の祝日',
+            'Ascension': '我らの主イエズス・キリストの御昇天',
+            'Pentecost': '聖霊降臨の主日',
+        },
     }
 
     def __init__(self, lang='en'):
@@ -183,15 +191,16 @@ class Translator:
         self._load_csv('i18n/ja/titles_lexicon.csv', 'en', 'ja')
         self._load_csv('i18n/ja/color_lexicon.csv', 'en', 'ja')
         self._load_csv('i18n/ja/class_lexicon.csv', 'en', 'ja')
+        self._load_csv('i18n/ja/feasts_seasons_overrides.csv', 'en', 'ja')
 
         # Add or override core terms for better Sunday/Feria construction
         core_overrides = {
             'Epiphany': '公現',
             'Pentecost': '聖霊降臨',
-            'Easter': '復活',
+            'Easter': '御復活',
             'Advent': '待降節',
             'Lent': '四旬節',
-            'Ascension': '昇天',
+            'Ascension': '御昇天',
         }
         for en, ja in core_overrides.items():
             self.translations[en] = ja
@@ -215,6 +224,17 @@ class Translator:
         for en, fr in core_overrides.items():
             self.translations[en] = fr
 
+    def _decode_csv_content(self, content):
+        encodings = ['utf-8-sig', 'shift_jis']
+        if self.lang != 'ja':
+            encodings = ['utf-8']
+        for encoding in encodings:
+            try:
+                return content.decode(encoding)
+            except UnicodeDecodeError:
+                continue
+        return content.decode(encodings[0])
+
     def _load_csv(self, resource_path, en_col, lang_col):
         try:
             package_path = resource_path.split('/')
@@ -222,10 +242,7 @@ class Translator:
             directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
 
             content = (resources.files(directory) / filename).read_bytes()
-            if self.lang == 'ja':
-                decoded_content = content.decode('shift_jis')
-            else:
-                decoded_content = content.decode('utf-8')
+            decoded_content = self._decode_csv_content(content)
             reader = csv.DictReader(io.StringIO(decoded_content))
             for row in reader:
                 en_val = row.get(en_col)
@@ -248,6 +265,11 @@ class Translator:
         if text in self.weekdays:
             return self.weekdays[text]
         return self.translations.get(text, text)
+
+    def format_summary(self, name):
+        """Return the text to use as the ICS event summary."""
+        return self.SUMMARY_TRANSLATIONS.get(
+            self.lang, {}).get(name, self.translate(name))
 
     def _contract(self, text):
         """Apply French contractions and elisions."""
@@ -301,6 +323,10 @@ class Translator:
         return self.ordinals.get(n, str(n))
 
     def format_feast_full_name(self, name, rank, titles=None):
+        summary_override = self.SUMMARY_TRANSLATIONS.get(self.lang, {}).get(name)
+        if summary_override and not titles:
+            return summary_override
+
         translated_name = self.translate(name)
         if titles:
             titles_str = self.format_titles(titles)
