@@ -971,27 +971,36 @@ class LiturgicalYear:
             directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
             content = resources.read_binary(directory, filename)
             reader = csv.DictReader(io.StringIO(_decode_ja_csv_content(content)))
-            overrides = {}
+            exact_overrides = {}
+            movable_overrides = {}
             for row in reader:
-                if row.get('match_type') != 'exact_date_and_name':
-                    continue
+                match_type = row.get('match_type')
                 date_en = row.get('date')
                 event_name = row.get('english_name')
                 description_lead = row.get('description_lead')
-                if not (date_en and event_name and description_lead):
+                if not (event_name and description_lead):
                     continue
-                try:
-                    day, month_str = date_en.split('-')
-                    month = list(calendar.month_abbr).index(month_str)
-                except (ValueError, KeyError, IndexError):
-                    continue
-                overrides[(month, int(day), event_name)] = description_lead
+                if match_type == 'exact_date_and_name':
+                    if not date_en:
+                        continue
+                    try:
+                        day, month_str = date_en.split('-')
+                        month = list(calendar.month_abbr).index(month_str)
+                    except (ValueError, KeyError, IndexError):
+                        continue
+                    exact_overrides[
+                        (month, int(day), event_name)
+                    ] = description_lead
+                elif match_type == 'movable_name':
+                    movable_overrides[event_name] = description_lead
 
             for date in iterate_liturgical_year(self.year):
                 for event in self.calendar[date]:
                     key = (date.month, date.day, event.name)
-                    if key in overrides:
-                        event.description_lead = overrides[key]
+                    if key in exact_overrides:
+                        event.description_lead = exact_overrides[key]
+                    elif event.name in movable_overrides:
+                        event.description_lead = movable_overrides[event.name]
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 

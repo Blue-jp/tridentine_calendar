@@ -715,11 +715,20 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.years = [2025, 2026, 2027]
-        cls.ja_calendar = LiturgicalCalendar(cls.years, lang='ja')
+        cls.ja_calendar = LiturgicalCalendar(
+            cls.years + [2028], lang='ja')
         cls.plain_events = _events_by_date(cls.ja_calendar)
         cls.html_events = _events_by_date(
             cls.ja_calendar, html_formatting=True)
         cls.override_rows = cls._read_ja_csv('description_overrides.csv')
+        cls.commemoration_rows = [
+            row for row in cls.override_rows
+            if row['description_lead'] == '記念'
+        ]
+        cls.proper_mass_rows = [
+            row for row in cls.override_rows
+            if row['description_lead'] == '日本の固有ミサ。'
+        ]
 
     @staticmethod
     def _read_ja_csv(filename):
@@ -735,9 +744,15 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         month = list(calendar.month_abbr).index(month_abbr)
         return dt.date(year, month, int(day))
 
+    def _date_for_row(self, year, row):
+        if row.get('match_type') == 'movable_name':
+            day = 26 if calendar.isleap(year) else 25
+            return dt.date(year, 2, day)
+        return self._date_for(year, row.get('date') or row['dates_en'])
+
     def _component_for(self, year, row, events=None):
         events = events or self.plain_events
-        date = self._date_for(year, row['date'])
+        date = self._date_for_row(year, row)
         translated_name = self.ja_calendar.translator.format_summary(
             row['english_name'])
         matches = [
@@ -753,7 +768,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         return matches[0]
 
     def _internal_event(self, year, row):
-        date = self._date_for(year, row['date'])
+        date = self._date_for_row(year, row)
         matches = [
             event
             for event in self.ja_calendar[date]
@@ -763,15 +778,15 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         return matches[0]
 
     def test_all_56_overrides_apply_in_each_year(self):
-        self.assertEqual(len(self.override_rows), 56)
+        self.assertEqual(len(self.commemoration_rows), 56)
         self.assertEqual(len({
             (row['date'], row['english_name'])
-            for row in self.override_rows
+            for row in self.commemoration_rows
         }), 56)
 
         matched_occurrences = 0
         for year in self.years:
-            for row in self.override_rows:
+            for row in self.commemoration_rows:
                 with self.subTest(
                     year=year,
                     date=row['date'],
@@ -803,6 +818,173 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     matched_occurrences += 1
 
         self.assertEqual(matched_occurrences, 56 * len(self.years))
+
+    def test_override_data_is_unique_and_matches_local_sources(self):
+        self.assertEqual(len(self.override_rows), 72)
+        self.assertEqual(len(self.commemoration_rows), 56)
+        self.assertEqual(len(self.proper_mass_rows), 16)
+
+        keys = [
+            (row['match_type'], row['date'], row['english_name'])
+            for row in self.override_rows
+        ]
+        self.assertEqual(len(keys), len(set(keys)))
+
+        fixed_rows = self._read_ja_csv('fixed_feasts_local.csv')
+        movable_rows = self._read_ja_csv('movable_feasts_local.csv')
+        expected_fixed = {
+            ('exact_date_and_name', row['dates_en'], row['en'])
+            for row in fixed_rows
+        }
+        expected_movable = {
+            ('movable_name', '', row['en'])
+            for row in movable_rows
+        }
+        actual = {
+            (row['match_type'], row['date'], row['english_name'])
+            for row in self.proper_mass_rows
+        }
+
+        self.assertEqual(len(expected_fixed), 15)
+        self.assertEqual(len(expected_movable), 1)
+        self.assertEqual(actual, expected_fixed | expected_movable)
+
+    def test_all_16_proper_mass_overrides_apply_in_each_year(self):
+        matched_occurrences = 0
+        for year in self.years:
+            for row in self.proper_mass_rows:
+                with self.subTest(
+                    year=year,
+                    date=row['date'],
+                    name=row['english_name'],
+                ):
+                    component = self._component_for(year, row)
+                    summary = str(component.get('SUMMARY'))
+                    description = str(component.get('DESCRIPTION'))
+                    internal_event = self._internal_event(year, row)
+
+                    self.assertEqual(
+                        description.splitlines()[0],
+                        '日本の固有ミサ。',
+                    )
+                    self.assertFalse(description.startswith('今年は'))
+                    self.assertFalse(
+                        description.startswith('今日は記念日です。'))
+                    self.assertNotIn('日本の固有ミサ。', summary)
+                    self.assertEqual(
+                        _bare_summary(summary),
+                        self.ja_calendar.translator.format_summary(
+                            row['english_name']),
+                    )
+                    self.assertEqual(internal_event.rank, 4)
+                    if internal_event.color:
+                        self.assertIn(
+                            self.ja_calendar.translator.format_color(
+                                internal_event.color),
+                            description,
+                        )
+
+                    html_component = self._component_for(
+                        year, row, self.html_events)
+                    html_description = str(
+                        html_component.get('DESCRIPTION'))
+                    self.assertEqual(
+                        html_description.splitlines()[0],
+                        '日本の固有ミサ。',
+                    )
+                    matched_occurrences += 1
+
+        self.assertEqual(matched_occurrences, 16 * len(self.years))
+
+    def test_proper_mass_summary_markers_are_preserved(self):
+        cases = [
+            (
+                {'date': '5-Feb',
+                 'english_name': 'Twenty-six Martyrs of Japan'},
+                '› 日本二十六聖人殉教者（聖パウロ三木と同志殉教者）',
+            ),
+            (
+                {'date': '7-Sep',
+                 'english_name': (
+                     'Bls. Thomas Tsuji, Michael Nakajima ＆ Companions')},
+                '福者トマ辻と福者ミカエル中島等殉教者',
+            ),
+            (
+                {'date': '10-Sep',
+                 'english_name': (
+                     'Bls. Charles Spinola, Sebastian Kimura ＆ Companions')},
+                '› 福者カルロ・スピノラ、'
+                '福者セバスチアノ木村等殉教者',
+            ),
+        ]
+        for row, expected in cases:
+            component = self._component_for(2026, row)
+            with self.subTest(date=row['date']):
+                self.assertEqual(str(component.get('SUMMARY')), expected)
+
+    def test_proper_mass_links_and_season_information_remain(self):
+        spinola = self._component_for(2026, {
+            'date': '10-Sep',
+            'english_name': (
+                'Bls. Charles Spinola, Sebastian Kimura ＆ Companions'),
+        })
+        spinola_description = str(spinola.get('DESCRIPTION'))
+        self.assertIn('日本語の解説', spinola_description)
+        self.assertIn(
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint365.php?id=091001',
+            spinola_description,
+        )
+        self.assertIn('季節の解説（英語）', spinola_description)
+        self.assertIn(
+            'https://fisheaters.com/customstimeafterpentecost1.html',
+            spinola_description,
+        )
+
+        apollinaris = self._component_for(2026, {
+            'date': '13-Sep',
+            'english_name': 'Bls. Apollinaris & Companions',
+        })
+        apollinaris_description = str(apollinaris.get('DESCRIPTION'))
+        self.assertIn('英語の解説', apollinaris_description)
+        self.assertIn(
+            'https://www.catholicnewsagency.com/saint/'
+            'blessed-apollinaris-franco-592',
+            apollinaris_description,
+        )
+        self.assertIn('季節の解説（英語）', apollinaris_description)
+
+    def test_movable_proper_mass_uses_february_26_in_leap_year(self):
+        row = next(
+            row for row in self.proper_mass_rows
+            if row['match_type'] == 'movable_name'
+        )
+        leap_calendar = LiturgicalCalendar(2028, lang='ja')
+        leap_events = _events_by_date(leap_calendar)
+        translated_name = leap_calendar.translator.format_summary(
+            row['english_name'])
+        target_date = dt.date(2028, 2, 26)
+        matches = [
+            event
+            for event in leap_events[target_date]
+            if _bare_summary(str(event.get('SUMMARY'))) == translated_name
+        ]
+
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(
+            str(matches[0].get('DESCRIPTION')).splitlines()[0],
+            '日本の固有ミサ。',
+        )
+        self.assertNotIn(
+            row['english_name'],
+            [event.name for event in leap_calendar[dt.date(2028, 2, 25)]],
+        )
+        internal = [
+            event for event in leap_calendar[target_date]
+            if event.name == row['english_name']
+        ]
+        self.assertEqual(len(internal), 1)
+        self.assertEqual(internal[0].rank, 4)
 
     def test_existing_links_and_season_information_remain(self):
         peter = self._component_for(2026, {
@@ -933,34 +1115,6 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         ]
         self.assertNotIn('St. Anastasia', christmas_names)
 
-    def test_japanese_proper_mass_events_are_unchanged(self):
-        fixed_rows = self._read_ja_csv('fixed_feasts_local.csv')
-        movable_rows = self._read_ja_csv('movable_feasts_local.csv')
-        self.assertEqual(len(fixed_rows), 15)
-        self.assertEqual(len(movable_rows), 1)
-
-        for row in fixed_rows:
-            date = self._date_for(2026, row['dates_en'])
-            matches = [
-                event for event in self.ja_calendar[date]
-                if event.name == row['en']
-            ]
-            with self.subTest(date=date, name=row['en']):
-                self.assertEqual(len(matches), 1)
-                self.assertIsNone(matches[0].description_lead)
-
-        movable_date = (
-            dt.date(2026, 2, 26)
-            if calendar.isleap(2026)
-            else dt.date(2026, 2, 25)
-        )
-        movable_matches = [
-            event for event in self.ja_calendar[movable_date]
-            if event.name == movable_rows[0]['en']
-        ]
-        self.assertEqual(len(movable_matches), 1)
-        self.assertIsNone(movable_matches[0].description_lead)
-
     def test_english_and_french_are_not_affected(self):
         for lang in ['en', 'fr']:
             calendar_output = LiturgicalCalendar(
@@ -968,6 +1122,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             ical_text = calendar_output.to_ical().decode('utf-8')
             with self.subTest(lang=lang):
                 self.assertNotIn('記念', ical_text)
+                self.assertNotIn('日本の固有ミサ。', ical_text)
                 self.assertTrue(all(
                     event.description_lead is None
                     for year in calendar_output.liturgical_years.values()
