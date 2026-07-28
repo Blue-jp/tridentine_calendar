@@ -1134,26 +1134,18 @@ class LiturgicalYear:
                 description += feast_description
                 description = description.strip()
                 unprefixed_ics_name = ics_name
-                if (
+                add_ordering_prefix = (
                     self.lang == 'ja'
-                    and not html_formatting
                     and day_has_order_marker
                     and not ics_name.startswith((' ', '› ', '» '))
-                ):
-                    # Keep unmarked Japanese all-day events before › and » in
-                    # Google and Apple calendars without changing their visible title.
-                    ics_name = ' ' + ics_name
-                ics_event = ical.Event()
-                ics_event.add('summary', ics_name)
-                ics_event.add('dtstart', date)
-                ics_event.add('description', description)
-                ics_event.add('dtstamp', dt.datetime.now())
+                )
                 if self.uid_map is not None:
                     uid = None
-                    uid_names = [ics_name, unprefixed_ics_name]
+                    uid_names = [unprefixed_ics_name]
                     if self.lang == 'ja':
                         # Reuse UIDs across Japanese title changes and the
                         # invisible same-day ordering prefix.
+                        uid_names.append(' ' + unprefixed_ics_name)
                         for name in [base_ics_name] + elem.uid_aliases:
                             uid_names.extend([name, ' ' + name, '› ' + name])
                     for uid_name in dict.fromkeys(uid_names):
@@ -1165,6 +1157,17 @@ class LiturgicalYear:
                         uid = gen_uid()
                 else:
                     uid = gen_uid()
+
+                if add_ordering_prefix:
+                    # Apply the Japanese display-order prefix only after UID
+                    # resolution so plain-text and HTML titles reuse the same UID.
+                    ics_name = ' ' + unprefixed_ics_name
+
+                ics_event = ical.Event()
+                ics_event.add('summary', ics_name)
+                ics_event.add('dtstart', date)
+                ics_event.add('description', description)
+                ics_event.add('dtstamp', dt.datetime.now())
                 ics_event.add('uid', uid)
                 ics_calendar.add_component(ics_event)
         return ics_calendar
