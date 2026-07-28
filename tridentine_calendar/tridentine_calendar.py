@@ -43,6 +43,12 @@ def _decode_ja_csv_content(content):
     return content.decode('utf-8-sig')
 
 
+def _normalize_additional_link_url(url):
+    if url is None:
+        return ''
+    return url.strip().replace('\r', '').replace('\n', '').replace('\t', '')
+
+
 def get_args():
     """Define the command line arguments."""
     parser = argparse.ArgumentParser(description='Calculate a liturgical calendar.')
@@ -55,7 +61,7 @@ def get_args():
 class LiturgicalCalendarEventUrl:
     """Contains information about a URL describing a feast, feria, or other event."""
 
-    def __init__(self, url, description):
+    def __init__(self, url, description, language='en'):
         """Instantiate a `LiturgicalCalendarEventUrl`.
 
         Args:
@@ -66,6 +72,7 @@ class LiturgicalCalendarEventUrl:
         """
         self.url = url
         self.description = description
+        self.language = language
 
     @classmethod
     def from_json(cls, json_obj, default=None):
@@ -283,6 +290,7 @@ class LiturgicalCalendarEvent:
         self.date = date
         self.name = name
         self.urls = urls
+        self.additional_urls = {'ja': [], 'en': []}
         self.rank = rank
         self.color = color
         self.titles = titles
@@ -312,6 +320,39 @@ class LiturgicalCalendarEvent:
                             self.color = 'Red'
             else:
                 self.color = self.season.color
+
+    def add_additional_url(self, url, language):
+        if language not in self.additional_urls:
+            return
+        known_urls = {
+            url_obj.url
+            for urls in self.additional_urls.values()
+            for url_obj in urls
+        }
+        if url in known_urls:
+            return
+        self.additional_urls[language].append(
+            LiturgicalCalendarEventUrl(url, url, language=language))
+
+    def _append_url_section(
+        self, description, heading, urls, html_formatting, seen_urls
+    ):
+        section_urls = []
+        for url_obj in urls or []:
+            if url_obj.url in seen_urls:
+                continue
+            seen_urls.add(url_obj.url)
+            section_urls.append(url_obj)
+        if not section_urls:
+            return description
+
+        if description and not description.endswith('\n\n'):
+            description += '\n\n'
+        description += heading + '\n'
+        for url_obj in section_urls:
+            link = url_obj.to_href() if html_formatting else url_obj.url
+            description += '• ' + link + '\n'
+        return description + '\n'
 
     def full_name(self, capitalize=True, with_titles=True):
         """Return the full name of the event, possibly with an article.
@@ -455,6 +496,34 @@ class LiturgicalCalendarEvent:
 
         if description != '':
             description += '\n\n'
+
+        if self.lang == 'ja':
+            seen_urls = set()
+            description = self._append_url_section(
+                description,
+                '日本語の解説',
+                self.additional_urls.get('ja'),
+                html_formatting,
+                seen_urls,
+            )
+            event_english_urls = list(self.urls or [])
+            event_english_urls += self.additional_urls.get('en', [])
+            description = self._append_url_section(
+                description,
+                '英語の解説',
+                event_english_urls,
+                html_formatting,
+                seen_urls,
+            )
+            if include_season_info:
+                description = self._append_url_section(
+                    description,
+                    '季節の解説（英語）',
+                    self.season.urls,
+                    html_formatting,
+                    seen_urls,
+                )
+            return description.rstrip()
 
         if self.urls:
             description += self.translator.format_more_info(
@@ -655,6 +724,7 @@ class LiturgicalYear:
         if self.lang == 'ja':
             self._load_extra_ja_feasts()
             self._apply_ja_hide_feasts()
+            self._apply_ja_additional_links()
             self._apply_ja_color_overrides()
 
         for date in iterate_liturgical_year(self.year):
@@ -825,6 +895,56 @@ class LiturgicalYear:
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 
+    def _apply_ja_additional_links(self):
+        resource_path = 'i18n/ja/additional_links.csv'
+        try:
+            package_path = resource_path.split('/')
+            filename = package_path[-1]
+            directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
+            content = resources.read_binary(directory, filename)
+            reader = csv.DictReader(io.StringIO(_decode_ja_csv_content(content)))
+            exact_links = {}
+            movable_links = {}
+            for row in reader:
+                event_name = row.get('english_name')
+                url = _normalize_additional_link_url(row.get('url'))
+                language = row.get('language')
+                match_type = row.get('match_type')
+                if not (event_name and url and language and match_type):
+                    continue
+                try:
+                    display_order = int(row.get('display_order') or 0)
+                except ValueError:
+                    display_order = 0
+
+                link = (display_order, url, language)
+                if match_type == 'exact_date_and_name':
+                    date_en = row.get('date')
+                    if not date_en:
+                        continue
+                    try:
+                        day, month_str = date_en.split('-')
+                        month = list(calendar.month_abbr).index(month_str)
+                    except (ValueError, KeyError, IndexError):
+                        continue
+                    key = (month, int(day), event_name)
+                    exact_links.setdefault(key, []).append(link)
+                elif match_type == 'movable_name':
+                    movable_links.setdefault(event_name, []).append(link)
+
+            for links in list(exact_links.values()) + list(movable_links.values()):
+                links.sort(key=lambda item: item[0])
+
+            for date in iterate_liturgical_year(self.year):
+                for event in self.calendar[date]:
+                    key = (date.month, date.day, event.name)
+                    for _, url, language in exact_links.get(key, []):
+                        event.add_additional_url(url, language)
+                    for _, url, language in movable_links.get(event.name, []):
+                        event.add_additional_url(url, language)
+        except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
+            pass
+
     def _include_season_info(self, event):
         if self.lang != 'ja':
             return True
@@ -885,7 +1005,13 @@ class LiturgicalYear:
                     ranking_feast=(i == 0),
                     include_season_info=self._include_season_info(elem),
                 )
-                if feast_description.startswith('More information about'):
+                info_headings = (
+                    'More information about',
+                    '日本語の解説',
+                    '英語の解説',
+                    '季節の解説（英語）',
+                )
+                if feast_description.startswith(info_headings):
                     description += '\n\n'
                 elif description != '' and description[-1] == '.':
                     description += ' '

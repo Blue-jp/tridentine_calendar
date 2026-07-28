@@ -503,10 +503,8 @@ class TestLiturgicalCalendar(unittest.TestCase):
             LiturgicalCalendarEventUrl('https://example.com', 'Bonaventure')
         ]
         desc_ja_with_urls = event_ja.generate_description()
-        self.assertIn(
-            '聖ボナヴェントゥラの祝日についての詳細情報：',
-            desc_ja_with_urls
-        )
+        self.assertIn('英語の解説', desc_ja_with_urls)
+        self.assertIn('https://example.com', desc_ja_with_urls)
         self.assertNotIn(
             '聖ボナヴェントゥラ (司教、証聖者、教会博士)の祝日についての詳細情報：',
             desc_ja_with_urls

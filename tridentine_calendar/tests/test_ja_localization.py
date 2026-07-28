@@ -6,12 +6,16 @@ import unittest
 from icalendar import Calendar as IcsCalendar
 
 from tridentine_calendar import movable_feasts as mf
-from tridentine_calendar.tridentine_calendar import LiturgicalCalendar
+from tridentine_calendar.tridentine_calendar import (
+    LiturgicalCalendar,
+    _normalize_additional_link_url,
+)
 from tridentine_calendar.i18n import Translator
 
 
-def _events_by_date(liturgical_calendar):
-    ics_calendar = IcsCalendar.from_ical(liturgical_calendar.to_ical())
+def _events_by_date(liturgical_calendar, html_formatting=False):
+    ics_calendar = IcsCalendar.from_ical(
+        liturgical_calendar.to_ical(html_formatting))
     events = {}
     for component in ics_calendar.walk('VEVENT'):
         events.setdefault(component.get('DTSTART').dt, []).append(component)
@@ -316,3 +320,253 @@ class TestJapaneseHideFeasts(unittest.TestCase):
                     'Halloween',
                     [event.name for event in calendar[dt.date(2026, 10, 31)]]
                 )
+
+
+class TestJapaneseAdditionalLinks(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.ja_calendar = LiturgicalCalendar([2025, 2026, 2027, 2028], lang='ja')
+        cls.ja_events = _events_by_date(cls.ja_calendar)
+        cls.ja_html_events = _events_by_date(
+            cls.ja_calendar, html_formatting=True)
+
+    def descriptions_for(self, date, events=None):
+        events = events or self.ja_events
+        return [
+            str(event.get('DESCRIPTION') or '')
+            for event in events.get(date, [])
+        ]
+
+    def summary_description(self, date, summary_part, events=None):
+        events = events or self.ja_events
+        for event in events.get(date, []):
+            if summary_part in str(event.get('SUMMARY')):
+                return str(event.get('DESCRIPTION') or '')
+        self.fail(f'No event containing {summary_part!r} on {date}.')
+
+    def assert_ordered(self, text, *parts):
+        positions = [text.index(part) for part in parts]
+        self.assertEqual(positions, sorted(positions))
+
+    def test_japanese_and_existing_english_links_are_grouped(self):
+        description = self.summary_description(dt.date(2026, 1, 14), '聖ヒラリオ')
+
+        self.assertIn('日本語の解説', description)
+        self.assertIn('英語の解説', description)
+        self.assertIn('季節の解説（英語）', description)
+        self.assertIn(
+            'https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011301',
+            description
+        )
+        self.assertIn('https://en.wikipedia.org/wiki/Hilary_of_Poitiers',
+                      description)
+        self.assertIn('http://www.newadvent.org/cathen/07349b.htm',
+                      description)
+        self.assert_ordered(
+            description,
+            '日本語の解説',
+            '英語の解説',
+            '季節の解説（英語）',
+        )
+
+    def test_event_without_japanese_link_keeps_english_links_only(self):
+        description = self.summary_description(
+            dt.date(2025, 11, 29), '聖サトゥルニノ')
+
+        self.assertNotIn('日本語の解説', description)
+        self.assertIn('英語の解説', description)
+        self.assertIn('https://en.wikipedia.org/wiki/Saturnin', description)
+
+    def test_japanese_added_event_has_japanese_links(self):
+        description = self.summary_description(dt.date(2026, 9, 10), 'スピノラ')
+
+        self.assertIn('日本語の解説', description)
+        self.assertNotIn('英語の解説', description)
+        self.assertIn(
+            'https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091001',
+            description
+        )
+        self.assertIn(
+            'https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AB%E3%83%AD'
+            '%E3%83%BB%E3%82%B9%E3%83%94%E3%83%8E%E3%83%A9',
+            description
+        )
+        self.assertIn('季節の解説（英語）', description)
+        self.assertIn('https://fisheaters.com/customstimeafterpentecost1.html',
+                      description)
+        self.assert_ordered(
+            description,
+            '日本語の解説',
+            'https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091001',
+            'https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AB%E3%83%AD',
+            '季節の解説（英語）',
+            'https://fisheaters.com/customstimeafterpentecost1.html',
+        )
+
+    def test_english_additional_link_is_grouped_as_english(self):
+        description = self.summary_description(
+            dt.date(2026, 9, 13), 'アポリナリス')
+
+        self.assertNotIn('日本語の解説', description)
+        self.assertIn('英語の解説', description)
+        self.assertIn(
+            'https://www.catholicnewsagency.com/saint/'
+            'blessed-apollinaris-franco-592',
+            description
+        )
+        self.assert_ordered(
+            description,
+            '英語の解説',
+            'https://www.catholicnewsagency.com/saint/',
+            '季節の解説（英語）',
+        )
+
+    def test_st_aloysius_gonzaga_has_one_japanese_url(self):
+        description = self.summary_description(
+            dt.date(2026, 6, 21), '聖アロイジオ')
+        representative_url = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint365.php?id=062101'
+        )
+
+        self.assertIn(representative_url, description)
+        self.assertEqual(description.count('gen_saint365.php?id=062101'), 1)
+        self.assertNotIn('gen_saint50.php?id=062101', description)
+
+    def test_urls_are_not_duplicated_or_added_to_summaries(self):
+        description = self.summary_description(
+            dt.date(2026, 6, 21), '聖アロイジオ')
+        self.assertEqual(
+            description.count(
+                'https://www.pauline.or.jp/calendariosanti/'
+                'gen_saint365.php?id=062101'
+            ),
+            1
+        )
+
+        for events in self.ja_events.values():
+            for event in events:
+                self.assertNotIn('http://', str(event.get('SUMMARY')))
+                self.assertNotIn('https://', str(event.get('SUMMARY')))
+
+    def test_camillus_kotobank_url_starts_on_bullet_line(self):
+        description = self.summary_description(
+            dt.date(2026, 9, 16), 'コスタンゾ')
+        kotobank_url = (
+            'https://kotobank.jp/word/%E5%A4%AA%E7%94%B0%E3%81%82'
+            '%E3%81%86%E3%81%90%E3%81%99%E3%81%A1%E3%81%AE-1060415'
+        )
+        kotobank_lines = [
+            line for line in description.splitlines()
+            if 'kotobank.jp' in line
+        ]
+
+        self.assertEqual(kotobank_lines, ['• ' + kotobank_url])
+        self.assertNotIn('•\n' + kotobank_url, description)
+        self.assertIn('英語の解説', description)
+        self.assertIn('https://en.wikipedia.org/wiki/Camillus_Costanzo',
+                      description)
+        self.assert_ordered(
+            description,
+            '日本語の解説',
+            kotobank_url,
+            '英語の解説',
+            'https://en.wikipedia.org/wiki/Camillus_Costanzo',
+            '季節の解説（英語）',
+        )
+
+    def test_additional_link_url_normalization_preserves_encoded_spaces(self):
+        url = (
+            ' \t\r\nhttps://example.com/a%20b'
+            '\r\nc\t \n'
+        )
+
+        self.assertEqual(
+            _normalize_additional_link_url(url),
+            'https://example.com/a%20bc'
+        )
+
+    def test_same_name_seven_sorrows_links_only_fixed_september_feast(self):
+        september_description = self.summary_description(
+            dt.date(2026, 9, 15), '童貞聖マリアの七つの御苦しみ')
+        lent_description = self.summary_description(
+            dt.date(2026, 3, 27), '童貞聖マリアの七つの御苦しみ')
+        url = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint365.php?id=091501'
+        )
+
+        self.assertIn(url, september_description)
+        self.assertNotIn(url, lent_description)
+
+    def test_all_souls_link_follows_actual_movable_dates(self):
+        url = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint365.php?id=110201'
+        )
+        for date in [
+            dt.date(2025, 11, 3),
+            dt.date(2026, 11, 2),
+            dt.date(2027, 11, 2),
+        ]:
+            with self.subTest(date=date):
+                descriptions = self.descriptions_for(date)
+                self.assertTrue(any(url in desc for desc in descriptions))
+
+    def test_st_francis_link_attaches_to_single_shared_event(self):
+        names = [
+            event.name
+            for event in self.ja_calendar[dt.date(2026, 10, 4)]
+        ]
+        description = self.summary_description(dt.date(2026, 10, 4), 'フランシスコ')
+
+        self.assertEqual(names.count('St. Francis of Assisi'), 1)
+        self.assertIn(
+            'https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100401',
+            description
+        )
+        self.assertEqual(description.count('gen_saint365.php?id=100401'), 1)
+        self.assertNotIn('gen_saint50.php?id=100401', description)
+
+    def test_hidden_events_are_not_restored_by_additional_links(self):
+        data = self.ja_calendar.to_ical().decode('utf-8')
+
+        self.assertNotIn('St. Brigid', data)
+        self.assertNotIn('https://www.pauline.or.jp/calendariosanti/'
+                         'gen_saint365.php?id=020101', data)
+        self.assertNotIn('Halloween', data)
+
+    def test_plain_text_and_html_outputs_use_same_sections(self):
+        plain_description = self.summary_description(
+            dt.date(2026, 1, 14), '聖ヒラリオ')
+        html_description = self.summary_description(
+            dt.date(2026, 1, 14), '聖ヒラリオ', self.ja_html_events)
+
+        self.assertIn('日本語の解説', plain_description)
+        self.assertIn('日本語の解説', html_description)
+        self.assertIn(
+            '<a href=https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=011301>',
+            html_description
+        )
+        self.assertIn('<a href=https://en.wikipedia.org/wiki/Hilary_of_Poitiers>',
+                      html_description)
+
+    def test_english_and_french_descriptions_do_not_use_japanese_links(self):
+        cases = [
+            ('en', 'St. Hilary', 'More information'),
+            ('fr', 'St Hilaire', "Plus d'informations"),
+        ]
+        for lang, summary, heading in cases:
+            calendar = LiturgicalCalendar([2026], lang=lang)
+            events = _events_by_date(calendar)
+            description = self.summary_description(
+                dt.date(2026, 1, 14), summary, events)
+
+            self.assertIn(heading, description)
+            self.assertNotIn('日本語の解説', description)
+            self.assertNotIn(
+                'https://www.pauline.or.jp/calendariosanti/'
+                'gen_saint50.php?id=011301',
+                description
+            )
