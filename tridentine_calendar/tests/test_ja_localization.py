@@ -1055,7 +1055,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(matched_occurrences, 54 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 74)
+        self.assertEqual(len(self.override_rows), 76)
         self.assertEqual(len(self.commemoration_rows), 54)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
@@ -1076,6 +1076,18 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     '7-Oct',
                     'The Holy Rosary',
                     '童貞聖マリアの聖なるロザリオ',
+                ),
+                (
+                    'exact_date_and_name',
+                    '2-Sep',
+                    'St. Stephen I',
+                    '聖ステファノ一世教皇',
+                ),
+                (
+                    'exact_date_and_name',
+                    '21-Jan',
+                    'St. Agnes',
+                    '聖アグネス（第二の祝日）',
                 ),
             ],
         )
@@ -1723,3 +1735,173 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     for events in year.calendar.values()
                     for event in events
                 ))
+
+
+class TestJapaneseSameNameDateOverrides(unittest.TestCase):
+    years = [2025, 2026, 2027, 2028]
+
+    @staticmethod
+    def _components_for(calendar, date, html_formatting=False):
+        events = _events_by_date(calendar, html_formatting=html_formatting)
+        return events[date]
+
+    def test_st_stephen_dates_remain_distinct(self):
+        for year in self.years:
+            calendar = LiturgicalCalendar([year, year + 1], lang='ja')
+            for html_formatting in [False, True]:
+                august_events = self._components_for(
+                    calendar, dt.date(year, 8, 2), html_formatting)
+                september_events = self._components_for(
+                    calendar, dt.date(year, 9, 2), html_formatting)
+
+                august_matches = [
+                    event for event in august_events
+                    if _bare_summary(str(event.get('SUMMARY')))
+                    == '聖ステファノ一世教皇'
+                ]
+                september_matches = [
+                    event for event in september_events
+                    if _bare_summary(str(event.get('SUMMARY')))
+                    == '聖ステファノ王'
+                ]
+
+                with self.subTest(
+                    year=year, html_formatting=html_formatting
+                ):
+                    self.assertEqual(len(august_matches), 1)
+                    self.assertEqual(len(september_matches), 1)
+                    self.assertNotIn(
+                        '聖ステファノ一世教皇',
+                        [
+                            _bare_summary(str(event.get('SUMMARY')))
+                            for event in september_events
+                        ],
+                    )
+                    september_description = str(
+                        september_matches[0].get('DESCRIPTION'))
+                    self.assertTrue(
+                        september_description.startswith(
+                            '聖ステファノ王 (証聖者)の祝日は'
+                            '三級の祝日です。典礼色は白です。'
+                        )
+                    )
+                    self.assertNotIn(
+                        '聖ステファノ一世教皇',
+                        september_description,
+                    )
+                    self.assertIn(
+                        'https://en.wikipedia.org/wiki/Stephen_I_of_Hungary',
+                        september_description,
+                    )
+
+    def test_st_agnes_dates_remain_distinct(self):
+        for year in self.years:
+            calendar = LiturgicalCalendar([year, year + 1], lang='ja')
+            for html_formatting in [False, True]:
+                january_21 = self._components_for(
+                    calendar, dt.date(year, 1, 21), html_formatting)
+                january_28 = self._components_for(
+                    calendar, dt.date(year, 1, 28), html_formatting)
+
+                with self.subTest(
+                    year=year, html_formatting=html_formatting
+                ):
+                    self.assertEqual(len(january_21), 1)
+                    self.assertEqual(
+                        _bare_summary(str(january_21[0].get('SUMMARY'))),
+                        '聖アグネス',
+                    )
+                    self.assertNotIn(
+                        '第二の祝日',
+                        str(january_21[0].get('SUMMARY')),
+                    )
+                    january_21_description = str(
+                        january_21[0].get('DESCRIPTION'))
+                    self.assertTrue(
+                        january_21_description.startswith(
+                            '聖アグネス (童貞、殉教者)の祝日は'
+                            '三級の祝日です。典礼色は赤です。'
+                        )
+                    )
+                    january_21_internal = [
+                        event
+                        for event in calendar[dt.date(year, 1, 21)]
+                        if event.name == 'St. Agnes'
+                    ]
+                    self.assertEqual(len(january_21_internal), 1)
+                    self.assertEqual(january_21_internal[0].rank, 3)
+                    self.assertEqual(january_21_internal[0].color, 'Red')
+
+                    self.assertEqual(len(january_28), 2)
+                    peter_nolasco = [
+                        event for event in january_28
+                        if _bare_summary(str(event.get('SUMMARY')))
+                        == '聖ペトロ・ノラスコ'
+                    ]
+                    self.assertEqual(len(peter_nolasco), 1)
+                    self.assertTrue(
+                        str(peter_nolasco[0].get('DESCRIPTION')).startswith(
+                            '聖ペトロ・ノラスコ (証聖者)の祝日は'
+                            '三級の祝日です。典礼色は白です。'
+                        )
+                    )
+                    second_feast = [
+                        event for event in january_28
+                        if _bare_summary(str(event.get('SUMMARY')))
+                        == '聖アグネス（第二の祝日）'
+                    ]
+                    self.assertEqual(len(second_feast), 1)
+                    self.assertEqual(
+                        str(second_feast[0].get('DESCRIPTION')).splitlines()[:2],
+                        ['記念', '典礼色は赤です。'],
+                    )
+
+    def test_st_stephen_summary_change_reuses_the_previous_uid(self):
+        previous_uid = 'existing-september-stephen@example.test'
+        previous_calendar = IcsCalendar()
+        previous_calendar.add('prodid', '-//UID reuse test//JA')
+        previous_calendar.add('version', '2.0')
+        previous_event = IcsEvent()
+        previous_event.add('summary', '聖ステファノ一世教皇')
+        previous_event.add('dtstart', dt.date(2026, 9, 2))
+        previous_event.add('uid', previous_uid)
+        previous_calendar.add_component(previous_event)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            previous_path = Path(tmp_dir) / 'previous.ics'
+            previous_path.write_bytes(previous_calendar.to_ical())
+            updated = LiturgicalCalendar(
+                [2026, 2027], reuse_uids_from=previous_path, lang='ja')
+            updated_events = _events_by_date(updated)
+
+        matches = [
+            event for event in updated_events[dt.date(2026, 9, 2)]
+            if _bare_summary(str(event.get('SUMMARY'))) == '聖ステファノ王'
+        ]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(str(matches[0].get('UID')), previous_uid)
+
+    def test_st_agnes_summary_change_reuses_the_previous_uid(self):
+        previous_uid = 'existing-january-agnes@example.test'
+        previous_calendar = IcsCalendar()
+        previous_calendar.add('prodid', '-//UID reuse test//JA')
+        previous_calendar.add('version', '2.0')
+        previous_event = IcsEvent()
+        previous_event.add('summary', '聖アグネス（第二の祝日）')
+        previous_event.add('dtstart', dt.date(2026, 1, 21))
+        previous_event.add('uid', previous_uid)
+        previous_calendar.add_component(previous_event)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            previous_path = Path(tmp_dir) / 'previous.ics'
+            previous_path.write_bytes(previous_calendar.to_ical())
+            updated = LiturgicalCalendar(
+                [2026, 2027], reuse_uids_from=previous_path, lang='ja')
+            updated_events = _events_by_date(updated)
+
+        matches = [
+            event for event in updated_events[dt.date(2026, 1, 21)]
+            if _bare_summary(str(event.get('SUMMARY'))) == '聖アグネス'
+        ]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(str(matches[0].get('UID')), previous_uid)

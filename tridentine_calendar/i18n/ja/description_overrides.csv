@@ -73,3 +73,5 @@ exact_date_and_name,25-Jan,Conversion of St. Paul,,聖ペトロも同じミサ�
 exact_date_and_name,22-Feb,Chair of St. Peter at Antioch,,聖パウロも同じミサで記念されます。,アンティオキアにおける聖ペトロの使徒座,Merge St. Paul commemoration into principal event,使徒聖ペトロが教座を定めた祝日,使徒聖ペトロが教座を定めた祝日
 exact_date_and_name,30-Jun,St. Paul,,聖ペトロも同じミサで記念されます。,聖パウロ,Merge St. Peter commemoration into principal event
 exact_date_and_name,7-Oct,The Holy Rosary,,,童貞聖マリアの聖なるロザリオ,Preserve UID after Japanese summary update,,
+exact_date_and_name,2-Sep,St. Stephen I,,,聖ステファノ一世教皇,Preserve the previous UID while correcting the Japanese event name,聖ステファノ王,聖ステファノ王 (証聖者)の祝日
+exact_date_and_name,21-Jan,St. Agnes,,,聖アグネス（第二の祝日）,Preserve the previous UID while restoring the January 21 feast name,聖アグネス,聖アグネス (童貞、殉教者)の祝日
