@@ -209,13 +209,14 @@ exact_date_and_name,28-Dec,Childermas,https://www.pauline.or.jp/calendariosanti/
 exact_date_and_name,29-Dec,St. Thomas Becket,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 287
 exact_date_and_name,31-Dec,Pope Sylvester I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=123101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 288
 exact_date_and_name,19-Jan,St. Canute,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 5
-exact_date_and_name,25-Jan,St. Peter,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 7
+exact_date_and_name,25-Jan,Conversion of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 7; merged from St. Peter commemoration
 exact_date_and_name,28-Jan,St. Agnes,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012101,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 8
 exact_date_and_name,9-Feb,St. Apollonia,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=020901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 10
 exact_date_and_name,22-Feb,Chair of St. Peter at Antioch,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 11
-exact_date_and_name,22-Feb,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 12
+exact_date_and_name,22-Feb,Chair of St. Peter at Antioch,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 12; merged from St. Paul commemoration
 exact_date_and_name,27-May,St. John I,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=051801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 19
-exact_date_and_name,30-Jun,Commemoration of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 22
+exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 22; merged from Commemoration of St. Paul
+exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,Peter link merged into principal event
 exact_date_and_name,25-Jul,St. Christopher,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 28
 exact_date_and_name,8-Sep,St. Hadrian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=090801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 39
 exact_date_and_name,23-Sep,St. Thecla,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092301,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 43

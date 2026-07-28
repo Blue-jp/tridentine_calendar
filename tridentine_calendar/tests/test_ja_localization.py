@@ -10,6 +10,7 @@ import tempfile
 import unittest
 
 from icalendar import Calendar as IcsCalendar
+from icalendar import Event as IcsEvent
 
 from tridentine_calendar import movable_feasts as mf
 from tridentine_calendar.tridentine_calendar import (
@@ -729,6 +730,10 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             row for row in cls.override_rows
             if row['description_lead'] == '日本の固有ミサ。'
         ]
+        cls.append_rows = [
+            row for row in cls.override_rows
+            if row['description_append']
+        ]
 
     @staticmethod
     def _read_ja_csv(filename):
@@ -753,8 +758,16 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
     def _component_for(self, year, row, events=None):
         events = events or self.plain_events
         date = self._date_for_row(year, row)
-        translated_name = self.ja_calendar.translator.format_summary(
-            row['english_name'])
+        internal = [
+            event for event in self.ja_calendar[date]
+            if event.name == row['english_name']
+        ]
+        self.assertEqual(len(internal), 1)
+        translated_name = (
+            internal[0].summary_override
+            or self.ja_calendar.translator.format_summary(
+                row['english_name'])
+        )
         matches = [
             event
             for event in events.get(date, [])
@@ -777,12 +790,12 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         return matches[0]
 
-    def test_all_56_overrides_apply_in_each_year(self):
-        self.assertEqual(len(self.commemoration_rows), 56)
+    def test_all_54_overrides_apply_in_each_year(self):
+        self.assertEqual(len(self.commemoration_rows), 54)
         self.assertEqual(len({
             (row['date'], row['english_name'])
             for row in self.commemoration_rows
-        }), 56)
+        }), 54)
 
         matched_occurrences = 0
         for year in self.years:
@@ -817,12 +830,13 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     self.assertNotIn('第四級', html_description)
                     matched_occurrences += 1
 
-        self.assertEqual(matched_occurrences, 56 * len(self.years))
+        self.assertEqual(matched_occurrences, 54 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 72)
-        self.assertEqual(len(self.commemoration_rows), 56)
+        self.assertEqual(len(self.override_rows), 73)
+        self.assertEqual(len(self.commemoration_rows), 54)
         self.assertEqual(len(self.proper_mass_rows), 16)
+        self.assertEqual(len(self.append_rows), 3)
 
         keys = [
             (row['match_type'], row['date'], row['english_name'])
@@ -987,22 +1001,6 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(internal[0].rank, 4)
 
     def test_existing_links_and_season_information_remain(self):
-        peter = self._component_for(2026, {
-            'date': '25-Jan',
-            'english_name': 'St. Peter',
-        })
-        peter_description = str(peter.get('DESCRIPTION'))
-        self.assertIn(
-            'https://www.pauline.or.jp/calendariosanti/'
-            'gen_saint50.php?id=062901',
-            peter_description,
-        )
-        self.assertIn('季節の解説（英語）', peter_description)
-        self.assertIn(
-            'https://fisheaters.com/customstimeafterepiphany1.html',
-            peter_description,
-        )
-
         martyrs = self._component_for(2026, {
             'date': '12-Jun',
             'english_name': 'SS. Basilides, Cyrinus, Nabor, & Nazarius',
@@ -1019,33 +1017,38 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
     def test_html_output_uses_the_same_commemoration_lead(self):
         event = self._component_for(
             2026,
-            {'date': '25-Jan', 'english_name': 'St. Peter'},
+            {
+                'date': '12-Jun',
+                'english_name': (
+                    'SS. Basilides, Cyrinus, Nabor, & Nazarius'),
+            },
             self.html_events,
         )
         summary = str(event.get('SUMMARY'))
         description = str(event.get('DESCRIPTION'))
 
-        self.assertEqual(summary, '› 聖ペトロ')
+        self.assertEqual(
+            summary,
+            '› 聖バジリデ、聖チリノ、聖ナボレ、聖ナザリオ',
+        )
         self.assertTrue(description.startswith('記念\n'))
         self.assertNotIn('第四級', description)
         self.assertIn(
-            '<a href=https://www.pauline.or.jp/calendariosanti/'
-            'gen_saint50.php?id=062901>',
+            '<a href=https://en.wikipedia.org/wiki/'
+            'Basilides,_Cyrinus,_Nabor_and_Nazarius>',
             description,
         )
 
-    def test_blank_colors_are_not_inferred(self):
-        cases = [
-            {'date': '25-Jan', 'english_name': 'St. Peter'},
-            {'date': '22-Feb', 'english_name': 'St. Paul'},
-        ]
-        for row in cases:
-            component = self._component_for(2026, row)
-            internal_event = self._internal_event(2026, row)
-            description = str(component.get('DESCRIPTION'))
-            with self.subTest(date=row['date'], name=row['english_name']):
-                self.assertEqual(internal_event.color, '')
-                self.assertNotIn('典礼色は', description)
+    def test_removed_commemorations_are_not_override_targets(self):
+        removed = {
+            ('25-Jan', 'St. Peter'),
+            ('22-Feb', 'St. Paul'),
+        }
+        actual = {
+            (row['date'], row['english_name'])
+            for row in self.commemoration_rows
+        }
+        self.assertTrue(removed.isdisjoint(actual))
 
     def test_existing_first_through_third_class_terms_are_unchanged(self):
         translator = Translator(lang='ja')
@@ -1096,10 +1099,13 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         june_30_events = self.ja_calendar[dt.date(2026, 6, 30)]
         self.assertEqual(
             [event.name for event in june_30_events],
-            ['Commemoration of St. Paul', 'St. Paul'],
+            ['St. Paul'],
         )
-        self.assertTrue(all(
-            event.description_lead is None for event in june_30_events))
+        self.assertIsNone(june_30_events[0].description_lead)
+        self.assertEqual(
+            june_30_events[0].description_append,
+            '聖ペトロも同じミサで記念されます。',
+        )
 
         april_mark = [
             event
@@ -1115,6 +1121,334 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         ]
         self.assertNotIn('St. Anastasia', christmas_names)
 
+    def test_apostle_commemorations_are_merged_for_all_three_years(self):
+        cases = [
+            {
+                'month': 1,
+                'day': 25,
+                'name': 'Conversion of St. Paul',
+                'removed_name': 'St. Peter',
+                'summary': '使徒聖パウロの回心',
+                'append': '聖ペトロも同じミサで記念されます。',
+                'rank': 3,
+                'color': 'White',
+                'daily_counts': {2025: 1, 2026: 2, 2027: 1},
+            },
+            {
+                'month': 2,
+                'day': 22,
+                'name': 'Chair of St. Peter at Antioch',
+                'removed_name': 'St. Paul',
+                'summary': '使徒聖ペトロが教座を定めた祝日',
+                'append': '聖パウロも同じミサで記念されます。',
+                'rank': 2,
+                'color': 'White',
+                'daily_counts': {2025: 1, 2026: 2, 2027: 1},
+            },
+            {
+                'month': 6,
+                'day': 30,
+                'name': 'St. Paul',
+                'removed_name': 'Commemoration of St. Paul',
+                'summary': '使徒聖パウロの記念',
+                'append': '聖ペトロも同じミサで記念されます。',
+                'rank': 3,
+                'color': 'Red',
+                'daily_counts': {2025: 1, 2026: 1, 2027: 1},
+            },
+        ]
+
+        for year in self.years:
+            for case in cases:
+                date = dt.date(year, case['month'], case['day'])
+                internal = self.ja_calendar[date]
+                principal = [
+                    event for event in internal
+                    if event.name == case['name']
+                ]
+                component = self._component_for(year, {
+                    'date': f"{case['day']}-{calendar.month_abbr[case['month']]}",
+                    'english_name': case['name'],
+                })
+                summary = str(component.get('SUMMARY'))
+                description = str(component.get('DESCRIPTION'))
+
+                with self.subTest(year=year, date=date):
+                    self.assertEqual(
+                        len(self.plain_events[date]),
+                        case['daily_counts'][year],
+                    )
+                    self.assertEqual(len(principal), 1)
+                    self.assertNotIn(
+                        case['removed_name'],
+                        [event.name for event in internal],
+                    )
+                    self.assertEqual(_bare_summary(summary), case['summary'])
+                    self.assertNotIn(case['append'], summary)
+                    self.assertEqual(description.count(case['append']), 1)
+                    self.assertNotIn('祝日の祝日', description)
+                    self.assertEqual(principal[0].rank, case['rank'])
+                    self.assertEqual(principal[0].color, case['color'])
+
+    def test_apostle_append_text_precedes_links_and_preserves_order(self):
+        cases = [
+            {
+                'date': dt.date(2026, 1, 25),
+                'summary': '使徒聖パウロの回心',
+                'append': '聖ペトロも同じミサで記念されます。',
+                'urls': [
+                    'gen_saint365.php?id=012501',
+                    'gen_saint50.php?id=062901',
+                    'https://fisheaters.com/conversionofstpaul.html',
+                    'https://en.wikipedia.org/wiki/'
+                    'Conversion_of_Paul_the_Apostle',
+                    'https://fisheaters.com/customstimeafterepiphany1.html',
+                ],
+            },
+            {
+                'date': dt.date(2026, 2, 22),
+                'summary': '使徒聖ペトロが教座を定めた祝日',
+                'append': '聖パウロも同じミサで記念されます。',
+                'urls': [
+                    'gen_saint50.php?id=022201',
+                    'gen_saint50.php?id=062902',
+                    'https://fisheaters.com/customslent1.html',
+                ],
+            },
+            {
+                'date': dt.date(2026, 6, 30),
+                'summary': '使徒聖パウロの記念',
+                'append': '聖ペトロも同じミサで記念されます。',
+                'urls': [
+                    'gen_saint50.php?id=062902',
+                    'gen_saint50.php?id=062901',
+                    'https://en.wikipedia.org/wiki/Paul_the_Apostle',
+                    'http://www.newadvent.org/cathen/11567b.htm',
+                    'https://fisheaters.com/customstimeafterpentecost1.html',
+                ],
+            },
+        ]
+
+        for case in cases:
+            matches = [
+                event for event in self.plain_events[case['date']]
+                if _bare_summary(str(event.get('SUMMARY'))) == case['summary']
+            ]
+            self.assertEqual(len(matches), 1)
+            description = str(matches[0].get('DESCRIPTION'))
+            positions = [description.index(url) for url in case['urls']]
+
+            with self.subTest(date=case['date']):
+                self.assertEqual(positions, sorted(positions))
+                self.assertLess(
+                    description.index(case['append']),
+                    description.index('日本語の解説'),
+                )
+                for url in case['urls']:
+                    self.assertEqual(description.count(url), 1)
+                self.assertIn('季節の解説（英語）', description)
+
+    def test_apostle_append_text_is_used_in_html_output(self):
+        cases = [
+            (
+                dt.date(2026, 1, 25),
+                '使徒聖パウロの回心',
+                '聖ペトロも同じミサで記念されます。',
+                'gen_saint50.php?id=062901',
+            ),
+            (
+                dt.date(2026, 2, 22),
+                '使徒聖ペトロが教座を定めた祝日',
+                '聖パウロも同じミサで記念されます。',
+                'gen_saint50.php?id=062902',
+            ),
+            (
+                dt.date(2026, 6, 30),
+                '使徒聖パウロの記念',
+                '聖ペトロも同じミサで記念されます。',
+                'gen_saint50.php?id=062901',
+            ),
+        ]
+
+        for date, summary, append, url in cases:
+            matches = [
+                event for event in self.html_events[date]
+                if _bare_summary(str(event.get('SUMMARY'))) == summary
+            ]
+            self.assertEqual(len(matches), 1)
+            description = str(matches[0].get('DESCRIPTION'))
+            with self.subTest(date=date):
+                self.assertEqual(description.count(append), 1)
+                self.assertIn(f'<a href=https://www.pauline.or.jp/'
+                              f'calendariosanti/{url}>', description)
+                self.assertLess(
+                    description.index(append),
+                    description.index('日本語の解説'),
+                )
+
+    def test_apostle_override_data_and_local_rows_are_consistent(self):
+        self.assertEqual(
+            {
+                (
+                    row['match_type'],
+                    row['date'],
+                    row['english_name'],
+                    row['description_append'],
+                )
+                for row in self.append_rows
+            },
+            {
+                (
+                    'exact_date_and_name',
+                    '25-Jan',
+                    'Conversion of St. Paul',
+                    '聖ペトロも同じミサで記念されます。',
+                ),
+                (
+                    'exact_date_and_name',
+                    '22-Feb',
+                    'Chair of St. Peter at Antioch',
+                    '聖パウロも同じミサで記念されます。',
+                ),
+                (
+                    'exact_date_and_name',
+                    '30-Jun',
+                    'St. Paul',
+                    '聖ペトロも同じミサで記念されます。',
+                ),
+            },
+        )
+
+        missing_rows = self._read_ja_csv('fixed_feasts_missing.csv')
+        keyed_rows = {
+            (row['dates_en'], row['en']): row
+            for row in missing_rows
+        }
+        self.assertEqual(
+            keyed_rows[
+                ('22-Feb', 'Chair of St. Peter at Antioch')
+            ]['ja'],
+            'アンティオキアにおける聖ペトロの使徒座',
+        )
+        chair_override = next(
+            row for row in self.append_rows
+            if row['english_name'] == 'Chair of St. Peter at Antioch'
+        )
+        self.assertEqual(
+            chair_override['summary_override'],
+            '使徒聖ペトロが教座を定めた祝日',
+        )
+        self.assertEqual(
+            chair_override['description_full_name'],
+            '使徒聖ペトロが教座を定めた祝日',
+        )
+        for removed_key in [
+            ('25-Jan', 'St. Peter'),
+            ('22-Feb', 'St. Paul'),
+            ('30-Jun', 'Commemoration of St. Paul'),
+        ]:
+            self.assertNotIn(removed_key, keyed_rows)
+
+    def test_june_29_feast_is_unchanged(self):
+        for year in self.years:
+            date = dt.date(year, 6, 29)
+            internal = [
+                event for event in self.ja_calendar[date]
+                if event.name == 'SS. Peter & Paul'
+            ]
+            component = self._component_for(year, {
+                'date': '29-Jun',
+                'english_name': 'SS. Peter & Paul',
+            })
+            description = str(component.get('DESCRIPTION'))
+            with self.subTest(year=year):
+                self.assertEqual(len(internal), 1)
+                self.assertEqual(internal[0].rank, 1)
+                self.assertEqual(internal[0].color, 'Red')
+                self.assertIsNone(internal[0].description_append)
+                self.assertEqual(
+                    description.count('gen_saint365.php?id=062901'), 1)
+                self.assertEqual(
+                    description.count('gen_saint365.php?id=062902'), 1)
+
+    def test_changed_japanese_summaries_reuse_principal_uids(self):
+        old_events = [
+            (
+                dt.date(2026, 1, 25),
+                '› 使徒聖パウロの回心',
+                'old-principal-jan@example.test',
+            ),
+            (
+                dt.date(2026, 2, 22),
+                '› アンティオキアにおける聖ペトロの使徒座',
+                'old-principal-feb@example.test',
+            ),
+            (
+                dt.date(2026, 6, 30),
+                '› 聖パウロ',
+                'old-principal-jun@example.test',
+            ),
+            (
+                dt.date(2026, 1, 25),
+                '› 聖ペトロ',
+                'old-removed-jan@example.test',
+            ),
+            (
+                dt.date(2026, 2, 22),
+                '› 聖パウロ',
+                'old-removed-feb@example.test',
+            ),
+            (
+                dt.date(2026, 6, 30),
+                ' 聖パウロの記念',
+                'old-removed-jun@example.test',
+            ),
+        ]
+        expected = {
+            (dt.date(2026, 1, 25), '使徒聖パウロの回心'):
+                'old-principal-jan@example.test',
+            (dt.date(2026, 2, 22), '使徒聖ペトロが教座を定めた祝日'):
+                'old-principal-feb@example.test',
+            (dt.date(2026, 6, 30), '使徒聖パウロの記念'):
+                'old-principal-jun@example.test',
+        }
+
+        old_calendar = IcsCalendar()
+        old_calendar.add('prodid', '-//UID reuse test//EN')
+        old_calendar.add('version', '2.0')
+        for date, summary, uid in old_events:
+            event = IcsEvent()
+            event.add('summary', summary)
+            event.add('dtstart', date)
+            event.add('uid', uid)
+            old_calendar.add_component(event)
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            old_path = Path(tmp_dir) / 'old.ics'
+            old_path.write_bytes(old_calendar.to_ical())
+            updated = LiturgicalCalendar(
+                2026, reuse_uids_from=old_path, lang='ja')
+            updated_events = _events_by_date(updated)
+
+        output_uids = {
+            str(event.get('UID'))
+            for events in updated_events.values()
+            for event in events
+        }
+        for (date, summary), expected_uid in expected.items():
+            matches = [
+                event for event in updated_events[date]
+                if _bare_summary(str(event.get('SUMMARY'))) == summary
+            ]
+            with self.subTest(date=date, summary=summary):
+                self.assertEqual(len(matches), 1)
+                self.assertEqual(str(matches[0].get('UID')), expected_uid)
+        self.assertTrue({
+            'old-removed-jan@example.test',
+            'old-removed-feb@example.test',
+            'old-removed-jun@example.test',
+        }.isdisjoint(output_uids))
+
     def test_english_and_french_are_not_affected(self):
         for lang in ['en', 'fr']:
             calendar_output = LiturgicalCalendar(
@@ -1125,6 +1459,24 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                 self.assertNotIn('日本の固有ミサ。', ical_text)
                 self.assertTrue(all(
                     event.description_lead is None
+                    for year in calendar_output.liturgical_years.values()
+                    for events in year.calendar.values()
+                    for event in events
+                ))
+                self.assertTrue(all(
+                    event.description_append is None
+                    for year in calendar_output.liturgical_years.values()
+                    for events in year.calendar.values()
+                    for event in events
+                ))
+                self.assertTrue(all(
+                    event.summary_override is None
+                    for year in calendar_output.liturgical_years.values()
+                    for events in year.calendar.values()
+                    for event in events
+                ))
+                self.assertTrue(all(
+                    event.description_full_name_override is None
                     for year in calendar_output.liturgical_years.values()
                     for events in year.calendar.values()
                     for event in events

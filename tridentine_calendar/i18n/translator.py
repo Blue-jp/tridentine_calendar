@@ -423,11 +423,17 @@ class Translator:
         return self.templates['liturgical_color'].format(color=translated_color)
 
     def format_outranking(
-            self, feast, outranking_feast, is_fixed_outranked_by_fixed):
+            self, feast, outranking_feast, is_fixed_outranked_by_fixed,
+            feast_is_full_name=False):
         template_key = (
             'outranking' if is_fixed_outranked_by_fixed
             else 'outranking_this_year')
         template = self.templates[template_key]
+        if self.lang == 'ja' and feast_is_full_name:
+            template = template.replace(
+                '{feast}の祝日に',
+                '{feast}に',
+            )
         if self._is_plural(feast):
             template = template.replace(' est ', ' sont ')
             template = template.replace(' omise.', ' omises.')

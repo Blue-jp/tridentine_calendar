@@ -291,7 +291,11 @@ class LiturgicalCalendarEvent:
         self.name = name
         self.urls = urls
         self.additional_urls = {'ja': [], 'en': []}
+        self.summary_override = None
+        self.description_full_name_override = None
         self.description_lead = None
+        self.description_append = None
+        self.uid_aliases = []
         self.rank = rank
         self.color = color
         self.titles = titles
@@ -373,7 +377,10 @@ class LiturgicalCalendarEvent:
 
         """
         titles = self.titles if with_titles else None
-        full_name = self.translator.format_feast_full_name(self.name, self.rank, titles)
+        if self.description_full_name_override:
+            return self.description_full_name_override
+        name = self.summary_override or self.name
+        full_name = self.translator.format_feast_full_name(name, self.rank, titles)
 
         if capitalize:
             full_name = full_name[0].upper() + full_name[1:]
@@ -510,6 +517,11 @@ class LiturgicalCalendarEvent:
             if len(description) > 0 and description[-1] == '.':
                 description += ' '
             description += self.translator.format_color(self.color)
+
+        if self.description_append:
+            if description:
+                description += '\n'
+            description += self.description_append
 
         if description != '':
             description += '\n\n'
@@ -977,8 +989,15 @@ class LiturgicalYear:
                 match_type = row.get('match_type')
                 date_en = row.get('date')
                 event_name = row.get('english_name')
-                description_lead = row.get('description_lead')
-                if not (event_name and description_lead):
+                override = {
+                    'summary_override': row.get('summary_override'),
+                    'description_full_name_override': row.get(
+                        'description_full_name'),
+                    'description_lead': row.get('description_lead'),
+                    'description_append': row.get('description_append'),
+                    'uid_alias': row.get('uid_alias'),
+                }
+                if not event_name or not any(override.values()):
                     continue
                 if match_type == 'exact_date_and_name':
                     if not date_en:
@@ -990,17 +1009,31 @@ class LiturgicalYear:
                         continue
                     exact_overrides[
                         (month, int(day), event_name)
-                    ] = description_lead
+                    ] = override
                 elif match_type == 'movable_name':
-                    movable_overrides[event_name] = description_lead
+                    movable_overrides[event_name] = override
 
             for date in iterate_liturgical_year(self.year):
                 for event in self.calendar[date]:
                     key = (date.month, date.day, event.name)
                     if key in exact_overrides:
-                        event.description_lead = exact_overrides[key]
+                        override = exact_overrides[key]
                     elif event.name in movable_overrides:
-                        event.description_lead = movable_overrides[event.name]
+                        override = movable_overrides[event.name]
+                    else:
+                        continue
+                    if override.get('summary_override'):
+                        event.summary_override = override['summary_override']
+                    if override.get('description_full_name_override'):
+                        event.description_full_name_override = override[
+                            'description_full_name_override']
+                    if override.get('description_lead'):
+                        event.description_lead = override['description_lead']
+                    if override.get('description_append'):
+                        event.description_append = override[
+                            'description_append']
+                    if override.get('uid_alias'):
+                        event.uid_aliases.append(override['uid_alias'])
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 
@@ -1043,10 +1076,14 @@ class LiturgicalYear:
                 for i, event in enumerate(events)
             )
             for i, elem in enumerate(events):
-                ics_name = self.translator.format_summary(elem.name)
+                ics_name = (
+                    elem.summary_override
+                    or self.translator.format_summary(elem.name)
+                )
                 if self.lang == 'fr' and ics_name:
                     ics_name = self.translator._contract(ics_name)
                     ics_name = ics_name[0].upper() + ics_name[1:]
+                base_ics_name = ics_name
                 description = ''
 
                 if i > 0 and elem.liturgical_event and not elem.addition:
@@ -1057,14 +1094,23 @@ class LiturgicalYear:
                         outranking_feast_name = outranking_feast.full_name(
                             capitalize=False)
                         if self.lang == 'ja':
-                            feast_name = self.translator.format_summary(elem.name)
-                            outranking_feast_name = self.translator.format_summary(
-                                outranking_feast.name)
+                            feast_name = (
+                                elem.description_full_name_override
+                                or elem.summary_override
+                                or self.translator.format_summary(elem.name)
+                            )
+                            outranking_feast_name = (
+                                outranking_feast.summary_override
+                                or self.translator.format_summary(
+                                    outranking_feast.name)
+                            )
 
                         description += self.translator.format_outranking(
                             feast_name,
                             outranking_feast_name,
-                            outranking_feast.is_fixed() and elem.is_fixed()
+                            outranking_feast.is_fixed() and elem.is_fixed(),
+                            feast_is_full_name=bool(
+                                elem.description_full_name_override),
                         )
 
                 if not elem.liturgical_event:
@@ -1104,7 +1150,13 @@ class LiturgicalYear:
                 ics_event.add('dtstamp', dt.datetime.now())
                 if self.uid_map is not None:
                     uid = None
-                    for uid_name in (ics_name, unprefixed_ics_name):
+                    uid_names = [ics_name, unprefixed_ics_name]
+                    if self.lang == 'ja':
+                        # Reuse UIDs across Japanese title changes and the
+                        # invisible same-day ordering prefix.
+                        for name in [base_ics_name] + elem.uid_aliases:
+                            uid_names.extend([name, ' ' + name, '› ' + name])
+                    for uid_name in dict.fromkeys(uid_names):
                         key = (uid_name, date)
                         if key in self.uid_map:
                             uid = self.uid_map[key]
