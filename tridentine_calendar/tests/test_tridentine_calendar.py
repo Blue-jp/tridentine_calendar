@@ -338,6 +338,49 @@ class TestLiturgicalCalendar(unittest.TestCase):
         ics_calendar = LiturgicalYear(2019).to_ical()
         self.assertIsNotNone(ics_calendar)
 
+    def test_japanese_calendar_metadata(self):
+        expected_name = '1962年版ローマ・ミサ典書（1960年教会暦）'
+        expected_desc = (
+            '1960年に公布され、1961年1月1日より施行された教会暦'
+            '（典礼暦）。この暦は、1962年版ローマ・ミサ典書に'
+            '採用された。'
+        )
+
+        for year in [2025, 2026, 2027]:
+            with self.subTest(year=year):
+                ical_data = LiturgicalCalendar(year, lang='ja').to_ical()
+                calendar = ical.Calendar.from_ical(ical_data)
+
+                self.assertEqual(str(calendar.get('X-WR-CALNAME')), expected_name)
+                self.assertEqual(str(calendar.get('X-WR-CALDESC')), expected_desc)
+                self.assertEqual(
+                    str(calendar.get('PRODID')),
+                    '-//Joe Antognini//Tridentine Calendar//JA'
+                )
+                self.assertEqual(str(calendar.get('VERSION')), '2.0')
+                self.assertIsNone(calendar.get('CALSCALE'))
+                self.assertIsNone(calendar.get('METHOD'))
+                self.assertIsNone(calendar.get('X-WR-TIMEZONE'))
+                self.assertNotIn(b'X-WR-CALNAME;LANGUAGE=ja', ical_data)
+                self.assertNotIn(b'X-WR-CALDESC;LANGUAGE=ja', ical_data)
+
+    def test_english_and_french_calendar_metadata_is_unchanged(self):
+        for lang in ['en', 'fr']:
+            calendar = ical.Calendar.from_ical(
+                LiturgicalCalendar(2026, lang=lang).to_ical())
+
+            self.assertEqual(str(calendar.get('X-WR-CALNAME')),
+                             'Tridentine calendar')
+            self.assertEqual(
+                str(calendar.get('X-WR-CALDESC')),
+                'Liturgical calendar using the 1962 Roman Catholic rubrics.'
+            )
+            self.assertEqual(
+                str(calendar.get('PRODID')),
+                f'-//Joe Antognini//Tridentine Calendar//{lang.upper()}'
+            )
+            self.assertEqual(str(calendar.get('VERSION')), '2.0')
+
     def test_extend_existing_ics(self):
         litcal = LiturgicalCalendar(2018)
 

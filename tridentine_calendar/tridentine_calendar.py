@@ -1114,9 +1114,17 @@ class LiturgicalCalendar:
         )
         ics_calendar.add('version', '2.0')
 
-        cal_name = self.translator.translate('Tridentine calendar')
-        cal_desc = self.translator.translate(
-            'Liturgical calendar using the 1962 Roman Catholic rubrics.')
+        if self.lang == 'ja':
+            cal_name = '1962年版ローマ・ミサ典書（1960年教会暦）'
+            cal_desc = (
+                '1960年に公布され、1961年1月1日より施行された教会暦'
+                '（典礼暦）。この暦は、1962年版ローマ・ミサ典書に'
+                '採用された。'
+            )
+        else:
+            cal_name = self.translator.translate('Tridentine calendar')
+            cal_desc = self.translator.translate(
+                'Liturgical calendar using the 1962 Roman Catholic rubrics.')
 
         ics_calendar.add('x-wr-calname', cal_name)
         ics_calendar.add(
