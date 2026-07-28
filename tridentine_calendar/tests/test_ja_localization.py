@@ -188,3 +188,131 @@ class TestJapaneseLocalizationPhase1(unittest.TestCase):
             str(event.get('SUMMARY'))
             for event in fr_events[mf.Pentecost.date(2026)]
         ])
+
+
+class TestJapaneseHideFeasts(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.years = [2025, 2026, 2027]
+        cls.ja_calendar = LiturgicalCalendar(cls.years, lang='ja')
+        cls.ja_ics_data = cls.ja_calendar.to_ical()
+        cls.ja_events = _events_by_date(cls.ja_calendar)
+
+    def event_names_for(self, date):
+        return [event.name for event in self.ja_calendar[date]]
+
+    def summaries_for(self, date):
+        return [str(event.get('SUMMARY')) for event in self.ja_events.get(date, [])]
+
+    def descriptions_for(self, date):
+        return [
+            str(event.get('DESCRIPTION'))
+            for event in self.ja_events.get(date, [])
+        ]
+
+    def assert_event_hidden(self, date, name):
+        self.assertNotIn(name, self.event_names_for(date))
+        for summary in self.summaries_for(date):
+            self.assertNotIn(name, summary)
+
+    def test_fixed_date_targets_are_hidden_in_japanese(self):
+        hidden = [
+            (dt.date(2026, 1, 5), 'Twelfth Night'),
+            (dt.date(2026, 1, 18), "St. Peter's Chair"),
+            (dt.date(2026, 1, 18), 'Chair of Unity Octave'),
+            (dt.date(2026, 2, 1), 'St. Brigid'),
+            (dt.date(2026, 4, 2), 'St. Mary of Egypt'),
+            (dt.date(2026, 4, 24), "St. Mark's Eve"),
+            (dt.date(2026, 4, 30), 'Walpurgisnacht'),
+            (dt.date(2026, 5, 15), 'St. Dymphna'),
+            (dt.date(2026, 5, 15), 'St. Isidore the Farmer'),
+            (dt.date(2026, 6, 9), 'St. Columba'),
+            (dt.date(2026, 6, 15), 'St. Germaine Cousin'),
+            (dt.date(2026, 7, 12), 'St. Veronica'),
+            (dt.date(2026, 8, 8), 'Fourteen Holy Helpers'),
+            (dt.date(2026, 9, 4), 'St. Rosalia'),
+            (dt.date(2026, 9, 17), 'St. Hildegard of Bingen'),
+            (dt.date(2026, 9, 23), 'St. Pio of Pietrelcina'),
+            (dt.date(2026, 9, 24), 'Our Lady of Walsingham'),
+            (dt.date(2026, 9, 26), 'Canadian Martyrs'),
+            (dt.date(2026, 10, 31), 'Halloween'),
+            (dt.date(2026, 11, 13), 'St. Cabrini'),
+            (dt.date(2025, 12, 16), 'Las Posadas'),
+            (dt.date(2025, 12, 17), 'Golden Nights'),
+        ]
+        for date, name in hidden:
+            with self.subTest(date=date, name=name):
+                self.assert_event_hidden(date, name)
+
+    def test_movable_targets_are_hidden_in_japanese(self):
+        movable_targets = [
+            (mf.PloughMonday, 'Plough Monday'),
+            (mf.FatThursday, 'Fat Thursday'),
+            (mf.ShroveMonday, 'Shrove Monday'),
+            (mf.MardiGras, 'Mardi Gras'),
+        ]
+        for year in self.years:
+            for movable, name in movable_targets:
+                date = movable.date(year)
+                with self.subTest(year=year, date=date, name=name):
+                    self.assert_event_hidden(date, name)
+
+    def test_february_22_st_peters_chair_at_antioch_remains(self):
+        self.assertIn(
+            'Chair of St. Peter at Antioch',
+            self.event_names_for(dt.date(2026, 2, 22))
+        )
+
+    def test_marked_hidden_events_do_not_appear_in_ics(self):
+        data = self.ja_ics_data.decode('utf-8')
+        self.assertNotIn("St. Peter's Chair", data)
+        self.assertNotIn('Chair of Unity Octave', data)
+        self.assertNotIn('Halloween', data)
+
+    def test_hidden_period_information_is_removed_from_japanese_ics(self):
+        data = self.ja_ics_data.decode('utf-8')
+        for text in ['Shrovetide', 'shrovetide', 'Hallowtide', 'hallowtide']:
+            with self.subTest(text=text):
+                self.assertNotIn(text, data)
+
+        for date in [dt.date(2026, 2, 12), dt.date(2026, 11, 1)]:
+            descriptions = self.descriptions_for(date)
+            self.assertTrue(any(description for description in descriptions))
+            for description in descriptions:
+                self.assertNotIn('Shrovetide', description)
+                self.assertNotIn('Hallowtide', description)
+
+    def test_hallowtide_liturgical_events_remain(self):
+        self.assertIn('Hallowmas', self.event_names_for(dt.date(2026, 11, 1)))
+        self.assertIn(
+            "All Souls' Day",
+            self.event_names_for(dt.date(2026, 11, 2))
+        )
+
+    def test_st_francis_of_assisi_remains_once(self):
+        names = self.event_names_for(dt.date(2026, 10, 4))
+        self.assertEqual(names.count('St. Francis of Assisi'), 1)
+
+    def test_hidden_events_remain_in_english_and_french(self):
+        for lang in ['en', 'fr']:
+            calendar = LiturgicalCalendar([2026], lang=lang)
+            with self.subTest(lang=lang, name="St. Peter's Chair"):
+                self.assertIn(
+                    "St. Peter's Chair",
+                    [event.name for event in calendar[dt.date(2026, 1, 18)]]
+                )
+            with self.subTest(lang=lang, name='Chair of Unity Octave'):
+                self.assertIn(
+                    'Chair of Unity Octave',
+                    [event.name for event in calendar[dt.date(2026, 1, 18)]]
+                )
+            with self.subTest(lang=lang, name='Fat Thursday'):
+                self.assertIn(
+                    'Fat Thursday',
+                    [event.name for event in calendar[mf.FatThursday.date(2026)]]
+                )
+            with self.subTest(lang=lang, name='Halloween'):
+                self.assertIn(
+                    'Halloween',
+                    [event.name for event in calendar[dt.date(2026, 10, 31)]]
+                )

@@ -377,7 +377,12 @@ class LiturgicalCalendarEvent:
 
         return event
 
-    def generate_description(self, html_formatting=False, ranking_feast=True):
+    def generate_description(
+        self,
+        html_formatting=False,
+        ranking_feast=True,
+        include_season_info=True,
+    ):
         """Create a human-readable description of the event for the ICS file.
 
         Args:
@@ -462,16 +467,17 @@ class LiturgicalCalendarEvent:
                     description += '• ' + url_obj.url + '\n'
             description += '\n'
 
-        more_info_season = self.translator.format_more_info(
-            self.season.full_name(capitalize=False))
-        if self.lang == 'fr':
-            more_info_season = self.translator._contract(more_info_season)
-        description += more_info_season + '\n'
-        for url_obj in self.season.urls:
-            if html_formatting:
-                description += '• ' + url_obj.to_href() + '\n'
-            else:
-                description += '• ' + url_obj.url + '\n'
+        if include_season_info:
+            more_info_season = self.translator.format_more_info(
+                self.season.full_name(capitalize=False))
+            if self.lang == 'fr':
+                more_info_season = self.translator._contract(more_info_season)
+            description += more_info_season + '\n'
+            for url_obj in self.season.urls:
+                if html_formatting:
+                    description += '• ' + url_obj.to_href() + '\n'
+                else:
+                    description += '• ' + url_obj.url + '\n'
 
         return description.rstrip()
 
@@ -515,6 +521,7 @@ class LiturgicalYear:
 
         self.liturgical_year_start = liturgical_year_start(self.year)
         self.liturgical_year_end = liturgical_year_end(self.year)
+        self.hidden_periods = set()
 
         self.calendar = {}
         for date in iterate_liturgical_year(self.year):
@@ -647,6 +654,7 @@ class LiturgicalYear:
 
         if self.lang == 'ja':
             self._load_extra_ja_feasts()
+            self._apply_ja_hide_feasts()
             self._apply_ja_color_overrides()
 
         for date in iterate_liturgical_year(self.year):
@@ -773,6 +781,55 @@ class LiturgicalYear:
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 
+    def _apply_ja_hide_feasts(self):
+        resource_path = 'i18n/ja/hide_feasts.csv'
+        try:
+            package_path = resource_path.split('/')
+            filename = package_path[-1]
+            directory = '.'.join(['tridentine_calendar'] + package_path[:-1])
+            content = resources.read_binary(directory, filename)
+            reader = csv.DictReader(io.StringIO(_decode_ja_csv_content(content)))
+            exact_dates = set()
+            movable_names = set()
+            period_names = set()
+            for row in reader:
+                event_name = row.get('english_name')
+                match_type = row.get('match_type')
+                if not (event_name and match_type):
+                    continue
+                if match_type == 'exact_date_and_name':
+                    date_en = row.get('date')
+                    if not date_en:
+                        continue
+                    try:
+                        day, month_str = date_en.split('-')
+                        month = list(calendar.month_abbr).index(month_str)
+                        exact_dates.add((month, int(day), event_name))
+                    except (ValueError, KeyError, IndexError):
+                        continue
+                elif match_type == 'movable_name':
+                    movable_names.add(event_name)
+                elif match_type == 'period_name':
+                    period_names.add(event_name)
+
+            self.hidden_periods = period_names
+            for date in iterate_liturgical_year(self.year):
+                visible_events = []
+                for event in self.calendar[date]:
+                    hidden_fixed = (
+                        date.month, date.day, event.name
+                    ) in exact_dates
+                    if event.name not in movable_names and not hidden_fixed:
+                        visible_events.append(event)
+                self.calendar[date] = visible_events
+        except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
+            pass
+
+    def _include_season_info(self, event):
+        if self.lang != 'ja':
+            return True
+        return event.season.name not in self.hidden_periods
+
     def __getitem__(self, key):
         """Return the events for a given day.
 
@@ -824,7 +881,10 @@ class LiturgicalYear:
                     ics_name = '» ' + ics_name
 
                 feast_description = elem.generate_description(
-                    html_formatting, ranking_feast=(i == 0))
+                    html_formatting,
+                    ranking_feast=(i == 0),
+                    include_season_info=self._include_season_info(elem),
+                )
                 if feast_description.startswith('More information about'):
                     description += '\n\n'
                 elif description != '' and description[-1] == '.':
