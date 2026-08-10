@@ -25,5 +25,4 @@ date,english_name,match_type,reason,source_file,notes
 31-Oct,Halloween,exact_date_and_name,Not observed in Japan.,fixed_feasts_ferias_et_al.json,
 ,Hallowtide,period_name,Not observed in Japan.,seasons.json,
 13-Nov,St. Cabrini,exact_date_and_name,Hide in Japanese localization.,fixed_feasts_ferias_et_al.json,
-18-Jan,St. Peter's Chair,exact_date_and_name,Removed from the 1960 General Roman Calendar; candidate for correction in the shared source data. Hidden only in the Japanese localization for now.,fixed_feasts_ferias_et_al.json,
 18-Jan,Chair of Unity Octave,exact_date_and_name,Customary non-liturgical observance not included in the Japanese localization.,fixed_feasts_ferias_et_al.json,

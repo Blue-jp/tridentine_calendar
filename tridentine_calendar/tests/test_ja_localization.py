@@ -584,7 +584,6 @@ class TestJapaneseHideFeasts(unittest.TestCase):
     def test_fixed_date_targets_are_hidden_in_japanese(self):
         hidden = [
             (dt.date(2026, 1, 5), 'Twelfth Night'),
-            (dt.date(2026, 1, 18), "St. Peter's Chair"),
             (dt.date(2026, 1, 18), 'Chair of Unity Octave'),
             (dt.date(2026, 2, 1), 'St. Brigid'),
             (dt.date(2026, 4, 2), 'St. Mary of Egypt'),
@@ -624,10 +623,21 @@ class TestJapaneseHideFeasts(unittest.TestCase):
                     self.assert_event_hidden(date, name)
 
     def test_february_22_st_peters_chair_at_antioch_remains(self):
-        self.assertIn(
-            'Chair of St. Peter at Antioch',
-            self.event_names_for(dt.date(2026, 2, 22))
-        )
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 2, 22)
+            matches = [
+                event
+                for event in LiturgicalCalendar([year], lang='ja')[date]
+                if event.name == 'Chair of St. Peter at Antioch'
+            ]
+            with self.subTest(year=year):
+                self.assertEqual(len(matches), 1)
+                self.assertEqual(matches[0].rank, 2)
+                self.assertEqual(matches[0].color, 'White')
+                self.assertEqual(
+                    matches[0].description_append,
+                    '聖パウロも同じミサで記念されます。',
+                )
 
     def test_marked_hidden_events_do_not_appear_in_ics(self):
         data = self.ja_ics_data.decode('utf-8')
@@ -662,11 +672,6 @@ class TestJapaneseHideFeasts(unittest.TestCase):
     def test_hidden_events_remain_in_english_and_french(self):
         for lang in ['en', 'fr']:
             calendar = LiturgicalCalendar([2026], lang=lang)
-            with self.subTest(lang=lang, name="St. Peter's Chair"):
-                self.assertIn(
-                    "St. Peter's Chair",
-                    [event.name for event in calendar[dt.date(2026, 1, 18)]]
-                )
             with self.subTest(lang=lang, name='Chair of Unity Octave'):
                 self.assertIn(
                     'Chair of Unity Octave',

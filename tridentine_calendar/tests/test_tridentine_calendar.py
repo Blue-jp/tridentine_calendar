@@ -322,6 +322,18 @@ class TestLiturgicalCalendar(unittest.TestCase):
         event = litcal[dt.date(2019, 4, 21)][0]
         self.assertEqual(event.name, 'Easter')
 
+    def test_january_18_chair_is_removed_but_st_prisca_remains(self):
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 1, 18)
+            for lang in ['en', 'fr', 'ja']:
+                with self.subTest(year=year, lang=lang):
+                    names = [
+                        event.name
+                        for event in LiturgicalCalendar([year], lang=lang)[date]
+                    ]
+                    self.assertNotIn("St. Peter's Chair", names)
+                    self.assertIn('St. Prisca', names)
+
     def test_liturgical_calendar_description(self):
         litcal = LiturgicalCalendar(2019)
         event = litcal[dt.date(2018, 12, 8)][0]
