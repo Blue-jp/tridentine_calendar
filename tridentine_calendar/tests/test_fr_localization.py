@@ -87,3 +87,16 @@ def test_fr_christmas_octave_day_names():
     assert translator.translate(
         'Seventh Day within the Octave of Christmas'
     ) == "Septième jour dans l'Octave de Noël"
+
+
+def test_fr_st_anastasia_name_and_special_commemoration():
+    translator = Translator(lang='fr')
+    assert translator.translate('St. Anastasia') == 'Ste Anastasie'
+    assert translator.format_special_commemoration(
+        'christmas_second_mass', 'St. Anastasia', 'White'
+    ) == (
+        'Commémoraison\n'
+        'Ste Anastasie est commémorée à la deuxième messe de Noël '
+        "(messe de l'aurore).\n"
+        'La couleur liturgique de cette messe est le blanc.'
+    )

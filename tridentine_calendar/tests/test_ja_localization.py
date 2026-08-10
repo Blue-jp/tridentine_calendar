@@ -1403,6 +1403,73 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertTrue(
             str(dorothy[0]['DESCRIPTION']).startswith('記念\n典礼色は赤です。'))
 
+    def test_st_anastasia_has_japanese_name_description_and_link(self):
+        expected_description = (
+            '記念\n'
+            '我らの主イエズス・キリストの御降誕の大祝日の第二ミサ'
+            '（暁のミサ）で記念されます。\n'
+            'このミサの典礼色は白です。'
+        )
+        pauline_url = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=122501'
+        )
+        christmas_urls = {
+            'https://fisheaters.com/customschristmas2.html',
+            'https://en.wikipedia.org/wiki/Christmas',
+            'http://www.newadvent.org/cathen/03724b.htm',
+        }
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 12, 25)
+            calendar = LiturgicalCalendar(
+                [year + 1], lang='ja')
+            internal = calendar[date]
+            for html_formatting in [False, True]:
+                components = _events_by_date(
+                    calendar, html_formatting)[date]
+                christmas, anastasia = components
+                with self.subTest(year=year, html=html_formatting):
+                    self.assertEqual(
+                        str(christmas['SUMMARY']).lstrip(),
+                        '我らの主イエズス・キリストの御降誕の大祝日',
+                    )
+                    self.assertEqual(
+                        str(anastasia['SUMMARY']), '› 聖アナスタジア')
+                    self.assertTrue(
+                        str(anastasia['DESCRIPTION']).startswith(
+                            expected_description + '\n\n'))
+                    self.assertIn(
+                        pauline_url, str(anastasia['DESCRIPTION']))
+                    self.assertNotIn(
+                        pauline_url, str(christmas['DESCRIPTION']))
+                    for url in christmas_urls:
+                        self.assertIn(url, str(christmas['DESCRIPTION']))
+                        self.assertNotIn(url, str(anastasia['DESCRIPTION']))
+                    self.assertNotEqual(
+                        str(christmas['UID']), str(anastasia['UID']))
+
+            self.assertEqual(
+                [event.name for event in internal],
+                ['Christmas', 'St. Anastasia'],
+            )
+
+    def test_special_christmas_commemoration_does_not_leak(self):
+        cases = [
+            (dt.date(2026, 2, 6), 'St. Dorothy'),
+            (dt.date(2025, 12, 29), 'St. Thomas Becket'),
+            (dt.date(2025, 12, 31), 'Pope Sylvester I'),
+        ]
+        calendar = LiturgicalCalendar([2026, 2027], lang='ja')
+        for date, name in cases:
+            event = next(
+                event for event in calendar[date] if event.name == name)
+            description = event.generate_description(ranking_feast=True)
+            with self.subTest(date=date, name=name):
+                self.assertIsNone(event.special_commemoration)
+                self.assertNotIn('第二ミサ', description)
+                self.assertNotIn('暁のミサ', description)
+
     def test_other_excluded_events_are_unchanged(self):
         seven_sorrows = [
             event
@@ -1430,12 +1497,6 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         ]
         self.assertEqual(len(april_mark), 1)
         self.assertIsNone(april_mark[0].description_lead)
-
-        christmas_names = [
-            event.name
-            for event in self.ja_calendar[dt.date(2026, 12, 25)]
-        ]
-        self.assertNotIn('St. Anastasia', christmas_names)
 
     def test_apostle_commemorations_are_merged_for_all_three_years(self):
         cases = [
@@ -1785,15 +1846,23 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                 for event in events
                 if event.description_append is not None
             ]
+            shared_lead_events = [
+                event
+                for year in calendar_output.liturgical_years.values()
+                for events in year.calendar.values()
+                for event in events
+                if event.description_lead is not None
+            ]
             with self.subTest(lang=lang):
                 self.assertNotIn('記念', ical_text)
                 self.assertNotIn('日本の固有ミサ。', ical_text)
                 self.assertTrue(all(
-                    event.description_lead is None
-                    for year in calendar_output.liturgical_years.values()
-                    for events in year.calendar.values()
-                    for event in events
+                    event.name == 'St. Anastasia'
+                    and event.special_commemoration
+                    == 'christmas_second_mass'
+                    for event in shared_lead_events
                 ))
+                self.assertEqual(len(shared_lead_events), len(self.years))
                 self.assertEqual(len(appended_events), len(self.years))
                 self.assertTrue(all(
                     event.name == 'Chair of St. Peter'

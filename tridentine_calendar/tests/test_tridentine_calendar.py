@@ -383,6 +383,150 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertTrue(
                             str(components[0]['SUMMARY']).startswith('› '))
 
+    def test_st_anastasia_is_a_special_christmas_commemoration(self):
+        summaries = {
+            'en': ('Christmas', 'St. Anastasia'),
+            'fr': ('Noël', 'Ste Anastasie'),
+            'ja': (
+                '我らの主イエズス・キリストの御降誕の大祝日',
+                '聖アナスタジア',
+            ),
+        }
+        descriptions = {
+            'en': (
+                'Commemoration\n'
+                'St. Anastasia is commemorated at the Second Mass of '
+                'Christmas (Mass at Dawn).\n'
+                'The liturgical color of this Mass is white.'
+            ),
+            'fr': (
+                'Commémoraison\n'
+                'Ste Anastasie est commémorée à la deuxième messe de Noël '
+                "(messe de l'aurore).\n"
+                'La couleur liturgique de cette messe est le blanc.'
+            ),
+            'ja': (
+                '記念\n'
+                '我らの主イエズス・キリストの御降誕の大祝日の第二ミサ'
+                '（暁のミサ）で記念されます。\n'
+                'このミサの典礼色は白です。'
+            ),
+        }
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 12, 25)
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar(
+                    [utils.liturgical_year(date)], lang=lang)
+                internal = calendar[date]
+                with self.subTest(year=year, lang=lang, internal=True):
+                    self.assertEqual(
+                        [event.name for event in internal],
+                        ['Christmas', 'St. Anastasia'],
+                    )
+                    christmas, anastasia = internal
+                    self.assertEqual(christmas.rank, 1)
+                    self.assertEqual(christmas.color, 'White')
+                    self.assertTrue(christmas.holy_day)
+                    self.assertEqual(anastasia.rank, 4)
+                    self.assertEqual(anastasia.color, 'White')
+                    self.assertEqual(anastasia.titles, ['Martyr'])
+                    self.assertTrue(anastasia.liturgical_event)
+                    self.assertTrue(anastasia.feast)
+                    self.assertFalse(anastasia.holy_day)
+                    self.assertEqual(
+                        anastasia.special_commemoration,
+                        'christmas_second_mass',
+                    )
+
+                for html_formatting in [False, True]:
+                    components = [
+                        event for event in ical.Calendar.from_ical(
+                            calendar.to_ical(html_formatting)).walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                    ]
+                    with self.subTest(
+                        year=year, lang=lang, html=html_formatting,
+                    ):
+                        self.assertEqual(len(components), 2)
+                        self.assertEqual(
+                            str(components[0]['SUMMARY']).lstrip(),
+                            summaries[lang][0],
+                        )
+                        self.assertEqual(
+                            str(components[1]['SUMMARY']),
+                            '› ' + summaries[lang][1],
+                        )
+                        christmas_description = str(
+                            components[0]['DESCRIPTION'])
+                        anastasia_description = str(
+                            components[1]['DESCRIPTION'])
+                        self.assertNotIn(
+                            'Anastasia', christmas_description)
+                        self.assertNotIn(
+                            'アナスタジア', christmas_description)
+                        self.assertTrue(
+                            anastasia_description.startswith(
+                                descriptions[lang] + '\n\n'))
+                        self.assertNotIn('Class IV', anastasia_description)
+                        self.assertNotIn('IVe classe', anastasia_description)
+                        self.assertNotIn('第四', anastasia_description)
+
+    def test_st_anastasia_does_not_replace_the_christmas_uid(self):
+        summaries = {
+            'en': 'Christmas',
+            'fr': 'Noël',
+            'ja': '我らの主イエズス・キリストの御降誕の大祝日',
+        }
+        anastasia_summaries = {
+            'en': 'St. Anastasia',
+            'fr': 'Ste Anastasie',
+            'ja': '聖アナスタジア',
+        }
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 12, 25)
+            for lang in ['en', 'fr', 'ja']:
+                old_uid = f'old-christmas-{lang}-{year}@example.test'
+                old_calendar = ical.Calendar()
+                old_event = ical.Event()
+                old_event.add('summary', summaries[lang])
+                old_event.add('dtstart', date)
+                old_event.add('uid', old_uid)
+                old_calendar.add_component(old_event)
+
+                with tempfile.TemporaryDirectory() as tmp_dir:
+                    old_path = os.path.join(tmp_dir, 'old.ics')
+                    with open(old_path, 'wb') as fp:
+                        fp.write(old_calendar.to_ical())
+                    calendar = LiturgicalCalendar(
+                        [utils.liturgical_year(date)],
+                        reuse_uids_from=old_path,
+                        lang=lang,
+                    )
+                    for html_formatting in [False, True]:
+                        components = [
+                            event for event in ical.Calendar.from_ical(
+                                calendar.to_ical(html_formatting)
+                            ).walk('VEVENT')
+                            if ical.vDDDTypes.from_ical(
+                                event['DTSTART']) == date
+                        ]
+                        by_summary = {
+                            str(event['SUMMARY']).lstrip(' ›»'):
+                            str(event['UID'])
+                            for event in components
+                        }
+                        with self.subTest(
+                            year=year, lang=lang, html=html_formatting,
+                        ):
+                            self.assertEqual(
+                                by_summary[summaries[lang]], old_uid)
+                            self.assertNotEqual(
+                                by_summary[anastasia_summaries[lang]],
+                                old_uid,
+                            )
+
     def test_christmas_octave_days_and_commemorations(self):
         summaries = {
             'en': {

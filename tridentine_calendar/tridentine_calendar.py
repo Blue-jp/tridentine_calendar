@@ -300,6 +300,7 @@ class LiturgicalCalendarEvent:
         self.description_full_name_override = None
         self.description_lead = None
         self.description_append = None
+        self.special_commemoration = None
         self.uid_aliases = []
         self.rank = rank
         self.color = color
@@ -434,6 +435,15 @@ class LiturgicalCalendarEvent:
                 event.translator.format_same_mass_commemoration(
                     json_obj['commemoration']))
 
+        if 'special_commemoration' in json_obj:
+            event.special_commemoration = json_obj['special_commemoration']
+            event.description_lead = (
+                event.translator.format_special_commemoration(
+                    event.special_commemoration,
+                    event.name,
+                    event.color,
+                ))
+
         if json_obj.get('description_uses_summary', False):
             event.description_full_name_override = (
                 event.translator.format_summary(event.name))
@@ -463,7 +473,7 @@ class LiturgicalCalendarEvent:
         with_titles = ranking_feast
         if self.description_lead is not None:
             description += self.description_lead
-            if self.color:
+            if self.color and self.special_commemoration is None:
                 description += '\n'
                 description += self.translator.format_color(self.color)
 
@@ -473,7 +483,11 @@ class LiturgicalCalendarEvent:
             )
             with_titles = False
 
-        if description != '' and description[-1] == '.':
+        if (
+            self.special_commemoration is None
+            and description != ''
+            and description[-1] == '.'
+        ):
             description += ' '
 
         if (

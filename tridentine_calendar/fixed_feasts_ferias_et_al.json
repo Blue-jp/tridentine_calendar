@@ -308,6 +308,18 @@
       ],
       "class": 1,
       "liturgical_event": true
+    },
+    {
+      "name": "St. Anastasia",
+      "titles": [
+        "Martyr"
+      ],
+      "obligation": false,
+      "class": 4,
+      "color": "White",
+      "liturgical_event": true,
+      "feast": true,
+      "special_commemoration": "christmas_second_mass"
     }
   ],
   "December 26": [

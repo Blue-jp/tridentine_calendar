@@ -37,6 +37,13 @@ class Translator:
             'today_is_commemoration': 'Today is a commemoration.',
             'same_mass_commemoration': (
                 '{name} is also commemorated in the same Mass.'),
+            'special_commemorations': {
+                'christmas_second_mass': (
+                    'Commemoration\n'
+                    '{name} is commemorated at the Second Mass of Christmas '
+                    '(Mass at Dawn).\n'
+                    'The liturgical color of this Mass is {color}.'),
+            },
             'lent_commemoration': (
                 'Since {feast} falls during Lent it will ordinarily be '
                 'celebrated only as a commemoration during the mass of '
@@ -73,6 +80,13 @@ class Translator:
             'no_special_liturgy': '{name}には特別な典礼はありません。',
             'today_is_commemoration': '今日は記念日です。',
             'same_mass_commemoration': '{name}も同じミサで記念されます。',
+            'special_commemorations': {
+                'christmas_second_mass': (
+                    '記念\n'
+                    '我らの主イエズス・キリストの御降誕の大祝日の第二ミサ'
+                    '（暁のミサ）で記念されます。\n'
+                    'このミサの典礼色は{color}です。'),
+            },
             'today': '今日',
             'this_feast': 'この祝日',
             'this_feria': 'この平休日',
@@ -107,6 +121,13 @@ class Translator:
             'today_is_commemoration': 'Aujourd\'hui, c\'est une commémoraison.',
             'same_mass_commemoration': (
                 '{name} est également commémoré au cours de la même messe.'),
+            'special_commemorations': {
+                'christmas_second_mass': (
+                    'Commémoraison\n'
+                    '{name} est commémorée à la deuxième messe de Noël '
+                    "(messe de l'aurore).\n"
+                    'La couleur liturgique de cette messe est le {color}.'),
+            },
             'lent_commemoration': (
                 'Puisque {feast} tombe pendant le Carême, il sera ordinairement '
                 'célébré seulement comme une commémoraison pendant la messe de '
@@ -485,6 +506,14 @@ class Translator:
             self.lang, {}).get(name, self.translate(name))
         return self.templates['same_mass_commemoration'].format(
             name=translated_name)
+
+    def format_special_commemoration(self, commemoration_type, name, color):
+        translated_name = self.translate(name)
+        translated_color = self.translate(color.capitalize())
+        if self.lang in ['en', 'fr']:
+            translated_color = translated_color.lower()
+        template = self.templates['special_commemorations'][commemoration_type]
+        return template.format(name=translated_name, color=translated_color)
 
     def format_lent_commemoration(self, feast_name, feria_name):
         return self.templates['lent_commemoration'].format(
