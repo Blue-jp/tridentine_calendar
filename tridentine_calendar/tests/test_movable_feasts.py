@@ -84,6 +84,12 @@ class TestMovableFeastDates(unittest.TestCase):
     def test_passion_sunday(self):
         self.assertEqual(mf.PassionSunday.date(2018), dt.date(2018, 3, 18))
 
+    def test_friday_after_first_sunday_in_passiontide(self):
+        self.assertEqual(
+            mf.FridayAfterFirstSundayInPassiontide.date(2018),
+            dt.date(2018, 3, 23),
+        )
+
     def test_seven_sorrows(self):
         self.assertEqual(mf.SevenSorrows.date(2018), dt.date(2018, 3, 23))
 

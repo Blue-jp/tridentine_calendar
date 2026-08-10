@@ -103,3 +103,26 @@ def test_fr_st_anastasia_name_and_special_commemoration():
         "(messe de l'aurore).\n"
         'La couleur liturgique de cette messe est le blanc.'
     )
+
+
+def test_fr_passiontide_friday_and_seven_sorrows_commemoration():
+    translator = Translator(lang='fr')
+    assert translator.translate(
+        'Friday after the First Sunday in Passiontide'
+    ) == 'Vendredi après le premier dimanche de la Passion'
+    assert translator.format_special_commemoration(
+        'passiontide_friday', 'The Seven Sorrows', 'Violet'
+    ) == (
+        'Commémoraison\n'
+        'À la messe du vendredi après le premier dimanche de la Passion, '
+        'les sept Douleurs de la B.V.M. sont commémorées.\n'
+        'La couleur liturgique de cette messe est le violet.'
+    )
+    assert translator.format_unobserved_special_commemoration(
+        'passiontide_friday', 'The Seven Sorrows', 'St. Joseph', 1
+    ) == (
+        'Commémoraison\n'
+        'Cette année, la fête de St Joseph de Ire classe a préséance ; '
+        'les sept Douleurs de la B.V.M. ne sont donc pas commémorées à la '
+        'messe.'
+    )

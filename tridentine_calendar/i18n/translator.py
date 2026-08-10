@@ -43,6 +43,18 @@ class Translator:
                     '{name} is commemorated at the Second Mass of Christmas '
                     '(Mass at Dawn).\n'
                     'The liturgical color of this Mass is {color}.'),
+                'passiontide_friday': (
+                    'Commemoration\n'
+                    '{name} is commemorated in the Mass of Friday after the '
+                    'First Sunday in Passiontide.\n'
+                    'The liturgical color of this Mass is {color}.'),
+            },
+            'unobserved_special_commemorations': {
+                'passiontide_friday': (
+                    'Commemoration\n'
+                    'This year the Class {rank} feast of {outranking_name} '
+                    'takes precedence, so {name} is not commemorated in the '
+                    'Mass.'),
             },
             'lent_commemoration': (
                 'Since {feast} falls during Lent it will ordinarily be '
@@ -86,6 +98,16 @@ class Translator:
                     '我らの主イエズス・キリストの御降誕の大祝日の第二ミサ'
                     '（暁のミサ）で記念されます。\n'
                     'このミサの典礼色は{color}です。'),
+                'passiontide_friday': (
+                    '記念\n'
+                    '{name}はご受難の主日後の金曜日のミサで記念されます。\n'
+                    'このミサの典礼色は{color}です。'),
+            },
+            'unobserved_special_commemorations': {
+                'passiontide_friday': (
+                    '記念\n'
+                    '今年は{outranking_name}の{rank}祝日が優先するため、'
+                    '{name}はミサでは記念されません。'),
             },
             'today': '今日',
             'this_feast': 'この祝日',
@@ -127,6 +149,18 @@ class Translator:
                     '{name} est commémorée à la deuxième messe de Noël '
                     "(messe de l'aurore).\n"
                     'La couleur liturgique de cette messe est le {color}.'),
+                'passiontide_friday': (
+                    'Commémoraison\n'
+                    'À la messe du vendredi après le premier dimanche de la '
+                    'Passion, {name} sont commémorées.\n'
+                    'La couleur liturgique de cette messe est le {color}.'),
+            },
+            'unobserved_special_commemorations': {
+                'passiontide_friday': (
+                    'Commémoraison\n'
+                    'Cette année, la fête de {outranking_name} de {rank} a '
+                    'préséance ; {name} ne sont donc pas commémorées à la '
+                    'messe.'),
             },
             'lent_commemoration': (
                 'Puisque {feast} tombe pendant le Carême, il sera ordinairement '
@@ -514,6 +548,24 @@ class Translator:
             translated_color = translated_color.lower()
         template = self.templates['special_commemorations'][commemoration_type]
         return template.format(name=translated_name, color=translated_color)
+
+    def format_unobserved_special_commemoration(
+        self, commemoration_type, name, outranking_name, outranking_rank
+    ):
+        translated_name = self.translate(name)
+        if self.lang == 'en':
+            translated_name = make_initial__the__lowercase(translated_name)
+            rank = outranking_rank * 'I'
+        else:
+            rank = self.translate(str(outranking_rank))
+        translated_outranking_name = self.format_summary(outranking_name)
+        template = self.templates[
+            'unobserved_special_commemorations'][commemoration_type]
+        return template.format(
+            name=translated_name,
+            outranking_name=translated_outranking_name,
+            rank=rank,
+        )
 
     def format_lent_commemoration(self, feast_name, feria_name):
         return self.templates['lent_commemoration'].format(

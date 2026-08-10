@@ -4,6 +4,7 @@ import unittest
 import os
 import icalendar as ical
 
+from .. import movable_feasts as mf
 from .. import utils
 from ..tridentine_calendar import LiturgicalCalendar
 from ..tridentine_calendar import LiturgicalCalendarEvent
@@ -579,6 +580,283 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertNotIn('Class IV', anastasia_description)
                         self.assertNotIn('IVe classe', anastasia_description)
                         self.assertNotIn('第四', anastasia_description)
+
+    def test_passiontide_friday_and_seven_sorrows_commemoration(self):
+        summaries = {
+            'en': (
+                'Friday after the First Sunday in Passiontide',
+                'The Seven Sorrows',
+            ),
+            'fr': (
+                'Vendredi après le premier dimanche de la Passion',
+                'Les sept Douleurs de la B.V.M.',
+            ),
+            'ja': (
+                'ご受難の主日後の金曜日',
+                '童貞聖マリアの七つの御苦しみ',
+            ),
+        }
+        descriptions = {
+            'en': (
+                'Commemoration\n'
+                'The Seven Sorrows is commemorated in the Mass of Friday '
+                'after the First Sunday in Passiontide.\n'
+                'The liturgical color of this Mass is violet.'
+            ),
+            'fr': (
+                'Commémoraison\n'
+                'À la messe du vendredi après le premier dimanche de la '
+                'Passion, les sept Douleurs de la B.V.M. sont commémorées.\n'
+                'La couleur liturgique de cette messe est le violet.'
+            ),
+            'ja': (
+                '記念\n'
+                '童貞聖マリアの七つの御苦しみはご受難の主日後の金曜日の'
+                'ミサで記念されます。\n'
+                'このミサの典礼色は紫です。'
+            ),
+        }
+        unobserved_descriptions = {
+            'en': (
+                'Commemoration\n'
+                'This year the Class I feast of St. Joseph takes precedence, '
+                'so the Seven Sorrows is not commemorated in the Mass.'
+            ),
+            'fr': (
+                'Commémoraison\n'
+                'Cette année, la fête de St Joseph de Ire classe a préséance ; '
+                'les sept Douleurs de la B.V.M. ne sont donc pas commémorées '
+                'à la messe.'
+            ),
+            'ja': (
+                '記念\n'
+                '今年は聖ヨゼフの一級祝日が優先するため、'
+                '童貞聖マリアの七つの御苦しみはミサでは記念されません。'
+            ),
+        }
+        outranked_main_descriptions = {
+            'en': (
+                'This year Friday after the First Sunday in Passiontide is '
+                'outranked by the Feast of St. Joseph'
+            ),
+            'fr': (
+                'Cette année, Vendredi après le premier dimanche de la '
+                'Passion est omise.'
+            ),
+            'ja': (
+                '今年は聖ヨゼフがご受難の主日後の金曜日に優先します。'
+                'この平休日は三級の平休日です。'
+            ),
+        }
+        expected_names = {
+            2025: [
+                'Friday after the First Sunday in Passiontide',
+                'Pope Leo the Great',
+                'The Seven Sorrows',
+            ],
+            2026: [
+                'Friday after the First Sunday in Passiontide',
+                'St. John Damascene',
+                'The Seven Sorrows',
+            ],
+            2027: [
+                'St. Joseph',
+                'Friday after the First Sunday in Passiontide',
+                'The Seven Sorrows',
+            ],
+            2028: [
+                'Friday after the First Sunday in Passiontide',
+                'The Seven Sorrows',
+            ],
+        }
+        expected_dates = {
+            2025: dt.date(2025, 4, 11),
+            2026: dt.date(2026, 3, 27),
+            2027: dt.date(2027, 3, 19),
+            2028: dt.date(2028, 4, 7),
+        }
+
+        for year, date in expected_dates.items():
+            self.assertEqual(
+                mf.FridayAfterFirstSundayInPassiontide.date(year), date)
+            self.assertEqual(mf.SevenSorrows.date(year), date)
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar([year], lang=lang)
+                events = calendar[date]
+                main_name = 'Friday after the First Sunday in Passiontide'
+                main = next(
+                    event for event in events
+                    if event.name == main_name
+                )
+                seven_sorrows = next(
+                    event for event in events
+                    if event.name == 'The Seven Sorrows'
+                )
+                with self.subTest(year=year, lang=lang, internal=True):
+                    self.assertEqual(
+                        [event.name for event in events], expected_names[year])
+                    self.assertEqual(main.rank, 3)
+                    self.assertEqual(main.color, 'Violet')
+                    self.assertTrue(main.liturgical_event)
+                    self.assertFalse(main.feast)
+                    self.assertEqual(seven_sorrows.rank, 4)
+                    self.assertEqual(seven_sorrows.color, 'Violet')
+                    self.assertTrue(seven_sorrows.liturgical_event)
+                    self.assertTrue(seven_sorrows.feast)
+                    self.assertEqual(
+                        seven_sorrows.special_commemoration,
+                        'passiontide_friday',
+                    )
+                    self.assertEqual(
+                        seven_sorrows.special_commemoration_observed,
+                        year != 2027,
+                    )
+                    self.assertEqual(
+                        seven_sorrows.special_commemoration_top_rank_threshold,
+                        3,
+                    )
+                    if year == 2027:
+                        self.assertEqual(events[0].name, 'St. Joseph')
+                        self.assertEqual(events[0].rank, 1)
+                        self.assertEqual(events[0].color, 'White')
+                    self.assertEqual(
+                        {url.url for url in seven_sorrows.urls},
+                        {
+                            'https://fisheaters.com/customslent10.html',
+                            'https://en.wikipedia.org/wiki/Friday_of_Sorrows',
+                            'https://en.wikipedia.org/wiki/Our_Lady_of_Sorrows',
+                            'http://www.newadvent.org/cathen/14151b.htm',
+                        },
+                    )
+
+                for html_formatting in [False, True]:
+                    components = [
+                        event for event in ical.Calendar.from_ical(
+                            calendar.to_ical(html_formatting)).walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                    ]
+                    by_summary = {
+                        str(event['SUMMARY']).lstrip(' ›»'): event
+                        for event in components
+                    }
+                    with self.subTest(
+                        year=year, lang=lang, html=html_formatting,
+                    ):
+                        self.assertIn(summaries[lang][0], by_summary)
+                        self.assertIn(summaries[lang][1], by_summary)
+                        self.assertTrue(
+                            str(by_summary[summaries[lang][1]]['SUMMARY'])
+                            .startswith('› ')
+                        )
+                        description = str(
+                            by_summary[summaries[lang][1]]['DESCRIPTION'])
+                        expected_description = (
+                            unobserved_descriptions[lang]
+                            if year == 2027 else descriptions[lang]
+                        )
+                        self.assertTrue(
+                            description.startswith(
+                                expected_description + '\n\n'))
+                        self.assertNotIn('Class III feast', description)
+                        self.assertNotIn('三級の祝日', description)
+                        self.assertNotIn('受難週の金曜日', description)
+                        if year == 2027:
+                            self.assertNotIn(
+                                'is commemorated in the Mass', description)
+                            self.assertNotIn(
+                                'ミサで記念されます', description)
+                            self.assertNotIn(
+                                'sont commémorées', description)
+                            self.assertNotIn(
+                                'liturgical color of this Mass', description)
+                            self.assertNotIn(
+                                'このミサの典礼色は紫', description)
+                            self.assertNotIn(
+                                'couleur liturgique de cette messe',
+                                description,
+                            )
+                            main_description = str(
+                                by_summary[
+                                    summaries[lang][0]]['DESCRIPTION'])
+                            self.assertTrue(
+                                main_description.startswith(
+                                    outranked_main_descriptions[lang]))
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 9, 15)
+            for lang in ['en', 'fr', 'ja']:
+                event = next(
+                    event for event in LiturgicalCalendar([year], lang=lang)[date]
+                    if event.name == 'The Seven Sorrows'
+                )
+                with self.subTest(year=year, lang=lang, september=True):
+                    self.assertEqual(event.rank, 2)
+                    self.assertEqual(event.color, 'White')
+                    self.assertIsNone(event.special_commemoration)
+
+    def test_passiontide_seven_sorrows_reuses_its_previous_uid(self):
+        summaries = {
+            'en': 'The Seven Sorrows',
+            'fr': 'Les sept Douleurs de la B.V.M.',
+            'ja': '童貞聖マリアの七つの御苦しみ',
+        }
+        main_summaries = {
+            'en': 'Friday after the First Sunday in Passiontide',
+            'fr': 'Vendredi après le premier dimanche de la Passion',
+            'ja': 'ご受難の主日後の金曜日',
+        }
+
+        for lang in ['en', 'fr', 'ja']:
+            old_calendar = ical.Calendar()
+            old_uids = {}
+            for year in [2025, 2026, 2027, 2028]:
+                date = mf.SevenSorrows.date(year)
+                old_summary = summaries[lang]
+                if year == 2027:
+                    old_summary = '› ' + old_summary
+                elif lang == 'ja' and year in [2025, 2026]:
+                    old_summary = ' ' + old_summary
+                old_uid = f'old-seven-sorrows-{lang}-{year}@example.test'
+                old_event = ical.Event()
+                old_event.add('summary', old_summary)
+                old_event.add('dtstart', date)
+                old_event.add('uid', old_uid)
+                old_calendar.add_component(old_event)
+                old_uids[date] = old_uid
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                old_path = os.path.join(tmp_dir, 'old.ics')
+                with open(old_path, 'wb') as fp:
+                    fp.write(old_calendar.to_ical())
+                calendar = LiturgicalCalendar(
+                    [2025, 2026, 2027, 2028],
+                    reuse_uids_from=old_path,
+                    lang=lang,
+                )
+                for html_formatting in [False, True]:
+                    components = ical.Calendar.from_ical(
+                        calendar.to_ical(html_formatting))
+                    for date, old_uid in old_uids.items():
+                        date_components = [
+                            event for event in components.walk('VEVENT')
+                            if ical.vDDDTypes.from_ical(
+                                event['DTSTART']) == date
+                        ]
+                        by_summary = {
+                            str(event['SUMMARY']).lstrip(' ›»'): event
+                            for event in date_components
+                        }
+                        with self.subTest(
+                            lang=lang, html=html_formatting, date=date,
+                        ):
+                            self.assertEqual(
+                                str(by_summary[summaries[lang]]['UID']),
+                                old_uid,
+                            )
+                            self.assertNotEqual(
+                                str(by_summary[main_summaries[lang]]['UID']),
+                                old_uid,
+                            )
 
     def test_st_anastasia_does_not_replace_the_christmas_uid(self):
         summaries = {

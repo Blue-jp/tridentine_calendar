@@ -364,16 +364,28 @@ class PassionSunday(MovableFeast):
         return Easter.date(year) - dt.timedelta(14)
 
 
+class FridayAfterFirstSundayInPassiontide(MovableFeast):
+    """Represents the Friday after the First Sunday in Passiontide."""
+
+    name = 'Friday after the First Sunday in Passiontide'
+
+    @functools.lru_cache()
+    def date(year):
+        """Calculate the Friday after the First Sunday in Passiontide."""
+        return PalmSunday.date(year) - dt.timedelta(2)
+
+
 class SevenSorrows(MovableFeast):
-    """Represents the Feast of the Seven Sorrows."""
+    """Represents the commemoration of the Seven Sorrows."""
 
     name = 'The Seven Sorrows'
 
     @functools.lru_cache()
     def date(year):
-        """Calculate the date of the Feast of the Seven Sorrows.
+        """Calculate the date of the commemoration of the Seven Sorrows.
 
-        The Feast of the Seven Sorrows of Mary is the Friday of Passion Week.
+        The Seven Sorrows is commemorated on the Friday after the First Sunday in
+        Passiontide.
 
         """
         return PalmSunday.date(year) - dt.timedelta(2)

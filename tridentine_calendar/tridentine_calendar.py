@@ -301,6 +301,8 @@ class LiturgicalCalendarEvent:
         self.description_lead = None
         self.description_append = None
         self.special_commemoration = None
+        self.special_commemoration_observed = True
+        self.special_commemoration_top_rank_threshold = None
         self.uid_aliases = []
         self.rank = rank
         self.color = color
@@ -438,7 +440,14 @@ class LiturgicalCalendarEvent:
                     json_obj['commemoration']))
 
         if 'special_commemoration' in json_obj:
-            event.special_commemoration = json_obj['special_commemoration']
+            special_commemoration = json_obj['special_commemoration']
+            if isinstance(special_commemoration, dict):
+                event.special_commemoration = special_commemoration['type']
+                event.special_commemoration_top_rank_threshold = (
+                    special_commemoration.get(
+                        'not_observed_when_top_rank_below'))
+            else:
+                event.special_commemoration = special_commemoration
             event.description_lead = (
                 event.translator.format_special_commemoration(
                     event.special_commemoration,
@@ -791,6 +800,25 @@ class LiturgicalYear:
 
         for date in iterate_liturgical_year(self.year):
             self.calendar[date] = sorted(self.calendar[date], key=_feast_sort_key)
+            events = self.calendar[date]
+            if not events:
+                continue
+            for event in events:
+                threshold = event.special_commemoration_top_rank_threshold
+                if (
+                    threshold is not None
+                    and events[0].rank is not None
+                    and events[0].rank < threshold
+                ):
+                    event.special_commemoration_observed = False
+                    event.description_lead = (
+                        event.translator
+                        .format_unobserved_special_commemoration(
+                            event.special_commemoration,
+                            event.name,
+                            events[0].name,
+                            events[0].rank,
+                        ))
 
     def _load_extra_ja_feasts(self):
         extra_files = [

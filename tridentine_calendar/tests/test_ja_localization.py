@@ -1477,7 +1477,16 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             if event.name == 'The Seven Sorrows'
         ]
         self.assertEqual(len(seven_sorrows), 1)
-        self.assertIsNone(seven_sorrows[0].description_lead)
+        self.assertEqual(
+            seven_sorrows[0].special_commemoration,
+            'passiontide_friday',
+        )
+        self.assertTrue(
+            seven_sorrows[0].description_lead.startswith(
+                '記念\n童貞聖マリアの七つの御苦しみは'
+                'ご受難の主日後の金曜日のミサで記念されます。'
+            )
+        )
 
         june_30_events = self.ja_calendar[dt.date(2026, 6, 30)]
         self.assertEqual(
@@ -1856,13 +1865,17 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             with self.subTest(lang=lang):
                 self.assertNotIn('記念', ical_text)
                 self.assertNotIn('日本の固有ミサ。', ical_text)
+                shared_special_commemorations = {
+                    ('St. Anastasia', 'christmas_second_mass'),
+                    ('The Seven Sorrows', 'passiontide_friday'),
+                }
                 self.assertTrue(all(
-                    event.name == 'St. Anastasia'
-                    and event.special_commemoration
-                    == 'christmas_second_mass'
+                    (event.name, event.special_commemoration)
+                    in shared_special_commemorations
                     for event in shared_lead_events
                 ))
-                self.assertEqual(len(shared_lead_events), len(self.years))
+                self.assertEqual(
+                    len(shared_lead_events), 2 * len(self.years))
                 self.assertEqual(len(appended_events), len(self.years))
                 self.assertTrue(all(
                     event.name == 'Chair of St. Peter'
@@ -1876,6 +1889,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     for event in events
                 ))
                 shared_day_names = {
+                    'Friday after the First Sunday in Passiontide',
                     'Fifth Day within the Octave of Christmas',
                     'Sixth Day within the Octave of Christmas',
                     'Seventh Day within the Octave of Christmas',

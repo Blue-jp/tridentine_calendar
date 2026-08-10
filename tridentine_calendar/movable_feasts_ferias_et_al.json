@@ -186,9 +186,21 @@
       "http://www.newadvent.org/cathen/11535a.htm"
     ]
   }, 
-  "The Seven Sorrows": {
+  "Friday after the First Sunday in Passiontide": {
     "class": 3,
+    "color": "Violet",
     "liturgical_event": true,
+    "feast": false,
+    "description_uses_summary": true
+  },
+  "The Seven Sorrows": {
+    "class": 4,
+    "color": "Violet",
+    "liturgical_event": true,
+    "special_commemoration": {
+      "type": "passiontide_friday",
+      "not_observed_when_top_rank_below": 3
+    },
     "urls": [
       "https://fisheaters.com/customslent10.html", 
       "https://en.wikipedia.org/wiki/Friday_of_Sorrows", 
