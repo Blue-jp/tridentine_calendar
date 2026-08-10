@@ -299,10 +299,12 @@ class LiturgicalCalendarEvent:
         self.summary_override = None
         self.description_full_name_override = None
         self.description_lead = None
+        self.description_color_override = None
         self.description_append = None
         self.special_commemoration = None
         self.special_commemoration_observed = True
         self.special_commemoration_top_rank_threshold = None
+        self.commemoration_description_top_rank_threshold = None
         self.uid_aliases = []
         self.rank = rank
         self.color = color
@@ -432,6 +434,9 @@ class LiturgicalCalendarEvent:
         if 'color' in json_obj:
             event.color = json_obj['color']
 
+        event.commemoration_description_top_rank_threshold = json_obj.get(
+            'commemoration_description_when_top_rank_at_least')
+
         event.uid_aliases.extend(json_obj.get('uid_aliases', []))
 
         if 'commemoration' in json_obj:
@@ -486,7 +491,10 @@ class LiturgicalCalendarEvent:
             description += self.description_lead
             if self.color and self.special_commemoration is None:
                 description += '\n'
-                description += self.translator.format_color(self.color)
+                description += (
+                    self.description_color_override
+                    or self.translator.format_color(self.color)
+                )
 
         if self.description_lead is None and self.holy_day:
             description += self.translator.format_holy_day(
@@ -495,7 +503,8 @@ class LiturgicalCalendarEvent:
             with_titles = False
 
         if (
-            self.special_commemoration is None
+            self.description_lead is None
+            and self.special_commemoration is None
             and description != ''
             and description[-1] == '.'
         ):
@@ -555,7 +564,10 @@ class LiturgicalCalendarEvent:
         if self.description_lead is None and ranking_feast:
             if len(description) > 0 and description[-1] == '.':
                 description += ' '
-            description += self.translator.format_color(self.color)
+            description += (
+                self.description_color_override
+                or self.translator.format_color(self.color)
+            )
 
         if self.description_append:
             if description:
@@ -804,6 +816,16 @@ class LiturgicalYear:
             if not events:
                 continue
             for event in events:
+                commemoration_threshold = (
+                    event.commemoration_description_top_rank_threshold)
+                if (
+                    commemoration_threshold is not None
+                    and event.description_lead is None
+                    and events[0].rank is not None
+                    and events[0].rank >= commemoration_threshold
+                ):
+                    event.description_lead = (
+                        event.translator.format_commemoration())
                 threshold = event.special_commemoration_top_rank_threshold
                 if (
                     threshold is not None
@@ -1054,6 +1076,7 @@ class LiturgicalYear:
                     'description_full_name_override': row.get(
                         'description_full_name'),
                     'description_lead': row.get('description_lead'),
+                    'description_color_override': row.get('description_color'),
                     'description_append': row.get('description_append'),
                     'uid_alias': row.get('uid_alias'),
                 }
@@ -1089,6 +1112,9 @@ class LiturgicalYear:
                             'description_full_name_override']
                     if override.get('description_lead'):
                         event.description_lead = override['description_lead']
+                    if override.get('description_color_override'):
+                        event.description_color_override = override[
+                            'description_color_override']
                     if override.get('description_append'):
                         event.description_append = override[
                             'description_append']
@@ -1204,6 +1230,11 @@ class LiturgicalYear:
                     uid_names = [unprefixed_ics_name]
                     if base_ics_name != unprefixed_ics_name:
                         uid_names.append(base_ics_name)
+                    if (
+                        elem.liturgical_event
+                        and unprefixed_ics_name.startswith('› ')
+                    ):
+                        uid_names.append('» ' + base_ics_name)
                     translated_uid_aliases = []
                     for alias in elem.uid_aliases:
                         alias_name = self.translator.format_summary(alias)

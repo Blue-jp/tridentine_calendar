@@ -581,6 +581,224 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertNotIn('IVe classe', anastasia_description)
                         self.assertNotIn('第四', anastasia_description)
 
+    def test_st_barbara_is_a_shared_commemoration(self):
+        summaries = {
+            'en': 'St. Barbara',
+            'fr': 'Ste Barbe',
+            'ja': '聖バルバラ',
+        }
+        description_leads = {
+            'en': (
+                'Today is a commemoration.\n'
+                'The liturgical color is red.'
+            ),
+            'fr': (
+                "Aujourd'hui, c'est une commémoraison.\n"
+                'La couleur liturgique est le rouge.'
+            ),
+            'ja': (
+                '一般ローマ暦では記念です。\n'
+                '聖バルバラの固有ミサの典礼色は赤です。'
+            ),
+        }
+        japanese_uncertainty = (
+            '日本固有暦では同日に福者イエロニモ・デ・アンジェリス、'
+            'シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
+            'できないため、聖バルバラが実際にミサで記念されるかは未確定'
+            'です。'
+        )
+        urls = [
+            'https://fisheaters.com/customsadvent2a.html',
+            'https://en.wikipedia.org/wiki/Saint_Barbara',
+            'https://www.newadvent.org/cathen/02284d.htm',
+        ]
+        local_name = 'Bs. Jerome de Angelis, Simon Empo & Companions'
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 12, 4)
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar(
+                    [utils.liturgical_year(date)], lang=lang)
+                expected_names = ['St. Peter Chrysologus', 'St. Barbara']
+                if lang == 'ja':
+                    expected_names.append(local_name)
+                with self.subTest(year=year, lang=lang, internal=True):
+                    self.assertEqual(
+                        [event.name for event in calendar[date]],
+                        expected_names,
+                    )
+                    peter, barbara = calendar[date][:2]
+                    self.assertEqual(peter.rank, 3)
+                    self.assertEqual(peter.color, 'White')
+                    self.assertEqual(barbara.rank, 4)
+                    self.assertEqual(barbara.color, 'Red')
+                    self.assertEqual(barbara.titles, ['Virgin', 'Martyr'])
+                    self.assertTrue(barbara.liturgical_event)
+                    self.assertTrue(barbara.feast)
+                    self.assertFalse(barbara.holy_day)
+                    self.assertEqual(
+                        [url.url for url in barbara.urls], urls)
+                    if lang == 'ja':
+                        local = calendar[date][2]
+                        self.assertEqual(local.rank, 4)
+                        self.assertEqual(local.color, 'Red')
+                        self.assertEqual(local.titles, ['Martyr'])
+                        self.assertTrue(local.liturgical_event)
+
+                for html_formatting in [False, True]:
+                    components = [
+                        event for event in ical.Calendar.from_ical(
+                            calendar.to_ical(html_formatting)).walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                    ]
+                    barbara_components = [
+                        event for event in components
+                        if str(event['SUMMARY']).lstrip(' ›»') == summaries[lang]
+                    ]
+                    with self.subTest(
+                        year=year, lang=lang, html=html_formatting,
+                    ):
+                        self.assertEqual(len(barbara_components), 1)
+                        barbara_component = barbara_components[0]
+                        self.assertEqual(
+                            str(barbara_component['SUMMARY']),
+                            '› ' + summaries[lang],
+                        )
+                        description = str(barbara_component['DESCRIPTION'])
+                        self.assertTrue(
+                            description.startswith(
+                                description_leads[lang] + '\n\n'))
+                        self.assertNotIn('has no special liturgy', description)
+                        self.assertNotIn("n'a pas de liturgie spéciale", description)
+                        self.assertNotIn('特別な典礼はありません', description)
+                        self.assertNotIn('Class IV', description)
+                        self.assertNotIn('IVe classe', description)
+                        self.assertNotIn('四級', description)
+                        if lang == 'ja':
+                            self.assertNotIn(
+                                japanese_uncertainty, description)
+                        for url in urls:
+                            self.assertEqual(description.count(url), 1)
+
+    def test_st_barbara_keeps_reference_display_on_advent_sunday(self):
+        date = dt.date(2033, 12, 4)
+        summaries = {
+            'en': 'St. Barbara',
+            'fr': 'Ste Barbe',
+            'ja': '聖バルバラ',
+        }
+        japanese_description = (
+            '一般ローマ暦では記念です。\n'
+            '聖バルバラの固有ミサの典礼色は赤です。'
+        )
+        japanese_uncertainty = (
+            '日本固有暦では同日に福者イエロニモ・デ・アンジェリス、'
+            'シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
+            'できないため、聖バルバラが実際にミサで記念されるかは未確定'
+            'です。'
+        )
+        for lang in ['en', 'fr', 'ja']:
+            calendar = LiturgicalCalendar(
+                [utils.liturgical_year(date)], lang=lang)
+            self.assertEqual(calendar[date][0].rank, 1)
+            for html_formatting in [False, True]:
+                components = [
+                    event for event in ical.Calendar.from_ical(
+                        calendar.to_ical(html_formatting)).walk('VEVENT')
+                    if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                ]
+                barbara = [
+                    event for event in components
+                    if str(event['SUMMARY']).lstrip(' ›»') == summaries[lang]
+                ]
+                with self.subTest(lang=lang, html=html_formatting):
+                    self.assertEqual(len(barbara), 1)
+                    self.assertEqual(
+                        str(barbara[0]['SUMMARY']), '› ' + summaries[lang])
+                    description = str(barbara[0]['DESCRIPTION'])
+                    if lang == 'en':
+                        self.assertIn('is outranked by', description)
+                        self.assertNotIn(
+                            'Today is a commemoration', description)
+                    elif lang == 'fr':
+                        self.assertIn('est omise', description)
+                        self.assertNotIn(
+                            "Aujourd'hui, c'est une commémoraison",
+                            description,
+                        )
+                    else:
+                        self.assertTrue(
+                            description.startswith(
+                                japanese_description + '\n\n'))
+                        self.assertNotIn(
+                            japanese_uncertainty, description)
+
+    def test_st_barbara_reuses_nonliturgical_uids(self):
+        summaries = {
+            'en': {
+                'St. Peter Chrysologus': 'St. Peter Chrysologus',
+                'St. Barbara': '» St. Barbara',
+            },
+            'fr': {
+                'St. Peter Chrysologus': 'St Pierre Chrysologue',
+                'St. Barbara': '» Ste Barbe',
+            },
+            'ja': {
+                'St. Peter Chrysologus': ' 聖ペトロ・クリゾロゴ',
+                'St. Barbara': '» 聖バルバラ',
+                'Bs. Jerome de Angelis, Simon Empo & Companions': (
+                    '› 福者イエロニモ・デ・アンジェリス、シモン遠甫等殉教者'),
+            },
+        }
+
+        for lang, named_summaries in summaries.items():
+            old_calendar = ical.Calendar()
+            expected = {}
+            for year in [2025, 2026, 2027, 2028]:
+                date = dt.date(year, 12, 4)
+                for internal_name, summary in named_summaries.items():
+                    uid = f'old-{lang}-{year}-{internal_name}@example.test'
+                    event = ical.Event()
+                    event.add('summary', summary)
+                    event.add('dtstart', date)
+                    event.add('uid', uid)
+                    old_calendar.add_component(event)
+                    expected[(date, internal_name)] = uid
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                old_path = os.path.join(tmp_dir, 'old.ics')
+                with open(old_path, 'wb') as fp:
+                    fp.write(old_calendar.to_ical())
+                for html_formatting in [False, True]:
+                    calendar = LiturgicalCalendar(
+                        [2026, 2027, 2028, 2029],
+                        reuse_uids_from=old_path,
+                        lang=lang,
+                    )
+                    components = ical.Calendar.from_ical(
+                        calendar.to_ical(html_formatting)).walk('VEVENT')
+                    output_uids = [
+                        str(event['UID']) for event in components
+                        if event.name == 'VEVENT'
+                    ]
+                    self.assertEqual(len(output_uids), len(set(output_uids)))
+                    for (date, internal_name), old_uid in expected.items():
+                        bare_summary = named_summaries[internal_name].lstrip(' ›»')
+                        matches = [
+                            event for event in components
+                            if event.name == 'VEVENT'
+                            and ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                            and str(event['SUMMARY']).lstrip(' ›»') == bare_summary
+                        ]
+                        with self.subTest(
+                            lang=lang,
+                            html=html_formatting,
+                            date=date,
+                            name=internal_name,
+                        ):
+                            self.assertEqual(len(matches), 1)
+                            self.assertEqual(str(matches[0]['UID']), old_uid)
+
     def test_passiontide_friday_and_seven_sorrows_commemoration(self):
         summaries = {
             'en': (
@@ -1183,10 +1401,10 @@ class TestLiturgicalCalendar(unittest.TestCase):
 
             self.assertEqual(uids1, uids2)
             self.assertIn(('› St. Francis Xavier', dt.date(2017, 12, 3)), uids2)
-            self.assertIn(('» St. Barbara', dt.date(2017, 12, 4)), uids2)
+            self.assertIn(('» Las Posadas', dt.date(2017, 12, 16)), uids2)
             self.assertIn(('› St. Francis Xavier', dt.date(2017, 12, 3)),
                           cal2.uid_map)
-            self.assertIn(('» St. Barbara', dt.date(2017, 12, 4)),
+            self.assertIn(('» Las Posadas', dt.date(2017, 12, 16)),
                           cal2.uid_map)
 
     def test_reuse_uids_with_japanese_summaries(self):

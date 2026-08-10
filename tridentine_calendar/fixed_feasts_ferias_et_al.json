@@ -80,12 +80,21 @@
     },
     {
       "name": "St. Barbara",
+      "titles": [
+        "Virgin",
+        "Martyr"
+      ],
       "urls": [
         "https://fisheaters.com/customsadvent2a.html", 
         "https://en.wikipedia.org/wiki/Saint_Barbara",
         "https://www.newadvent.org/cathen/02284d.htm"
       ],
-      "liturgical_event": false
+      "obligation": false,
+      "class": 4,
+      "color": "Red",
+      "liturgical_event": true,
+      "feast": true,
+      "commemoration_description_when_top_rank_at_least": 3
     } 
   ],
   "December 5": [

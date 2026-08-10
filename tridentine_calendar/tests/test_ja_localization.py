@@ -13,6 +13,7 @@ from icalendar import Calendar as IcsCalendar
 from icalendar import Event as IcsEvent
 
 from tridentine_calendar import movable_feasts as mf
+from tridentine_calendar import utils
 from tridentine_calendar.tridentine_calendar import (
     LiturgicalCalendar,
     _decode_ja_csv_content,
@@ -1060,7 +1061,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(matched_occurrences, 56 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 79)
+        self.assertEqual(len(self.override_rows), 80)
         self.assertEqual(len(self.commemoration_rows), 56)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
@@ -1324,10 +1325,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     text,
                 )
 
-    def test_remaining_explicit_exclusion_is_unchanged(self):
-        excluded = [
-            (dt.date(2026, 12, 4), 'St. Barbara'),
-        ]
+    def test_st_barbara_override_uses_concise_general_calendar_description(self):
         self.assertNotIn(
             ('30-Jun', 'St. Peter'),
             {
@@ -1335,14 +1333,38 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                 for row in self.override_rows
             },
         )
-        for date, name in excluded:
+        rows = [
+            row for row in self.override_rows
+            if row['date'] == '4-Dec' and row['english_name'] == 'St. Barbara'
+        ]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(
+            rows[0]['description_lead'],
+            '一般ローマ暦では記念です。',
+        )
+        self.assertNotIn('日本固有暦', rows[0]['description_lead'])
+        self.assertEqual(
+            rows[0]['description_color'],
+            '聖バルバラの固有ミサの典礼色は赤です。',
+        )
+        for year in [2025, 2026, 2027, 2028, 2033]:
+            date = dt.date(year, 12, 4)
+            calendar = LiturgicalCalendar(
+                [utils.liturgical_year(date)], lang='ja')
             matches = [
-                event for event in self.ja_calendar[date]
-                if event.name == name
+                event for event in calendar[date]
+                if event.name == 'St. Barbara'
             ]
-            with self.subTest(date=date, name=name):
+            with self.subTest(year=year):
                 self.assertEqual(len(matches), 1)
-                self.assertIsNone(matches[0].description_lead)
+                self.assertEqual(
+                    matches[0].description_lead,
+                    rows[0]['description_lead'],
+                )
+                self.assertEqual(
+                    matches[0].description_color_override,
+                    rows[0]['description_color'],
+                )
 
     def test_christmas_octave_commemorations_keep_names_colors_and_links(self):
         cases = [
@@ -1868,6 +1890,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                 shared_special_commemorations = {
                     ('St. Anastasia', 'christmas_second_mass'),
                     ('The Seven Sorrows', 'passiontide_friday'),
+                    ('St. Barbara', None),
                 }
                 self.assertTrue(all(
                     (event.name, event.special_commemoration)
@@ -1875,7 +1898,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     for event in shared_lead_events
                 ))
                 self.assertEqual(
-                    len(shared_lead_events), 2 * len(self.years))
+                    len(shared_lead_events), 3 * len(self.years))
                 self.assertEqual(len(appended_events), len(self.years))
                 self.assertTrue(all(
                     event.name == 'Chair of St. Peter'
