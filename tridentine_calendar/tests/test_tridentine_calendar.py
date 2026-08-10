@@ -4,6 +4,7 @@ import unittest
 import os
 import icalendar as ical
 
+from .. import utils
 from ..tridentine_calendar import LiturgicalCalendar
 from ..tridentine_calendar import LiturgicalCalendarEvent
 from ..tridentine_calendar import LiturgicalCalendarEventUrl
@@ -381,6 +382,179 @@ class TestLiturgicalCalendar(unittest.TestCase):
                     if year == 2026:
                         self.assertTrue(
                             str(components[0]['SUMMARY']).startswith('› '))
+
+    def test_christmas_octave_days_and_commemorations(self):
+        summaries = {
+            'en': {
+                'Fifth Day within the Octave of Christmas': (
+                    'Fifth Day within the Octave of Christmas'),
+                'Sixth Day within the Octave of Christmas': (
+                    'Sixth Day within the Octave of Christmas'),
+                'Seventh Day within the Octave of Christmas': (
+                    'Seventh Day within the Octave of Christmas'),
+                'St. Thomas Becket': 'St. Thomas Becket',
+                'Pope Sylvester I': 'Pope Sylvester I',
+            },
+            'fr': {
+                'Fifth Day within the Octave of Christmas': (
+                    "Cinquième jour dans l'Octave de Noël"),
+                'Sixth Day within the Octave of Christmas': (
+                    "Sixième jour dans l'Octave de Noël"),
+                'Seventh Day within the Octave of Christmas': (
+                    "Septième jour dans l'Octave de Noël"),
+                'St. Thomas Becket': 'St Thomas Becket',
+                'Pope Sylvester I': 'St Sylvestre Ier',
+            },
+            'ja': {
+                'Fifth Day within the Octave of Christmas': (
+                    '主の御降誕の八日間内第五日'),
+                'Sixth Day within the Octave of Christmas': (
+                    '主の御降誕の八日間内第六日'),
+                'Seventh Day within the Octave of Christmas': (
+                    '主の御降誕の八日間内第七日'),
+                'St. Thomas Becket': '聖トマス・ベケット',
+                'Pope Sylvester I': '聖シルヴェストロ一世教皇',
+            },
+        }
+        cases = [
+            (dt.date(2025, 12, 29),
+             'Fifth Day within the Octave of Christmas',
+             'St. Thomas Becket', 'Red'),
+            (dt.date(2025, 12, 30),
+             'Sixth Day within the Octave of Christmas', None, None),
+            (dt.date(2025, 12, 31),
+             'Seventh Day within the Octave of Christmas',
+             'Pope Sylvester I', 'White'),
+        ]
+
+        for lang in ['en', 'fr', 'ja']:
+            calendar = LiturgicalCalendar([2026], lang=lang)
+            components = ical.Calendar.from_ical(calendar.to_ical())
+            for date, day_name, saint_name, saint_color in cases:
+                events = calendar[date]
+                date_components = [
+                    event for event in components.walk('VEVENT')
+                    if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                ]
+                with self.subTest(lang=lang, date=date):
+                    self.assertEqual(events[0].name, day_name)
+                    self.assertEqual(events[0].rank, 2)
+                    self.assertEqual(events[0].color, 'White')
+                    self.assertTrue(events[0].liturgical_event)
+                    self.assertFalse(events[0].feast)
+                    self.assertEqual(
+                        str(date_components[0]['SUMMARY']).lstrip(),
+                        summaries[lang][day_name],
+                    )
+                    self.assertNotIn(
+                        'Class IV', str(date_components[0]['DESCRIPTION']))
+
+                    if saint_name is None:
+                        self.assertEqual(len(events), 1)
+                        self.assertEqual(len(date_components), 1)
+                        continue
+
+                    self.assertEqual(len(events), 2)
+                    self.assertEqual(events[1].name, saint_name)
+                    self.assertEqual(events[1].rank, 4)
+                    self.assertEqual(events[1].color, saint_color)
+                    self.assertTrue(events[1].liturgical_event)
+                    self.assertTrue(events[1].feast)
+                    self.assertEqual(
+                        str(date_components[1]['SUMMARY']),
+                        '› ' + summaries[lang][saint_name],
+                    )
+                    description = str(date_components[1]['DESCRIPTION'])
+                    self.assertNotIn('Class IV', description)
+                    self.assertNotIn('IVe classe', description)
+                    self.assertNotIn(
+                        'also commemorated in the same Mass', description)
+
+    def test_christmas_octave_weekdays_are_omitted_on_sunday(self):
+        cases = [
+            (dt.date(2024, 12, 29),
+             'Fifth Day within the Octave of Christmas',
+             'St. Thomas Becket'),
+            (dt.date(2028, 12, 31),
+             'Seventh Day within the Octave of Christmas',
+             'Pope Sylvester I'),
+            (dt.date(2029, 12, 30),
+             'Sixth Day within the Octave of Christmas', None),
+        ]
+        for date, omitted_name, saint_name in cases:
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar(
+                    [utils.liturgical_year(date)], lang=lang)
+                names = [event.name for event in calendar[date]]
+                with self.subTest(date=date, lang=lang):
+                    self.assertEqual(
+                        names[0], 'Sunday within the Octave of Christmas')
+                    self.assertNotIn(omitted_name, names)
+                    if saint_name:
+                        self.assertEqual(names[1:], [saint_name])
+                        self.assertEqual(calendar[date][1].rank, 4)
+                    else:
+                        self.assertEqual(len(names), 1)
+
+    def test_christmas_commemoration_uids_survive_new_order_marker(self):
+        summaries = {
+            'en': ('St. Thomas Becket', 'Pope Sylvester I'),
+            'fr': ('St Thomas Becket', 'St Sylvestre Ier'),
+            'ja': ('聖トマス・ベケット', '聖シルヴェストロ一世教皇'),
+        }
+        internal_names = ('St. Thomas Becket', 'Pope Sylvester I')
+
+        for lang in ['en', 'fr', 'ja']:
+            old_calendar = ical.Calendar()
+            old_uids = {}
+            for year in [2025, 2026, 2027, 2028]:
+                for month, day, summary, internal_name in [
+                    (12, 29, summaries[lang][0], internal_names[0]),
+                    (12, 31, summaries[lang][1], internal_names[1]),
+                ]:
+                    event_date = dt.date(year, month, day)
+                    uid = f'old-{lang}-{year}-{internal_name}@example.test'
+                    event = ical.Event()
+                    event.add('summary', summary)
+                    event.add('dtstart', event_date)
+                    event.add('uid', uid)
+                    old_calendar.add_component(event)
+                    old_uids[(event_date, internal_name)] = uid
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                old_path = os.path.join(tmp_dir, 'old.ics')
+                with open(old_path, 'wb') as fp:
+                    fp.write(old_calendar.to_ical())
+                for html_formatting in [False, True]:
+                    calendar = LiturgicalCalendar(
+                        [2026, 2027, 2028, 2029],
+                        reuse_uids_from=old_path,
+                        lang=lang,
+                    )
+                    components = ical.Calendar.from_ical(
+                        calendar.to_ical(html_formatting))
+                    for (event_date, internal_name), old_uid in old_uids.items():
+                        date_components = [
+                            event for event in components.walk('VEVENT')
+                            if ical.vDDDTypes.from_ical(
+                                event['DTSTART']) == event_date
+                        ]
+                        saint_summary = summaries[lang][
+                            internal_names.index(internal_name)]
+                        saint = [
+                            event for event in date_components
+                            if str(event['SUMMARY']).lstrip(' ›»') == saint_summary
+                        ]
+                        with self.subTest(
+                            lang=lang,
+                            html=html_formatting,
+                            date=event_date,
+                            name=internal_name,
+                        ):
+                            self.assertEqual(len(saint), 1)
+                            self.assertEqual(str(saint[0]['UID']), old_uid)
+                            self.assertNotEqual(
+                                str(date_components[0]['UID']), old_uid)
 
     def test_liturgical_calendar_description(self):
         litcal = LiturgicalCalendar(2019)

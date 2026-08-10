@@ -1017,12 +1017,12 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         return matches[0]
 
-    def test_all_54_overrides_apply_in_each_year(self):
-        self.assertEqual(len(self.commemoration_rows), 54)
+    def test_all_56_overrides_apply_in_each_year(self):
+        self.assertEqual(len(self.commemoration_rows), 56)
         self.assertEqual(len({
             (row['date'], row['english_name'])
             for row in self.commemoration_rows
-        }), 54)
+        }), 56)
 
         matched_occurrences = 0
         for year in self.years:
@@ -1057,11 +1057,11 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     self.assertNotIn('第四級', html_description)
                     matched_occurrences += 1
 
-        self.assertEqual(matched_occurrences, 54 * len(self.years))
+        self.assertEqual(matched_occurrences, 56 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 76)
-        self.assertEqual(len(self.commemoration_rows), 54)
+        self.assertEqual(len(self.override_rows), 78)
+        self.assertEqual(len(self.commemoration_rows), 56)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
         self.assertEqual(
@@ -1324,11 +1324,9 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     text,
                 )
 
-    def test_four_explicit_exclusions_are_unchanged(self):
+    def test_remaining_explicit_exclusion_is_unchanged(self):
         excluded = [
             (dt.date(2026, 12, 4), 'St. Barbara'),
-            (dt.date(2026, 12, 29), 'St. Thomas Becket'),
-            (dt.date(2026, 12, 31), 'Pope Sylvester I'),
         ]
         self.assertNotIn(
             ('30-Jun', 'St. Peter'),
@@ -1345,6 +1343,65 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             with self.subTest(date=date, name=name):
                 self.assertEqual(len(matches), 1)
                 self.assertIsNone(matches[0].description_lead)
+
+    def test_christmas_octave_commemorations_keep_names_colors_and_links(self):
+        cases = [
+            (
+                dt.date(2025, 12, 29),
+                'St. Thomas Becket',
+                '聖トマス・ベケット',
+                'Red',
+                'https://www.pauline.or.jp/calendariosanti/'
+                'gen_saint365.php?id=122901',
+                'https://en.wikipedia.org/wiki/Thomas_Becket',
+            ),
+            (
+                dt.date(2025, 12, 31),
+                'Pope Sylvester I',
+                '聖シルヴェストロ一世教皇',
+                'White',
+                'https://www.pauline.or.jp/calendariosanti/'
+                'gen_saint365.php?id=123101',
+                'https://en.wikipedia.org/wiki/Pope_Sylvester_I',
+            ),
+        ]
+        calendar = LiturgicalCalendar([2026], lang='ja')
+        for html_formatting in [False, True]:
+            events = _events_by_date(calendar, html_formatting)
+            for date, name, summary, color, ja_url, en_url in cases:
+                internal = [event for event in calendar[date] if event.name == name]
+                components = [
+                    event for event in events[date]
+                    if _bare_summary(str(event['SUMMARY'])) == summary
+                ]
+                with self.subTest(
+                    html=html_formatting, date=date, name=name,
+                ):
+                    self.assertEqual(len(internal), 1)
+                    self.assertEqual(internal[0].rank, 4)
+                    self.assertEqual(internal[0].color, color)
+                    self.assertEqual(len(components), 1)
+                    self.assertEqual(str(components[0]['SUMMARY']), '› ' + summary)
+                    description = str(components[0]['DESCRIPTION'])
+                    self.assertTrue(description.startswith('記念\n'))
+                    self.assertIn(
+                        calendar.translator.format_color(color), description)
+                    self.assertIn(ja_url, description)
+                    self.assertIn(en_url, description)
+                    self.assertNotIn('同じミサで記念されます', description)
+
+    def test_st_dorothy_commemoration_is_unchanged(self):
+        date = dt.date(2026, 2, 6)
+        calendar = LiturgicalCalendar([2026], lang='ja')
+        events = _events_by_date(calendar)[date]
+        dorothy = [
+            event for event in events
+            if _bare_summary(str(event['SUMMARY'])) == '聖ドロテア'
+        ]
+        self.assertEqual(len(dorothy), 1)
+        self.assertEqual(str(dorothy[0]['SUMMARY']), '› 聖ドロテア')
+        self.assertTrue(
+            str(dorothy[0]['DESCRIPTION']).startswith('記念\n典礼色は赤です。'))
 
     def test_other_excluded_events_are_unchanged(self):
         seven_sorrows = [
@@ -1749,8 +1806,19 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     for events in year.calendar.values()
                     for event in events
                 ))
+                shared_day_names = {
+                    'Fifth Day within the Octave of Christmas',
+                    'Sixth Day within the Octave of Christmas',
+                    'Seventh Day within the Octave of Christmas',
+                }
                 self.assertTrue(all(
                     event.description_full_name_override is None
+                    or (
+                        event.name in shared_day_names
+                        and event.description_full_name_override
+                        == calendar_output.translator.format_summary(
+                            event.name)
+                    )
                     for year in calendar_output.liturgical_years.values()
                     for events in year.calendar.values()
                     for event in events

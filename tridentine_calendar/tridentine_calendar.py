@@ -49,6 +49,11 @@ def _normalize_additional_link_url(url):
     return url.strip().replace('\r', '').replace('\n', '').replace('\t', '')
 
 
+def _include_fixed_event(date, json_obj):
+    return not (json_obj.get('omit_on_sunday', False)
+                and date.weekday() == calendar.SUNDAY)
+
+
 def get_args():
     """Define the command line arguments."""
     parser = argparse.ArgumentParser(description='Calculate a liturgical calendar.')
@@ -429,6 +434,10 @@ class LiturgicalCalendarEvent:
                 event.translator.format_same_mass_commemoration(
                     json_obj['commemoration']))
 
+        if json_obj.get('description_uses_summary', False):
+            event.description_full_name_override = (
+                event.translator.format_summary(event.name))
+
         return event
 
     def generate_description(
@@ -635,7 +644,8 @@ class LiturgicalYear:
             date_str = utils.fixed_feast_date_key(date)
             if date_str in FIXED_FEASTS_DATA:
                 for elem in FIXED_FEASTS_DATA[date_str]:
-                    if elem.get('class') == 1:
+                    if (elem.get('class') == 1
+                            and _include_fixed_event(date, elem)):
                         event = LiturgicalCalendarEvent.from_json(
                             date, elem, lang=self.lang,
                             translator=self.translator)
@@ -749,7 +759,8 @@ class LiturgicalYear:
             date_str = utils.fixed_feast_date_key(date)
             if date_str in FIXED_FEASTS_DATA:
                 for elem in FIXED_FEASTS_DATA[date_str]:
-                    if elem.get('class') != 1:
+                    if (elem.get('class') != 1
+                            and _include_fixed_event(date, elem)):
                         event = LiturgicalCalendarEvent.from_json(
                             date, elem, lang=self.lang,
                             translator=self.translator)
@@ -1147,6 +1158,8 @@ class LiturgicalYear:
                 if self.uid_map is not None:
                     uid = None
                     uid_names = [unprefixed_ics_name]
+                    if base_ics_name != unprefixed_ics_name:
+                        uid_names.append(base_ics_name)
                     if self.lang == 'ja':
                         # Reuse UIDs across Japanese title changes and the
                         # invisible same-day ordering prefix.

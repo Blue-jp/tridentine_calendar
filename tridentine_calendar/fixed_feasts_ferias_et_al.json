@@ -362,6 +362,16 @@
   ],
   "December 29": [
     {
+      "name": "Fifth Day within the Octave of Christmas",
+      "obligation": false,
+      "class": 2,
+      "color": "White",
+      "liturgical_event": true,
+      "feast": false,
+      "omit_on_sunday": true,
+      "description_uses_summary": true
+    },
+    {
       "name": "St. Thomas Becket",
       "titles": [
         "Bishop",
@@ -373,11 +383,34 @@
         "http://www.newadvent.org/cathen/14676a.htm"
       ],
       "obligation": false,
-      "class": 2,
+      "class": 4,
+      "color": "Red",
       "liturgical_event": true
     }
   ],
+  "December 30": [
+    {
+      "name": "Sixth Day within the Octave of Christmas",
+      "obligation": false,
+      "class": 2,
+      "color": "White",
+      "liturgical_event": true,
+      "feast": false,
+      "omit_on_sunday": true,
+      "description_uses_summary": true
+    }
+  ],
   "December 31": [
+    {
+      "name": "Seventh Day within the Octave of Christmas",
+      "obligation": false,
+      "class": 2,
+      "color": "White",
+      "liturgical_event": true,
+      "feast": false,
+      "omit_on_sunday": true,
+      "description_uses_summary": true
+    },
     {
       "name": "Pope Sylvester I",
       "titles": [
@@ -391,7 +424,8 @@
         "http://www.newadvent.org/cathen/14370a.htm"
       ],
       "obligation": false,
-      "class": 2,
+      "class": 4,
+      "color": "White",
       "liturgical_event": true
     }
   ],

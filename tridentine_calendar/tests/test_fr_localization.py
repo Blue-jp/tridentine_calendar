@@ -74,3 +74,16 @@ def test_fr_plural_agreement():
     # Test holy day plural
     holy = translator.format_holy_day("Les Grandes Ô")
     assert "sont" in holy
+
+
+def test_fr_christmas_octave_day_names():
+    translator = Translator(lang='fr')
+    assert translator.translate(
+        'Fifth Day within the Octave of Christmas'
+    ) == "Cinquième jour dans l'Octave de Noël"
+    assert translator.translate(
+        'Sixth Day within the Octave of Christmas'
+    ) == "Sixième jour dans l'Octave de Noël"
+    assert translator.translate(
+        'Seventh Day within the Octave of Christmas'
+    ) == "Septième jour dans l'Octave de Noël"
