@@ -214,7 +214,7 @@ class TestJapaneseExpressionBlockers(unittest.TestCase):
     old_rosary_name = '童貞聖マリアの聖なるロザリオ'
     typed_feast_names = [
         '我らの主イエズス・キリストの御降誕の大祝日',
-        '主イエズス・キリストの御割礼の祝日',
+        'わが主のご降誕後の八日目',
         'イエズスの聖名の祝日',
         '主の御公現の祝日',
         'キリストの聖体の祝日',
@@ -1060,7 +1060,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(matched_occurrences, 56 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 78)
+        self.assertEqual(len(self.override_rows), 79)
         self.assertEqual(len(self.commemoration_rows), 56)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)

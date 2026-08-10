@@ -323,6 +323,114 @@ class TestLiturgicalCalendar(unittest.TestCase):
         event = litcal[dt.date(2019, 4, 21)][0]
         self.assertEqual(event.name, 'Easter')
 
+    def test_january_1_octave_day_name_and_uid_alias(self):
+        years = [2025, 2026, 2027, 2028]
+        summaries = {
+            'en': 'Octave Day of the Nativity of the Lord',
+            'fr': "L'Octave de la Nativité du Seigneur",
+            'ja': 'わが主のご降誕後の八日目',
+        }
+        old_summaries = {
+            'en': 'The Circumcision',
+            'fr': 'La Circoncision',
+            'ja': '主イエズス・キリストの御割礼の祝日',
+        }
+        description_prefixes = {
+            'en': (
+                'Octave Day of the Nativity of the Lord is a Holy Day of '
+                'Obligation. Today is a Class I feast. The liturgical color '
+                'is white.'),
+            'fr': (
+                "La fête de l'Octave de la Nativité du Seigneur est un jour "
+                "d'obligation. Aujourd'hui est une fête de Ire classe. "
+                'La couleur liturgique est le blanc.'),
+            'ja': (
+                'わが主のご降誕後の八日目は守るべき祝日です。'
+                '今日は一級の祝日です。典礼色は白です。'),
+        }
+        urls = [
+            'https://fisheaters.com/customschristmas7.html',
+            'https://en.wikipedia.org/wiki/Feast_of_the_Circumcision_of_Christ',
+            'http://www.newadvent.org/cathen/03779a.htm',
+            'https://fisheaters.com/customschristmas1.html',
+        ]
+
+        for lang in ['en', 'fr', 'ja']:
+            old_calendar = ical.Calendar()
+            expected_uids = {}
+            for year in years:
+                event_date = dt.date(year, 1, 1)
+                uid = f'old-january-1-{lang}-{year}@example.test'
+                old_event = ical.Event()
+                old_event.add('summary', old_summaries[lang])
+                old_event.add('dtstart', event_date)
+                old_event.add('uid', uid)
+                old_calendar.add_component(old_event)
+                expected_uids[event_date] = uid
+
+            with tempfile.TemporaryDirectory() as tmp_dir:
+                old_path = os.path.join(tmp_dir, 'old.ics')
+                with open(old_path, 'wb') as fp:
+                    fp.write(old_calendar.to_ical())
+                calendar = LiturgicalCalendar(
+                    years, reuse_uids_from=old_path, lang=lang)
+
+                for html_formatting in [False, True]:
+                    output = ical.Calendar.from_ical(
+                        calendar.to_ical(html_formatting))
+                    all_output_uids = [
+                        str(event['UID'])
+                        for event in output.walk('VEVENT')
+                    ]
+                    for year in years:
+                        event_date = dt.date(year, 1, 1)
+                        internal = calendar[event_date]
+                        components = [
+                            event for event in output.walk('VEVENT')
+                            if ical.vDDDTypes.from_ical(
+                                event['DTSTART']) == event_date
+                        ]
+                        with self.subTest(
+                            lang=lang, year=year, html=html_formatting,
+                        ):
+                            self.assertEqual(len(internal), 1)
+                            self.assertEqual(
+                                internal[0].name,
+                                'Octave Day of the Nativity of the Lord',
+                            )
+                            self.assertEqual(internal[0].rank, 1)
+                            self.assertEqual(internal[0].color, 'White')
+                            self.assertTrue(internal[0].liturgical_event)
+                            self.assertTrue(internal[0].feast)
+                            self.assertTrue(internal[0].holy_day)
+                            self.assertIn(
+                                'The Circumcision', internal[0].uid_aliases)
+                            self.assertEqual(len(components), 1)
+                            self.assertEqual(
+                                str(components[0]['SUMMARY']), summaries[lang])
+                            self.assertNotEqual(
+                                str(components[0]['SUMMARY']),
+                                old_summaries[lang],
+                            )
+                            description = str(components[0]['DESCRIPTION'])
+                            self.assertTrue(
+                                description.startswith(
+                                    description_prefixes[lang]))
+                            for url in urls:
+                                self.assertIn(url, description)
+                            if html_formatting:
+                                self.assertIn(
+                                    '>The Circumcision (Fish Eaters)</a>',
+                                    description,
+                                )
+                                self.assertIn(
+                                    '>The Circumcision (New Advent)</a>',
+                                    description,
+                                )
+                            uid = expected_uids[event_date]
+                            self.assertEqual(str(components[0]['UID']), uid)
+                            self.assertEqual(all_output_uids.count(uid), 1)
+
     def test_january_18_chair_is_removed_but_st_prisca_remains(self):
         for year in [2025, 2026, 2027, 2028]:
             date = dt.date(year, 1, 18)

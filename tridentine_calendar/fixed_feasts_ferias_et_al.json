@@ -444,11 +444,20 @@
   "January 1": [
     {
       "obligation": true,
-      "name": "The Circumcision",
+      "name": "Octave Day of the Nativity of the Lord",
+      "uid_aliases": [
+        "The Circumcision"
+      ],
       "urls": [
-        "https://fisheaters.com/customschristmas7.html",
+        {
+          "url": "https://fisheaters.com/customschristmas7.html",
+          "description": "The Circumcision"
+        },
         "https://en.wikipedia.org/wiki/Feast_of_the_Circumcision_of_Christ",
-        "http://www.newadvent.org/cathen/03779a.htm"
+        {
+          "url": "http://www.newadvent.org/cathen/03779a.htm",
+          "description": "The Circumcision"
+        }
       ],
       "class": 1,
       "liturgical_event": true

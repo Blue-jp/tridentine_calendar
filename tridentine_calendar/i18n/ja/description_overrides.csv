@@ -75,5 +75,6 @@ exact_date_and_name,30-Jun,St. Paul,,聖ペトロも同じミサで記念され�
 exact_date_and_name,7-Oct,The Holy Rosary,,,童貞聖マリアの聖なるロザリオ,Preserve UID after Japanese summary update,,
 exact_date_and_name,2-Sep,St. Stephen I,,,聖ステファノ一世教皇,Preserve the previous UID while correcting the Japanese event name,聖ステファノ王,聖ステファノ王 (証聖者)の祝日
 exact_date_and_name,21-Jan,St. Agnes,,,聖アグネス（第二の祝日）,Preserve the previous UID while restoring the January 21 feast name,聖アグネス,聖アグネス (童貞、殉教者)の祝日
+exact_date_and_name,1-Jan,Octave Day of the Nativity of the Lord,,,,Use the user-facing liturgical-day name without adding a feast suffix,,わが主のご降誕後の八日目
 exact_date_and_name,29-Dec,St. Thomas Becket,記念,,,Christmas octave commemoration
 exact_date_and_name,31-Dec,Pope Sylvester I,記念,,,Christmas octave commemoration

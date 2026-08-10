@@ -23,6 +23,9 @@ def test_fr_feast_full_name():
     # Already has "La"
     assert translator.format_feast_full_name(
         'The Circumcision', 1) == 'la fête de la Circoncision'
+    assert translator.format_feast_full_name(
+        'Octave Day of the Nativity of the Lord', 1
+    ) == "la fête de l'Octave de la Nativité du Seigneur"
     # Commemoration
     assert translator.format_feast_full_name(
         'St. Hilary', 4) == 'la commémoraison de St Hilaire'
@@ -39,13 +42,13 @@ def test_fr_class_feria():
 def test_fr_liturgical_calendar_output():
     # Test generation for a specific date in French
     cal = LiturgicalCalendar(2024, lang='fr')
-    # Jan 1st 2024 is Octave of Christmas / Circumcision
+    # Jan 1st 2024 is the Octave Day of the Nativity
     date = dt.date(2024, 1, 1)
     events = cal[date]
     assert len(events) > 0
-    # The first event should be Circumcision
-    assert events[0].name == 'The Circumcision'
-    assert events[0].full_name() == 'La fête de la Circoncision'
+    assert events[0].name == 'Octave Day of the Nativity of the Lord'
+    assert events[0].full_name() == (
+        "La fête de l'Octave de la Nativité du Seigneur")
 
     description = events[0].generate_description()
     assert 'La couleur liturgique est le blanc.' in description

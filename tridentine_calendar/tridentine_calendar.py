@@ -430,6 +430,8 @@ class LiturgicalCalendarEvent:
         if 'color' in json_obj:
             event.color = json_obj['color']
 
+        event.uid_aliases.extend(json_obj.get('uid_aliases', []))
+
         if 'commemoration' in json_obj:
             event.description_append = (
                 event.translator.format_same_mass_commemoration(
@@ -1174,12 +1176,22 @@ class LiturgicalYear:
                     uid_names = [unprefixed_ics_name]
                     if base_ics_name != unprefixed_ics_name:
                         uid_names.append(base_ics_name)
+                    translated_uid_aliases = []
+                    for alias in elem.uid_aliases:
+                        alias_name = self.translator.format_summary(alias)
+                        if self.lang == 'fr' and alias_name:
+                            alias_name = self.translator._contract(alias_name)
+                            alias_name = alias_name[0].upper() + alias_name[1:]
+                        translated_uid_aliases.append(alias_name)
                     if self.lang == 'ja':
                         # Reuse UIDs across Japanese title changes and the
                         # invisible same-day ordering prefix.
                         uid_names.append(' ' + unprefixed_ics_name)
-                        for name in [base_ics_name] + elem.uid_aliases:
+                        for name in [base_ics_name] + translated_uid_aliases:
                             uid_names.extend([name, ' ' + name, '› ' + name])
+                    else:
+                        for name in translated_uid_aliases:
+                            uid_names.extend([name, '› ' + name])
                     for uid_name in dict.fromkeys(uid_names):
                         key = (uid_name, date)
                         if key in self.uid_map:
