@@ -70,7 +70,7 @@ exact_date_and_name,27-Nov,Bs. Leonardo Kimura & Companions,日本の固有ミ�
 exact_date_and_name,4-Dec,"Bs. Jerome de Angelis, Simon Empo & Companions",日本の固有ミサ。,,,Japanese proper Mass from fixed_feasts_local.csv
 movable_name,,Bls. Diogo de Carvalho & Companions,日本の固有ミサ。,,,Japanese proper Mass from movable_feasts_local.csv
 exact_date_and_name,25-Jan,Conversion of St. Paul,,聖ペトロも同じミサで記念されます。,,Merge St. Peter commemoration into principal event
-exact_date_and_name,22-Feb,Chair of St. Peter at Antioch,,聖パウロも同じミサで記念されます。,アンティオキアにおける聖ペトロの使徒座,Merge St. Paul commemoration into principal event,使徒聖ペトロが教座を定めた祝日,使徒聖ペトロが教座を定めた祝日
+exact_date_and_name,22-Feb,Chair of St. Peter,,聖パウロも同じミサで記念されます。,アンティオキアにおける聖ペトロの使徒座,Merge St. Paul commemoration into principal event,使徒聖ペトロが教座を定めた祝日,使徒聖ペトロが教座を定めた祝日
 exact_date_and_name,30-Jun,St. Paul,,聖ペトロも同じミサで記念されます。,聖パウロ,Merge St. Peter commemoration into principal event
 exact_date_and_name,7-Oct,The Holy Rosary,,,童貞聖マリアの聖なるロザリオ,Preserve UID after Japanese summary update,,
 exact_date_and_name,2-Sep,St. Stephen I,,,聖ステファノ一世教皇,Preserve the previous UID while correcting the Japanese event name,聖ステファノ王,聖ステファノ王 (証聖者)の祝日

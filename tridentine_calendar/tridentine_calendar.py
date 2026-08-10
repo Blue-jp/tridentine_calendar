@@ -424,6 +424,11 @@ class LiturgicalCalendarEvent:
         if 'color' in json_obj:
             event.color = json_obj['color']
 
+        if 'commemoration' in json_obj:
+            event.description_append = (
+                event.translator.format_same_mass_commemoration(
+                    json_obj['commemoration']))
+
         return event
 
     def generate_description(

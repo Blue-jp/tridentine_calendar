@@ -35,6 +35,8 @@ class Translator:
             'holy_day': '{name} is a Holy Day of Obligation.',
             'no_special_liturgy': '{name} has no special liturgy.',
             'today_is_commemoration': 'Today is a commemoration.',
+            'same_mass_commemoration': (
+                '{name} is also commemorated in the same Mass.'),
             'lent_commemoration': (
                 'Since {feast} falls during Lent it will ordinarily be '
                 'celebrated only as a commemoration during the mass of '
@@ -70,6 +72,7 @@ class Translator:
             'holy_day': '{name}は守るべき祝日です。',
             'no_special_liturgy': '{name}には特別な典礼はありません。',
             'today_is_commemoration': '今日は記念日です。',
+            'same_mass_commemoration': '{name}も同じミサで記念されます。',
             'today': '今日',
             'this_feast': 'この祝日',
             'this_feria': 'この平休日',
@@ -102,6 +105,8 @@ class Translator:
             'holy_day': '{name} est un jour d\'obligation.',
             'no_special_liturgy': '{name} n\'a pas de liturgie spéciale.',
             'today_is_commemoration': 'Aujourd\'hui, c\'est une commémoraison.',
+            'same_mass_commemoration': (
+                '{name} est également commémoré au cours de la même messe.'),
             'lent_commemoration': (
                 'Puisque {feast} tombe pendant le Carême, il sera ordinairement '
                 'célébré seulement comme une commémoraison pendant la messe de '
@@ -122,6 +127,11 @@ class Translator:
             'Easter': '御復活の祝日',
             'Ascension': '我らの主イエズス・キリストの御昇天',
             'Pentecost': '聖霊降臨の主日',
+        },
+    }
+    COMMEMORATION_NAME_TRANSLATIONS = {
+        'ja': {
+            'St. Paul': '聖パウロ',
         },
     }
 
@@ -469,6 +479,12 @@ class Translator:
 
     def format_commemoration(self):
         return self.templates['today_is_commemoration']
+
+    def format_same_mass_commemoration(self, name):
+        translated_name = self.COMMEMORATION_NAME_TRANSLATIONS.get(
+            self.lang, {}).get(name, self.translate(name))
+        return self.templates['same_mass_commemoration'].format(
+            name=translated_name)
 
     def format_lent_commemoration(self, feast_name, feria_name):
         return self.templates['lent_commemoration'].format(

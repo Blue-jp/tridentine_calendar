@@ -1062,6 +1062,16 @@
       "liturgical_event": true
     }
   ],
+  "February 22": [
+    {
+      "name": "Chair of St. Peter",
+      "color": "White",
+      "obligation": false,
+      "class": 2,
+      "liturgical_event": true,
+      "commemoration": "St. Paul"
+    }
+  ],
   "February 23": [
     {
       "name": "St. Peter Damian",

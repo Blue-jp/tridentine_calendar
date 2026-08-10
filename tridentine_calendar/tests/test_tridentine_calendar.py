@@ -334,6 +334,54 @@ class TestLiturgicalCalendar(unittest.TestCase):
                     self.assertNotIn("St. Peter's Chair", names)
                     self.assertIn('St. Prisca', names)
 
+    def test_february_22_chair_and_st_paul_commemoration(self):
+        summaries = {
+            'en': 'Chair of St. Peter',
+            'fr': 'La Chaire de St Pierre',
+            'ja': '使徒聖ペトロが教座を定めた祝日',
+        }
+        commemorations = {
+            'en': 'St. Paul is also commemorated in the same Mass.',
+            'fr': (
+                'St Paul est également commémoré au cours de la même messe.'),
+            'ja': '聖パウロも同じミサで記念されます。',
+        }
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 2, 22)
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar([year], lang=lang)
+                matches = [
+                    event for event in calendar[date]
+                    if event.name == 'Chair of St. Peter'
+                ]
+                components = [
+                    event for event in ical.Calendar.from_ical(
+                        calendar.to_ical()).walk('VEVENT')
+                    if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                    and str(event['SUMMARY']).lstrip(' ›»') == summaries[lang]
+                ]
+                with self.subTest(year=year, lang=lang):
+                    self.assertEqual(len(matches), 1)
+                    self.assertEqual(matches[0].rank, 2)
+                    self.assertEqual(matches[0].color, 'White')
+                    self.assertEqual(
+                        matches[0].description_append,
+                        commemorations[lang],
+                    )
+                    self.assertEqual(len(components), 1)
+                    self.assertIn(
+                        commemorations[lang],
+                        str(components[0]['DESCRIPTION']),
+                    )
+                    self.assertNotIn(
+                        'St. Paul',
+                        [event.name for event in calendar[date]],
+                    )
+                    if year == 2026:
+                        self.assertTrue(
+                            str(components[0]['SUMMARY']).startswith('› '))
+
     def test_liturgical_calendar_description(self):
         litcal = LiturgicalCalendar(2019)
         event = litcal[dt.date(2018, 12, 8)][0]

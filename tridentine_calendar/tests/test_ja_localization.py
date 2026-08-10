@@ -622,13 +622,13 @@ class TestJapaneseHideFeasts(unittest.TestCase):
                 with self.subTest(year=year, date=date, name=name):
                     self.assert_event_hidden(date, name)
 
-    def test_february_22_st_peters_chair_at_antioch_remains(self):
+    def test_february_22_shared_st_peters_chair_remains(self):
         for year in [2025, 2026, 2027, 2028]:
             date = dt.date(year, 2, 22)
             matches = [
                 event
                 for event in LiturgicalCalendar([year], lang='ja')[date]
-                if event.name == 'Chair of St. Peter at Antioch'
+                if event.name == 'Chair of St. Peter'
             ]
             with self.subTest(year=year):
                 self.assertEqual(len(matches), 1)
@@ -1396,7 +1396,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             {
                 'month': 2,
                 'day': 22,
-                'name': 'Chair of St. Peter at Antioch',
+                'name': 'Chair of St. Peter',
                 'removed_name': 'St. Paul',
                 'summary': '使徒聖ペトロが教座を定めた祝日',
                 'append': '聖パウロも同じミサで記念されます。',
@@ -1566,7 +1566,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                 (
                     'exact_date_and_name',
                     '22-Feb',
-                    'Chair of St. Peter at Antioch',
+                    'Chair of St. Peter',
                     '聖パウロも同じミサで記念されます。',
                 ),
                 (
@@ -1583,15 +1583,14 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             (row['dates_en'], row['en']): row
             for row in missing_rows
         }
-        self.assertEqual(
-            keyed_rows[
-                ('22-Feb', 'Chair of St. Peter at Antioch')
-            ]['ja'],
-            'アンティオキアにおける聖ペトロの使徒座',
+        self.assertNotIn(
+            ('22-Feb', 'Chair of St. Peter at Antioch'),
+            keyed_rows,
         )
+        self.assertNotIn(('22-Feb', 'Chair of St. Peter'), keyed_rows)
         chair_override = next(
             row for row in self.append_rows
-            if row['english_name'] == 'Chair of St. Peter at Antioch'
+            if row['english_name'] == 'Chair of St. Peter'
         )
         self.assertEqual(
             chair_override['summary_override'],
@@ -1600,6 +1599,10 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(
             chair_override['description_full_name'],
             '使徒聖ペトロが教座を定めた祝日',
+        )
+        self.assertEqual(
+            chair_override['uid_alias'],
+            'アンティオキアにおける聖ペトロの使徒座',
         )
         for removed_key in [
             ('25-Jan', 'St. Peter'),
@@ -1708,11 +1711,23 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             'old-removed-jun@example.test',
         }.isdisjoint(output_uids))
 
-    def test_english_and_french_are_not_affected(self):
+    def test_japanese_overrides_do_not_leak_into_english_or_french(self):
+        shared_append = {
+            'en': 'St. Paul is also commemorated in the same Mass.',
+            'fr': (
+                'St Paul est également commémoré au cours de la même messe.'),
+        }
         for lang in ['en', 'fr']:
             calendar_output = LiturgicalCalendar(
                 self.years, lang=lang)
             ical_text = calendar_output.to_ical().decode('utf-8')
+            appended_events = [
+                event
+                for year in calendar_output.liturgical_years.values()
+                for events in year.calendar.values()
+                for event in events
+                if event.description_append is not None
+            ]
             with self.subTest(lang=lang):
                 self.assertNotIn('記念', ical_text)
                 self.assertNotIn('日本の固有ミサ。', ical_text)
@@ -1722,11 +1737,11 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     for events in year.calendar.values()
                     for event in events
                 ))
+                self.assertEqual(len(appended_events), len(self.years))
                 self.assertTrue(all(
-                    event.description_append is None
-                    for year in calendar_output.liturgical_years.values()
-                    for events in year.calendar.values()
-                    for event in events
+                    event.name == 'Chair of St. Peter'
+                    and event.description_append == shared_append[lang]
+                    for event in appended_events
                 ))
                 self.assertTrue(all(
                     event.summary_override is None
