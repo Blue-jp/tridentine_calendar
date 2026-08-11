@@ -305,6 +305,7 @@ class LiturgicalCalendarEvent:
         self.special_commemoration_observed = True
         self.special_commemoration_top_rank_threshold = None
         self.commemoration_description_top_rank_threshold = None
+        self.liturgical_day_kind = None
         self.uid_aliases = []
         self.rank = rank
         self.color = color
@@ -336,7 +337,14 @@ class LiturgicalCalendarEvent:
             else:
                 self.color = self.season.color
 
-    def add_additional_url(self, url, language):
+    def add_additional_url(
+        self,
+        url,
+        language,
+        description_mode=None,
+        site_label=None,
+        link_description=None,
+    ):
         if language not in self.additional_urls:
             return
         known_urls = {
@@ -346,8 +354,28 @@ class LiturgicalCalendarEvent:
         }
         if url in known_urls:
             return
-        self.additional_urls[language].append(
-            LiturgicalCalendarEventUrl(url, url, language=language))
+        if description_mode == 'auto':
+            url_obj = LiturgicalCalendarEventUrl.from_json(
+                url, default=self.name)
+            url_obj.language = language
+        elif description_mode == 'localized_summary':
+            description = (
+                link_description
+                or self.summary_override
+                or self.translator.format_summary(self.name)
+            )
+            description = description.lstrip(' ›»')
+            if site_label:
+                if language == 'ja':
+                    description = f'{description}（{site_label}）'
+                else:
+                    description = f'{description} ({site_label})'
+            url_obj = LiturgicalCalendarEventUrl(
+                url, description, language=language)
+        else:
+            url_obj = LiturgicalCalendarEventUrl(
+                url, url, language=language)
+        self.additional_urls[language].append(url_obj)
 
     def _append_url_section(
         self, description, heading, urls, html_formatting, seen_urls
@@ -436,6 +464,7 @@ class LiturgicalCalendarEvent:
 
         event.commemoration_description_top_rank_threshold = json_obj.get(
             'commemoration_description_when_top_rank_at_least')
+        event.liturgical_day_kind = json_obj.get('liturgical_day_kind')
 
         event.uid_aliases.extend(json_obj.get('uid_aliases', []))
 
@@ -523,8 +552,12 @@ class LiturgicalCalendarEvent:
                 else:
                     name = 'Today'
             elif not ranking_feast:
-                if self.lang == 'ja':
-                    name = 'この祝日' if self.feast else 'この平休日'
+                if self.liturgical_day_kind:
+                    name = self.full_name(
+                        capitalize=True, with_titles=with_titles)
+                    with_titles = False
+                elif self.lang == 'ja':
+                    name = 'この祝日' if self.feast else 'この平日'
                 elif self.lang == 'fr':
                     name = 'Cette fête' if self.feast else 'Cette férie'
                 else:
@@ -532,8 +565,12 @@ class LiturgicalCalendarEvent:
             else:
                 name = self.full_name(capitalize=True, with_titles=with_titles)
                 with_titles = False
-            description += self.translator.format_class_feria(
-                name, self.rank, self.feast)
+            if self.liturgical_day_kind:
+                description += self.translator.format_liturgical_day_class(
+                    name, self.rank, self.liturgical_day_kind)
+            else:
+                description += self.translator.format_class_feria(
+                    name, self.rank, self.feast)
         elif (
             self.description_lead is None
             and self.liturgical_event
@@ -1029,7 +1066,17 @@ class LiturgicalYear:
                 except ValueError:
                     display_order = 0
 
-                link = (display_order, url, language)
+                description_mode = row.get('description_mode')
+                site_label = row.get('site_label')
+                link_description = row.get('link_description')
+                link = (
+                    display_order,
+                    url,
+                    language,
+                    description_mode,
+                    site_label,
+                    link_description,
+                )
                 if match_type == 'exact_date_and_name':
                     date_en = row.get('date')
                     if not date_en:
@@ -1050,10 +1097,26 @@ class LiturgicalYear:
             for date in iterate_liturgical_year(self.year):
                 for event in self.calendar[date]:
                     key = (date.month, date.day, event.name)
-                    for _, url, language in exact_links.get(key, []):
-                        event.add_additional_url(url, language)
-                    for _, url, language in movable_links.get(event.name, []):
-                        event.add_additional_url(url, language)
+                    for link in exact_links.get(key, []):
+                        _, url, language, mode, site_label, description = link
+                        event.add_additional_url(
+                            url,
+                            language,
+                            mode,
+                            site_label,
+                            description,
+                        )
+                    for link in movable_links.get(
+                        event.name, []
+                    ):
+                        _, url, language, mode, site_label, description = link
+                        event.add_additional_url(
+                            url,
+                            language,
+                            mode,
+                            site_label,
+                            description,
+                        )
         except (FileNotFoundError, UnicodeDecodeError, ModuleNotFoundError):
             pass
 

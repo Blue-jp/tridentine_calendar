@@ -28,6 +28,9 @@ class Translator:
             'feria_after_ash_wednesday': '{weekday} after Ash Wednesday',
             'feria_in_passion_week': '{weekday} in Passion week',
             'class_feria': '{name} is a Class {rank} {type}.',
+            'liturgical_day_classes': {
+                'day_within_octave': '{name} is Class {rank}.',
+            },
             'liturgical_color': 'The liturgical color is {color}.',
             'outranking': '{feast} is outranked by {outranking_feast}.',
             'outranking_this_year': (
@@ -83,6 +86,9 @@ class Translator:
             'feria_after_ash_wednesday': '灰の水曜日後の{weekday}',
             'feria_in_passion_week': '受難週の{weekday}',
             'class_feria': '{name}は{rank}の{type}です。',
+            'liturgical_day_classes': {
+                'day_within_octave': '{name}は{rank}です。',
+            },
             'liturgical_color': '典礼色は{color}です。',
             'outranking': (
                 '{outranking_feast}が{feast}の祝日に優先します。'),
@@ -111,12 +117,12 @@ class Translator:
             },
             'today': '今日',
             'this_feast': 'この祝日',
-            'this_feria': 'この平休日',
+            'this_feria': 'この平日',
             'lent_commemoration': (
                 '{feast}は四旬節中のため、通常は{feria}のミサの中で記念としてのみ'
                 '祝われます。'),
             'more_info': '{name}についての詳細情報：',
-            'types': {'feast': '祝日', 'feria': '平休日'},
+            'types': {'feast': '祝日', 'feria': '平日'},
             'calendar_name': 'トリエント典礼暦',
             'calendar_desc': '1962年のローマ・カトリックの規定に基づく典礼暦。',
         },
@@ -135,6 +141,9 @@ class Translator:
             'feria_after_ash_wednesday': '{weekday} après le Mercredi des Cendres',
             'feria_in_passion_week': '{weekday} de la semaine de la Passion',
             'class_feria': '{name} est une {type} de {rank}.',
+            'liturgical_day_classes': {
+                'day_within_octave': 'Le {name_lower} est de {rank}.',
+            },
             'liturgical_color': 'La couleur liturgique est le {color}.',
             'outranking': '{feast} est omise.',
             'outranking_this_year': 'Cette année, {feast} est omise.',
@@ -472,15 +481,17 @@ class Translator:
         else:
             return translated_name
 
+    def _format_rank(self, rank):
+        if self.lang == 'ja':
+            return self.translate(str(rank))
+        elif self.lang == 'fr':
+            return self.translate(str(rank))
+        return rank * 'I'
+
     def format_class_feria(self, name, rank, is_feast):
         type_str = (self.templates['types']['feast'] if is_feast
                     else self.templates['types']['feria'])
-        if self.lang == 'ja':
-            rank_str = self.translate(str(rank))
-        elif self.lang == 'fr':
-            rank_str = self.translate(str(rank))
-        else:
-            rank_str = rank * 'I'
+        rank_str = self._format_rank(rank)
 
         template = self.templates['class_feria']
         if self._is_plural(name):
@@ -488,6 +499,14 @@ class Translator:
 
         return template.format(
             name=name, rank=rank_str, type=type_str)
+
+    def format_liturgical_day_class(self, name, rank, day_kind):
+        template = self.templates['liturgical_day_classes'][day_kind]
+        return template.format(
+            name=name,
+            name_lower=name[0].lower() + name[1:],
+            rank=self._format_rank(rank),
+        )
 
     def format_color(self, color):
         translated_color = self.translate(color.capitalize())

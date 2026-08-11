@@ -44,6 +44,249 @@ def _bare_summary(summary):
     return summary
 
 
+APPROVED_ENGLISH_LINK_SOURCE = (
+    'Google_Calendar_final_visual_check_20260810'
+)
+APPROVED_ENGLISH_LINK_KEYS = {
+    ('25-Dec', 'St. Anastasia'),
+    ('14-Jan', 'St. Felix'),
+    ('15-Jan', 'St. Maurus'),
+    ('19-Jan', 'St. Canute'),
+    ('23-Jan', 'St. Emerentiana'),
+    ('28-Jan', 'St. Agnes'),
+    ('6-Feb', 'St. Dorothy'),
+    ('9-Feb', 'St. Apollonia'),
+    ('4-Mar', 'St. Lucius I'),
+    ('14-Apr', 'SS. Tiburtius, Valerian & Maximus'),
+    ('10-May', 'SS. Gordian & Epimachus'),
+    ('19-May', 'St. Pudentiana'),
+    ('25-May', 'St. Urban I'),
+    ('26-May', 'St. Eleutherius'),
+    ('27-May', 'St. John I'),
+    ('31-May', 'St. Petronilla'),
+    ('2-Jul', 'Ss. Processus & Martinian'),
+    ('12-Jul', 'Ss. Nabor ＆ Felix'),
+    ('18-Jul', 'St. Symphorosa & her seven Sons'),
+    ('20-Jul', 'St. Margaret'),
+    ('23-Jul', 'St. Liborius'),
+    ('25-Jul', 'St. Christopher'),
+    ('2-Aug', 'St. Stephen I'),
+    ('6-Aug', 'Ss. Xystus II Pope, Felicissimus ＆ Agapitus'),
+    ('7-Aug', 'St. Donatus'),
+    ('9-Aug', 'St. Romanus'),
+    ('14-Aug', 'St. Eusebius'),
+    ('22-Aug', 'Ss. Timothy, Hippolytus ＆ Symphorian'),
+    ('28-Aug', 'St. Hermes'),
+    ('29-Aug', 'St. Sabina'),
+    ('8-Sep', 'St. Hadrian'),
+    ('15-Sep', 'St. Nicomedes'),
+    ('22-Sep', 'Ss. Maurice ＆ Companions'),
+    ('23-Sep', 'St. Thecla'),
+    ('7-Oct', 'Pope St. Mark'),
+    ('9-Oct', 'Ss. Denis, Rusticus & Eleutherius'),
+    ('21-Oct', 'St. Ursula and Companions'),
+    ('4-Nov', 'Ss. Vitalis and Agricola'),
+    ('9-Nov', 'St. Theodore'),
+    ('10-Nov', 'Ss. Tryphon, Respicius ＆ Nympha'),
+    ('11-Nov', 'St. Mennas'),
+    ('19-Nov', 'St. Pontianus'),
+    ('23-Nov', 'St. Felicitas'),
+    ('24-Nov', 'St. Chrysogonus'),
+    ('26-Nov', 'St. Peter of Alexandria'),
+}
+HELD_ENGLISH_LINK_KEYS = {
+    ('29-Jul', 'Ss. Felix, Simplicius, Faustinus & Beatrice'),
+    ('1-Sep', 'Holy Twelve Brothers'),
+    ('16-Sep', 'Ss. Euphemia, Lucy & Geminianus'),
+    ('8-Oct', 'Ss. Sergius and Bacchus, Marcellus ＆ Apuleius'),
+}
+
+REVISION_5_EXPLICIT_LINK_LABELS = {
+    (
+        '20-Jan', 'Pope Fabian & St. Sebastian',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=012002',
+    ): ('ja', 'Laudate', '聖ファビアノ教皇'),
+    (
+        '22-Jan', 'SS. Vincent & Anastasius',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=012201',
+    ): ('ja', 'Laudate', '聖ヴィンチェンツィオ'),
+    (
+        '25-Jan', 'Conversion of St. Paul',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=062901',
+    ): ('ja', 'Laudate', '聖ペトロ'),
+    (
+        '28-Jan', 'St. Agnes',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=012101',
+    ): ('ja', 'Laudate', '聖アグネス'),
+    (
+        '2-Feb', 'Candlemas',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=020201',
+    ): ('ja', 'Laudate', '主の奉献'),
+    (
+        '11-Feb', 'The Apparition at Lourdes',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=021101',
+    ): ('ja', 'Laudate', 'ルルドの聖母マリア'),
+    (
+        '22-Feb', 'Chair of St. Peter',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=062902',
+    ): ('ja', 'Laudate', '聖パウロ'),
+    (
+        '12-May', 'SS. Nereus, Achilleus, Domitilla, & Pancras',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=051201',
+    ): ('ja', 'Laudate', '聖ネレオ、聖アキレオ'),
+    (
+        '12-May', 'SS. Nereus, Achilleus, Domitilla, & Pancras',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=051202',
+    ): ('ja', 'Laudate', '聖パンクラツィオ'),
+    (
+        '1-Jun', 'Bls. Alfonso Navarrete & Companions',
+        'https://ja.wikipedia.org/wiki/'
+        '%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A9%E3%83%B3%E3%82%BD'
+        '%E3%83%BB%E3%83%8A%E3%83%90%E3%83%AC%E3%83%86%E3%83%BB'
+        '%E3%83%99%E3%83%8B%E3%83%88',
+    ): ('ja', 'Wikipedia', '福者アルフォンソ・ナバレテ・ベニト'),
+    (
+        '2-Jun', 'SS. Marcellinus, Peter, & St. Erasmus',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=060201',
+    ): ('ja', 'Laudate', '聖マルチェリノ、聖ペトロ'),
+    (
+        '15-Jun', 'SS. Vitus, Modestus, & Crescentia',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=061501',
+    ): ('ja', 'Laudate', '聖ヴィト'),
+    (
+        '20-Jun', 'Bls. Francisco Pacheco & Companions',
+        'https://ja.wikipedia.org/wiki/'
+        '%E3%83%95%E3%83%A9%E3%83%B3%E3%82%B7%E3%82%B9%E3%82%B3'
+        '%E3%83%BB%E3%83%91%E3%82%B7%E3%82%A7%E3%82%B3',
+    ): ('ja', 'Wikipedia', '福者フランシスコ・パチェコ'),
+    (
+        '29-Jun', 'SS. Peter & Paul',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=062901',
+    ): ('ja', 'Laudate', '聖ペトロ'),
+    (
+        '29-Jun', 'SS. Peter & Paul',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=062902',
+    ): ('ja', 'Laudate', '聖パウロ'),
+    (
+        '30-Jun', 'St. Paul',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=062902',
+    ): ('ja', 'Laudate', '聖パウロ'),
+    (
+        '30-Jun', 'St. Paul',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=062901',
+    ): ('ja', 'Laudate', '聖ペトロ'),
+    (
+        '9-Jul', 'St. Thomas More',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=062202',
+    ): ('ja', 'Laudate', '聖トマス・モア'),
+    (
+        '28-Jul',
+        'SS. Nazarius & Celsus, St. Victor I, St. Innocent I',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=072801',
+    ): ('ja', 'Laudate', '聖ナザリオと聖チェルソ'),
+    (
+        '19-Aug', 'Bls. Pedro de Z??iga & Companions',
+        'https://ja.wikipedia.org/wiki/'
+        '%E3%83%9A%E3%83%89%E3%83%AD%E3%83%BB%E3%83%87%E3%83%BB'
+        '%E3%82%B9%E3%83%8B%E3%82%AC',
+    ): ('ja', 'Wikipedia', '福者ペトロ・デ・ズニガ等殉教者'),
+    (
+        '25-Aug', 'Bls. Miguel de Carvalho & Companions',
+        'https://en.wikipedia.org/wiki/Miguel_de_Carvalho',
+    ): ('en', 'Wikipedia', 'Miguel de Carvalho'),
+    (
+        '10-Sep',
+        'Bls. Charles Spinola, Sebastian Kimura ＆ Companions',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=091001',
+    ): ('ja', 'Laudate', '福者セバスチャン木村司祭と204殉教者'),
+    (
+        '10-Sep',
+        'Bls. Charles Spinola, Sebastian Kimura ＆ Companions',
+        'https://ja.wikipedia.org/wiki/'
+        '%E3%82%AB%E3%83%AB%E3%83%AD%E3%83%BB%E3%82%B9%E3%83%94'
+        '%E3%83%8E%E3%83%A9',
+    ): ('ja', 'Wikipedia', '福者カルロ・スピノラ'),
+    (
+        '13-Sep', 'Bls. Apollinaris & Companions',
+        'https://ewtn.co.uk/article-blessed-apollinaris-franco/',
+    ): ('en', 'EWTN', 'Blessed Apollinaris Franco'),
+    (
+        '16-Sep',
+        'Bls. Camillus Costanzo, Augustine Ota ＆ Companions',
+        'https://en.wikipedia.org/wiki/Camillus_Costanzo',
+    ): ('en', 'Wikipedia', 'Camillus Costanzo'),
+    (
+        '16-Sep',
+        'Bls. Camillus Costanzo, Augustine Ota ＆ Companions',
+        'https://kotobank.jp/word/'
+        '%E5%A4%AA%E7%94%B0%E3%81%82%E3%81%86%E3%81%90%E3%81%99'
+        '%E3%81%A1%E3%81%AE-1060415',
+    ): ('ja', 'コトバンク', '福者アウグスティノ太田'),
+    (
+        '16-Sep', 'Pope Cornelius & St. Cyprian',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=091602',
+    ): ('ja', 'Laudate', '聖コルネリオ'),
+    (
+        '16-Sep', 'Pope Cornelius & St. Cyprian',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=091603',
+    ): ('ja', 'Laudate', '聖チプリアノ'),
+    (
+        '9-Oct', 'Ss. Denis, Rusticus & Eleutherius',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=100901',
+    ): ('ja', 'Laudate', '聖ディオニジオと同志殉教者'),
+    (
+        '9-Nov', 'Basilica of St. John Lateran',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=110901',
+    ): ('ja', 'Laudate', 'ラテラノ教会の献堂'),
+    (
+        '27-Nov', 'Bs. Leonardo Kimura & Companions',
+        'https://en.wikipedia.org/wiki/Leonardo_Kimura',
+    ): ('en', 'Wikipedia', 'Leonardo Kimura'),
+    (
+        '4-Dec', 'Bs. Jerome de Angelis, Simon Empo & Companions',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=091201',
+    ): ('ja', 'Laudate', '福者アンジェリス司祭と殉教者たち'),
+    (
+        '8-Dec', 'The Immaculate Conception',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=120801',
+    ): ('ja', 'Laudate', '無原罪の聖母マリア'),
+    (
+        '25-Dec', 'St. Anastasia',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint50.php?id=122501',
+    ): ('ja', 'Laudate', '聖アナスタジアおとめ殉教者'),
+    (
+        '28-Dec', 'Childermas',
+        'https://www.pauline.or.jp/calendariosanti/'
+        'gen_saint365.php?id=122801',
+    ): ('ja', 'Laudate', '聖なる幼子殉教者'),
+}
+
+
 class TestJapaneseLocalizationPhase1(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -55,6 +298,16 @@ class TestJapaneseLocalizationPhase1(unittest.TestCase):
 
     def bare_summaries_for(self, date):
         return [_bare_summary(summary) for summary in self.summaries_for(date)]
+
+    def test_feria_descriptions_use_heijitsu(self):
+        obsolete_term = '\u5e73\u4f11\u65e5'
+        descriptions = [
+            str(event.get('DESCRIPTION'))
+            for events in self.ja_events.values()
+            for event in events
+        ]
+        self.assertFalse(any(obsolete_term in text for text in descriptions))
+        self.assertTrue(any('平日' in text for text in descriptions))
 
     def test_core_feast_summaries(self):
         self.assertIn(
@@ -716,6 +969,612 @@ class TestJapaneseAdditionalLinks(unittest.TestCase):
         positions = [text.index(part) for part in parts]
         self.assertEqual(positions, sorted(positions))
 
+    @staticmethod
+    def _approved_english_link_rows():
+        content = (
+            resources.files('tridentine_calendar.i18n.ja')
+            / 'additional_links.csv'
+        ).read_bytes()
+        rows = csv.DictReader(io.StringIO(
+            _decode_ja_csv_content(content)))
+        return [
+            row for row in rows
+            if row['source_file'] == APPROVED_ENGLISH_LINK_SOURCE
+        ]
+
+    @staticmethod
+    def _additional_link_rows():
+        content = (
+            resources.files('tridentine_calendar.i18n.ja')
+            / 'additional_links.csv'
+        ).read_bytes()
+        return list(csv.DictReader(io.StringIO(
+            _decode_ja_csv_content(content))))
+
+    @classmethod
+    def _pauline_link_rows(cls):
+        return [
+            row for row in cls._additional_link_rows()
+            if row['url'].startswith('https://www.pauline.or.jp/')
+        ]
+
+    @staticmethod
+    def _date_for_link(year, date_key):
+        day, month_abbr = date_key.split('-')
+        month = list(calendar.month_abbr).index(month_abbr)
+        return dt.date(year, month, int(day))
+
+    def test_final_approved_english_link_data(self):
+        rows = self._approved_english_link_rows()
+        by_key = {}
+        for row in rows:
+            key = (row['date'], row['english_name'])
+            by_key.setdefault(key, []).append(row)
+
+        self.assertEqual(len(rows), 86)
+        self.assertEqual(len(by_key), 45)
+        self.assertEqual(set(by_key), APPROVED_ENGLISH_LINK_KEYS)
+        for key, key_rows in by_key.items():
+            with self.subTest(key=key):
+                ordered = sorted(
+                    key_rows, key=lambda row: int(row['display_order']))
+                self.assertTrue(all(
+                    row['match_type'] == 'exact_date_and_name'
+                    for row in ordered
+                ))
+                self.assertTrue(all(row['language'] == 'en' for row in ordered))
+                self.assertTrue(all(
+                    row['description_mode'] == 'auto'
+                    for row in ordered
+                ))
+                self.assertEqual(
+                    [int(row['display_order']) for row in ordered],
+                    list(range(1, len(ordered) + 1)),
+                )
+                urls = [row['url'] for row in ordered]
+                self.assertEqual(len(urls), len(set(urls)))
+
+    def test_pauline_link_label_data(self):
+        rows = self._pauline_link_rows()
+
+        self.assertEqual(len(rows), 233)
+        self.assertEqual(len({row['url'] for row in rows}), 226)
+        self.assertEqual(
+            len({(row['date'], row['english_name']) for row in rows}),
+            227,
+        )
+        self.assertTrue(all(
+            row['description_mode'] == 'localized_summary'
+            for row in rows
+        ))
+        self.assertTrue(all(row['site_label'] == 'Laudate' for row in rows))
+        explicit = [row for row in rows if row['link_description']]
+        self.assertEqual(len(explicit), 27)
+        self.assertIn(
+            (
+                '21-Jan',
+                'St. Agnes',
+                '聖アグネスおとめ殉教者',
+            ),
+            {
+                (
+                    row['date'],
+                    row['english_name'],
+                    row['link_description'],
+                )
+                for row in explicit
+            },
+        )
+
+    def test_revision_5_explicit_link_label_data_and_output(self):
+        rows = self._additional_link_rows()
+        rows_by_key = {
+            (row['date'], row['english_name'], row['url']): row
+            for row in rows
+        }
+        self.assertEqual(len(REVISION_5_EXPLICIT_LINK_LABELS), 35)
+
+        grouped = {}
+        for key, (language, site_label, base_label) in (
+            REVISION_5_EXPLICIT_LINK_LABELS.items()
+        ):
+            date_key, event_name, url = key
+            with self.subTest(date=date_key, name=event_name, url=url):
+                self.assertIn(key, rows_by_key)
+                row = rows_by_key[key]
+                self.assertEqual(row['language'], language)
+                self.assertEqual(row['description_mode'], 'localized_summary')
+                self.assertEqual(row['site_label'], site_label)
+                self.assertEqual(row['link_description'], base_label)
+
+                date = self._date_for_link(2027, date_key)
+                internal = [
+                    event for event in self.ja_calendar[date]
+                    if event.name == event_name
+                ]
+                self.assertEqual(len(internal), 1)
+                links = {
+                    link.url: link
+                    for link in internal[0].additional_urls[language]
+                }
+                self.assertIn(url, links)
+                suffix = (
+                    f'（{site_label}）'
+                    if language == 'ja'
+                    else f' ({site_label})'
+                )
+                expected_label = base_label + suffix
+                self.assertEqual(links[url].description, expected_label)
+
+                translated_name = (
+                    internal[0].summary_override
+                    or self.ja_calendar.translator.format_summary(event_name)
+                )
+                for events, html in [
+                    (self.ja_events, False),
+                    (self.ja_html_events, True),
+                ]:
+                    matches = [
+                        event for event in events[date]
+                        if _bare_summary(str(event['SUMMARY']))
+                        == translated_name
+                    ]
+                    self.assertEqual(len(matches), 1)
+                    description = str(matches[0].get('DESCRIPTION') or '')
+                    self.assertEqual(description.count(url), 1)
+                    if html:
+                        self.assertIn(
+                            f'<a href={url}>{expected_label}</a>',
+                            description,
+                        )
+                        self.assertNotIn(
+                            f'<a href={url}>{url}</a>', description)
+                    else:
+                        self.assertNotIn('<a href=', description)
+                    for other in events[date]:
+                        if other is not matches[0]:
+                            self.assertNotIn(
+                                url, str(other.get('DESCRIPTION') or ''))
+
+                grouped.setdefault(
+                    (date_key, event_name, language), []).append(row)
+
+        for (date_key, event_name, language), key_rows in grouped.items():
+            if len(key_rows) < 2:
+                continue
+            date = self._date_for_link(2027, date_key)
+            internal = next(
+                event for event in self.ja_calendar[date]
+                if event.name == event_name
+            )
+            translated_name = (
+                internal.summary_override
+                or self.ja_calendar.translator.format_summary(event_name)
+            )
+            description = self.summary_description(
+                date,
+                translated_name,
+                self.ja_html_events,
+            )
+            ordered_urls = [
+                row['url'] for row in sorted(
+                    key_rows, key=lambda row: int(row['display_order']))
+            ]
+            self.assertEqual(
+                [description.index(url) for url in ordered_urls],
+                sorted(description.index(url) for url in ordered_urls),
+                f'{date_key} {event_name} {language}',
+            )
+
+    def test_revision_5_link_replacement_removal_and_addition(self):
+        rows = self._additional_link_rows()
+        urls = {row['url'] for row in rows}
+        new_ewtn = (
+            'https://ewtn.co.uk/article-blessed-apollinaris-franco/'
+        )
+        old_cna = (
+            'https://www.catholicnewsagency.com/saint/'
+            'blessed-apollinaris-franco-592'
+        )
+        old_ewtn_redirect = (
+            'https://www.ewtnnews.com/'
+            '?redirectedfrom=cna'
+        )
+        removed_navarro = (
+            'https://www.catholic.org/saints/'
+            'saint.php?saint_id=5287'
+        )
+        thomas_more = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=062202'
+        )
+
+        self.assertIn(new_ewtn, urls)
+        self.assertNotIn(old_cna, urls)
+        self.assertNotIn(old_ewtn_redirect, urls)
+        self.assertNotIn(removed_navarro, urls)
+        thomas_rows = [
+            row for row in rows
+            if row['url'] == thomas_more
+        ]
+        self.assertEqual(len(thomas_rows), 1)
+        self.assertEqual(
+            (
+                thomas_rows[0]['match_type'],
+                thomas_rows[0]['date'],
+                thomas_rows[0]['english_name'],
+            ),
+            ('exact_date_and_name', '9-Jul', 'St. Thomas More'),
+        )
+
+        fixed_content = (
+            resources.files('tridentine_calendar.i18n.ja')
+            / 'fixed_feasts_local.csv'
+        ).read_bytes()
+        fixed_text = _decode_ja_csv_content(fixed_content)
+        self.assertIn(new_ewtn, fixed_text)
+        self.assertNotIn(old_cna, fixed_text)
+        self.assertNotIn(removed_navarro, fixed_text)
+
+        apollinaris = self.summary_description(
+            dt.date(2027, 9, 13), 'アポリナリス', self.ja_html_events)
+        self.assertIn(
+            f'<a href={new_ewtn}>'
+            'Blessed Apollinaris Franco (EWTN)</a>',
+            apollinaris,
+        )
+        navarro = self.summary_description(
+            dt.date(2027, 11, 5), 'ナヴァロ', self.ja_html_events)
+        self.assertNotIn(removed_navarro, navarro)
+        thomas = self.summary_description(
+            dt.date(2027, 7, 9), '聖トマス・モア', self.ja_html_events)
+        self.assertIn(
+            f'<a href={thomas_more}>聖トマス・モア（Laudate）</a>',
+            thomas,
+        )
+
+    def test_second_st_agnes_label_is_january_28_only(self):
+        url = (
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=012101'
+        )
+        rows = [
+            row for row in self._additional_link_rows()
+            if row['url'] == url
+        ]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(
+            (rows[0]['date'], rows[0]['english_name']),
+            ('28-Jan', 'St. Agnes'),
+        )
+        january_28 = self.summary_description(
+            dt.date(2027, 1, 28), '聖アグネス', self.ja_html_events)
+        self.assertIn('聖アグネス（Laudate）', january_28)
+        for component in self.ja_html_events[dt.date(2027, 1, 18)]:
+            self.assertNotIn(url, str(component.get('DESCRIPTION') or ''))
+
+    def test_pauline_links_use_localized_html_labels_and_plain_urls(self):
+        year = 2027
+        for row in self._pauline_link_rows():
+            if row['date']:
+                date = self._date_for_link(year, row['date'])
+            else:
+                dates = [
+                    date for date in self.ja_events
+                    if date.year == year
+                    and any(
+                        event.name == row['english_name']
+                        for event in self.ja_calendar[date]
+                    )
+                ]
+                self.assertEqual(len(dates), 1)
+                date = dates[0]
+            internal = [
+                event for event in self.ja_calendar[date]
+                if event.name == row['english_name']
+            ]
+            with self.subTest(date=date, name=row['english_name']):
+                self.assertEqual(len(internal), 1)
+                event = internal[0]
+                base_name = (
+                    row['link_description']
+                    or event.summary_override
+                    or self.ja_calendar.translator.format_summary(event.name)
+                ).lstrip(' \u203a\u00bb')
+                expected_label = f'{base_name}\uff08Laudate\uff09'
+                links = {
+                    link.url: link
+                    for link in event.additional_urls['ja']
+                }
+                self.assertIn(row['url'], links)
+                self.assertEqual(
+                    links[row['url']].description, expected_label)
+                self.assertNotIn('\u30a4\u30a8\u30b9', expected_label)
+                self.assertNotIn('\u30e8\u30bb\u30d5', expected_label)
+                self.assertFalse(expected_label.startswith((' ', '\u203a', '\u00bb')))
+
+                translated_name = (
+                    event.summary_override
+                    or self.ja_calendar.translator.format_summary(event.name)
+                )
+                for events, html in [
+                    (self.ja_events, False),
+                    (self.ja_html_events, True),
+                ]:
+                    matches = [
+                        component for component in events[date]
+                        if _bare_summary(str(component['SUMMARY']))
+                        == translated_name
+                    ]
+                    self.assertEqual(len(matches), 1)
+                    description = str(matches[0].get('DESCRIPTION') or '')
+                    self.assertEqual(description.count(row['url']), 1)
+                    if html:
+                        self.assertIn(
+                            f'<a href={row["url"]}>'
+                            f'{expected_label}</a>',
+                            description,
+                        )
+                        self.assertNotIn(
+                            f'<a href={row["url"]}>{row["url"]}</a>',
+                            description,
+                        )
+                    else:
+                        self.assertNotIn('<a href=', description)
+                    for other in events[date]:
+                        if other is matches[0]:
+                            continue
+                        self.assertNotIn(
+                            row['url'],
+                            str(other.get('DESCRIPTION') or ''),
+                        )
+
+    def test_other_japanese_site_links_use_explicit_html_labels(self):
+        rows = [
+            row for row in self._additional_link_rows()
+            if row['language'] == 'ja'
+            and not row['url'].startswith('https://www.pauline.or.jp/')
+        ]
+        self.assertEqual(len(rows), 5)
+        self.assertEqual(
+            {row['url'].split('/')[2] for row in rows},
+            {'ja.wikipedia.org', 'kotobank.jp'},
+        )
+        for row in rows:
+            date = self._date_for_link(2027, row['date'])
+            matches = [
+                event for event in self.ja_html_events[date]
+                if row['url'] in str(event.get('DESCRIPTION') or '')
+            ]
+            with self.subTest(date=date, name=row['english_name']):
+                self.assertEqual(len(matches), 1)
+                expected = (
+                    row['link_description']
+                    + f'（{row["site_label"]}）'
+                )
+                self.assertIn(
+                    f'<a href={row["url"]}>{expected}</a>',
+                    str(matches[0]['DESCRIPTION']),
+                )
+                self.assertNotIn(
+                    f'<a href={row["url"]}>{row["url"]}</a>',
+                    str(matches[0]['DESCRIPTION']),
+                )
+
+    def test_final_approved_english_links_attach_once_and_in_order(self):
+        years = [2025, 2026, 2027, 2028]
+        calendar_output = LiturgicalCalendar(
+            [2025, 2026, 2027, 2028, 2029], lang='ja')
+        plain_events = _events_by_date(calendar_output)
+        html_events = _events_by_date(
+            calendar_output, html_formatting=True)
+        by_key = {}
+        for row in self._approved_english_link_rows():
+            key = (row['date'], row['english_name'])
+            by_key.setdefault(key, []).append(row)
+        by_key = {
+            key: sorted(rows, key=lambda row: int(row['display_order']))
+            for key, rows in by_key.items()
+        }
+
+        for (date_key, event_name), rows in by_key.items():
+            urls = [row['url'] for row in rows]
+            for year in years:
+                date = self._date_for_link(year, date_key)
+                internal = [
+                    event for event in calendar_output[date]
+                    if event.name == event_name
+                ]
+                self.assertEqual(len(internal), 1)
+                translated_name = (
+                    internal[0].summary_override
+                    or calendar_output.translator.format_summary(event_name)
+                )
+                existing_japanese = [
+                    link.url
+                    for link in internal[0].additional_urls.get('ja', [])
+                ]
+                existing_english = [
+                    link.url for link in (internal[0].urls or [])
+                ] + [
+                    link.url
+                    for link in internal[0].additional_urls.get('en', [])
+                    if link.url not in urls
+                ]
+                approved_links = {
+                    link.url: link
+                    for link in internal[0].additional_urls.get('en', [])
+                    if link.url in urls
+                }
+                self.assertEqual(set(approved_links), set(urls))
+
+                for events, html in [
+                    (plain_events, False),
+                    (html_events, True),
+                ]:
+                    matches = [
+                        event for event in events[date]
+                        if _bare_summary(str(event['SUMMARY']))
+                        == translated_name
+                    ]
+                    self.assertEqual(len(matches), 1)
+                    description = str(matches[0].get('DESCRIPTION') or '')
+                    for url in urls:
+                        if html:
+                            link = approved_links[url]
+                            self.assertTrue(link.description)
+                            self.assertNotEqual(link.description, url)
+                            self.assertEqual(
+                                description.count(
+                                    f'<a href={url}>'
+                                    f'{link.description}</a>'
+                                ),
+                                1,
+                            )
+                            self.assertNotIn(
+                                f'<a href={url}>{url}</a>', description
+                            )
+                        else:
+                            self.assertEqual(description.count(url), 1)
+                            self.assertNotIn('<a href=', description)
+                    self.assertEqual(
+                        [description.index(url) for url in urls],
+                        sorted(description.index(url) for url in urls),
+                    )
+                    for url in existing_japanese + existing_english:
+                        self.assertLess(
+                            description.index(url),
+                            description.index(urls[0]),
+                        )
+                    for other in events[date]:
+                        if other is matches[0]:
+                            continue
+                        other_description = str(
+                            other.get('DESCRIPTION') or '')
+                        self.assertTrue(all(
+                            url not in other_description for url in urls
+                        ))
+
+    def test_st_anastasia_keeps_japanese_link_first(self):
+        expected = [
+            'https://www.pauline.or.jp/calendariosanti/'
+            'gen_saint50.php?id=122501',
+            'https://www.newadvent.org/cathen/01453a.htm',
+            'https://en.wikipedia.org/wiki/Anastasia_of_Sirmium',
+        ]
+        for events in [self.ja_events, self.ja_html_events]:
+            description = self.summary_description(
+                dt.date(2027, 12, 25), '聖アナスタジア', events)
+            with self.subTest(html=events is self.ja_html_events):
+                self.assert_ordered(description, *expected)
+        html_description = self.summary_description(
+            dt.date(2027, 12, 25),
+            '聖アナスタジア',
+            self.ja_html_events,
+        )
+        self.assertIn('St. Anastasia (New Advent)</a>', html_description)
+        self.assertIn(
+            '\u8056\u30a2\u30ca\u30b9\u30bf\u30b8\u30a2'
+            '\u304a\u3068\u3081\u6b89\u6559\u8005'
+            '\uff08Laudate\uff09</a>',
+            html_description,
+        )
+        self.assertIn(
+            'Anastasia of Sirmium (Wikipedia)</a>', html_description)
+
+    def test_approved_english_links_remain_japanese_calendar_only(self):
+        by_key = {}
+        for row in self._approved_english_link_rows():
+            key = (row['date'], row['english_name'])
+            by_key.setdefault(key, set()).add(row['url'])
+
+        for lang in ['en', 'fr']:
+            calendar_output = LiturgicalCalendar([2026, 2027], lang=lang)
+            checked_events = 0
+            for (date_key, event_name), urls in by_key.items():
+                date = self._date_for_link(2026, date_key)
+                matches = [
+                    event for event in calendar_output[date]
+                    if event.name == event_name
+                ]
+                with self.subTest(lang=lang, date=date, name=event_name):
+                    self.assertLessEqual(len(matches), 1)
+                    if not matches:
+                        continue
+                    checked_events += 1
+                    additional_urls = {
+                        link.url
+                        for links in matches[0].additional_urls.values()
+                        for link in links
+                    }
+                    self.assertTrue(urls.isdisjoint(additional_urls))
+            self.assertGreater(checked_events, 0)
+
+    def test_approved_fish_eaters_link_labels(self):
+        cases = [
+            (dt.date(2027, 7, 20), '聖マルガリタ', 'St. Margaret'),
+            (dt.date(2027, 7, 25), '聖クリストフォロ', 'St. Christopher'),
+        ]
+        for date, summary, english_name in cases:
+            description = self.summary_description(
+                date, summary, self.ja_html_events)
+            with self.subTest(date=date):
+                self.assertIn(
+                    f'{english_name} (New Advent)</a>', description)
+                self.assertIn(
+                    f'{english_name} (Fish Eaters)</a>', description)
+
+    def test_revision_5_english_link_labels_are_explicit(self):
+        cases = [
+            (
+                dt.date(2027, 8, 25),
+                'ミカエル',
+                'https://en.wikipedia.org/wiki/Miguel_de_Carvalho',
+                'Miguel de Carvalho (Wikipedia)',
+            ),
+            (
+                dt.date(2027, 9, 13),
+                'アポリナリス',
+                'https://ewtn.co.uk/article-blessed-apollinaris-franco/',
+                'Blessed Apollinaris Franco (EWTN)',
+            ),
+            (
+                dt.date(2027, 9, 16),
+                'コスタンゾ',
+                'https://en.wikipedia.org/wiki/Camillus_Costanzo',
+                'Camillus Costanzo (Wikipedia)',
+            ),
+            (
+                dt.date(2027, 11, 27),
+                'レオナルド',
+                'https://en.wikipedia.org/wiki/Leonardo_Kimura',
+                'Leonardo Kimura (Wikipedia)',
+            ),
+        ]
+        for date, summary, url, label in cases:
+            description = self.summary_description(
+                date, summary, self.ja_html_events)
+            with self.subTest(date=date, url=url):
+                self.assertIn(f'<a href={url}>{label}</a>', description)
+                self.assertNotIn(f'<a href={url}>{url}</a>', description)
+
+    def test_unmatched_group_link_candidates_remain_on_hold(self):
+        approved_keys = {
+            (row['date'], row['english_name'])
+            for row in self._approved_english_link_rows()
+        }
+        self.assertTrue(HELD_ENGLISH_LINK_KEYS.isdisjoint(approved_keys))
+        calendar_output = LiturgicalCalendar([2027], lang='ja')
+        for date_key, event_name in HELD_ENGLISH_LINK_KEYS:
+            date = self._date_for_link(2027, date_key)
+            matches = [
+                event for event in calendar_output[date]
+                if event.name == event_name
+            ]
+            with self.subTest(date=date, event_name=event_name):
+                self.assertEqual(len(matches), 1)
+                self.assertEqual(matches[0].additional_urls.get('en'), [])
+
     def test_japanese_and_existing_english_links_are_grouped(self):
         description = self.summary_description(dt.date(2026, 1, 14), '聖ヒラリオ')
 
@@ -774,18 +1633,15 @@ class TestJapaneseAdditionalLinks(unittest.TestCase):
     def test_english_additional_link_is_grouped_as_english(self):
         description = self.summary_description(
             dt.date(2026, 9, 13), 'アポリナリス')
+        url = 'https://ewtn.co.uk/article-blessed-apollinaris-franco/'
 
         self.assertNotIn('日本語の解説', description)
         self.assertIn('英語の解説', description)
-        self.assertIn(
-            'https://www.catholicnewsagency.com/saint/'
-            'blessed-apollinaris-franco-592',
-            description
-        )
+        self.assertIn(url, description)
         self.assert_ordered(
             description,
             '英語の解説',
-            'https://www.catholicnewsagency.com/saint/',
+            url,
             '季節の解説（英語）',
         )
 
@@ -1018,12 +1874,12 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         return matches[0]
 
-    def test_all_56_overrides_apply_in_each_year(self):
-        self.assertEqual(len(self.commemoration_rows), 56)
+    def test_all_57_overrides_apply_in_each_year(self):
+        self.assertEqual(len(self.commemoration_rows), 57)
         self.assertEqual(len({
             (row['date'], row['english_name'])
             for row in self.commemoration_rows
-        }), 56)
+        }), 57)
 
         matched_occurrences = 0
         for year in self.years:
@@ -1038,7 +1894,13 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     description = str(component.get('DESCRIPTION'))
                     internal_event = self._internal_event(year, row)
 
-                    self.assertTrue(summary.startswith('› '))
+                    if (
+                        row['english_name'] == 'St. George'
+                        and year in [2026, 2027]
+                    ):
+                        self.assertEqual(summary, '聖ジェオルジオ')
+                    else:
+                        self.assertTrue(summary.startswith('› '))
                     self.assertNotIn('記念', summary)
                     self.assertTrue(description.startswith('記念\n'))
                     self.assertNotIn('第四級', description)
@@ -1058,11 +1920,11 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     self.assertNotIn('第四級', html_description)
                     matched_occurrences += 1
 
-        self.assertEqual(matched_occurrences, 56 * len(self.years))
+        self.assertEqual(matched_occurrences, 57 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
-        self.assertEqual(len(self.override_rows), 80)
-        self.assertEqual(len(self.commemoration_rows), 56)
+        self.assertEqual(len(self.override_rows), 84)
+        self.assertEqual(len(self.commemoration_rows), 57)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
         self.assertEqual(
@@ -1094,6 +1956,24 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     '21-Jan',
                     'St. Agnes',
                     '聖アグネス（第二の祝日）',
+                ),
+                (
+                    'exact_date_and_name',
+                    '29-Dec',
+                    'Fifth Day within the Octave of Christmas',
+                    '主の御降誕の八日間内第五日',
+                ),
+                (
+                    'exact_date_and_name',
+                    '30-Dec',
+                    'Sixth Day within the Octave of Christmas',
+                    '主の御降誕の八日間内第六日',
+                ),
+                (
+                    'exact_date_and_name',
+                    '31-Dec',
+                    'Seventh Day within the Octave of Christmas',
+                    '主の御降誕の八日間内第七日',
                 ),
             ],
         )
@@ -1222,8 +2102,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         apollinaris_description = str(apollinaris.get('DESCRIPTION'))
         self.assertIn('英語の解説', apollinaris_description)
         self.assertIn(
-            'https://www.catholicnewsagency.com/saint/'
-            'blessed-apollinaris-franco-592',
+            'https://ewtn.co.uk/article-blessed-apollinaris-franco/',
             apollinaris_description,
         )
         self.assertIn('季節の解説（英語）', apollinaris_description)

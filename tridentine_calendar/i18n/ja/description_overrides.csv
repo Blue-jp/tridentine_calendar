@@ -8,6 +8,7 @@ exact_date_and_name,6-Feb,St. Dorothy,記念,,,Reference row 8
 exact_date_and_name,9-Feb,St. Apollonia,記念,,,Reference row 9
 exact_date_and_name,4-Mar,St. Lucius I,記念,,,Reference row 11
 exact_date_and_name,14-Apr,"SS. Tiburtius, Valerian & Maximus",記念,,,Reference row 12
+exact_date_and_name,23-Apr,St. George,記念,,,Google Calendar revision 5
 exact_date_and_name,10-May,SS. Gordian & Epimachus,記念,,,Reference row 13
 exact_date_and_name,19-May,St. Pudentiana,記念,,,Reference row 14
 exact_date_and_name,25-May,St. Urban I,記念,,,Reference row 15
@@ -79,3 +80,6 @@ exact_date_and_name,21-Jan,St. Agnes,,,聖アグネス（第二の祝日）,Pres
 exact_date_and_name,1-Jan,Octave Day of the Nativity of the Lord,,,,Use the user-facing liturgical-day name without adding a feast suffix,,わが主のご降誕後の八日目
 exact_date_and_name,29-Dec,St. Thomas Becket,記念,,,Christmas octave commemoration
 exact_date_and_name,31-Dec,Pope Sylvester I,記念,,,Christmas octave commemoration
+exact_date_and_name,29-Dec,Fifth Day within the Octave of Christmas,,,主の御降誕の八日間内第五日,Preserve UID after Japanese summary update
+exact_date_and_name,30-Dec,Sixth Day within the Octave of Christmas,,,主の御降誕の八日間内第六日,Preserve UID after Japanese summary update
+exact_date_and_name,31-Dec,Seventh Day within the Octave of Christmas,,,主の御降誕の八日間内第七日,Preserve UID after Japanese summary update

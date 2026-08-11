@@ -37,6 +37,9 @@ def test_fr_class_feria():
         "Aujourd'hui", 1, True) == "Aujourd'hui est une fête de Ire classe."
     assert translator.format_class_feria(
         'Cette férie', 3, False) == 'Cette férie est une férie de IIIe classe.'
+    assert translator.format_liturgical_day_class(
+        "Cinquième jour dans l'Octave de Noël", 2, 'day_within_octave'
+    ) == "Le cinquième jour dans l'Octave de Noël est de IIe classe."
 
 
 def test_fr_liturgical_calendar_output():

@@ -1,243 +1,329 @@
-match_type,date,english_name,url,language,display_order,source_file,notes
-exact_date_and_name,14-Jan,St. Hilary,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 7
-exact_date_and_name,15-Jan,St. Paul the Hermit,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 8
-exact_date_and_name,16-Jan,Pope Marcellus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 9
-exact_date_and_name,17-Jan,St. Anthony the Great,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 10
-exact_date_and_name,20-Jan,Pope Fabian & St. Sebastian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012002,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 14
-exact_date_and_name,21-Jan,St. Agnes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 15
-exact_date_and_name,22-Jan,SS. Vincent & Anastasius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 16
-exact_date_and_name,24-Jan,St. Timothy,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 18
-exact_date_and_name,25-Jan,Conversion of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 19
-exact_date_and_name,26-Jan,St. Polycarp,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022302,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 20
-exact_date_and_name,27-Jan,St. John Chrysostom,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 21
-exact_date_and_name,29-Jan,St. Francis de Sales,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 23
-exact_date_and_name,31-Jan,St. John Bosco,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=013101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 25
-exact_date_and_name,1-Feb,St. Ignatius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 27
-exact_date_and_name,2-Feb,Candlemas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 28
-exact_date_and_name,3-Feb,St. Blaise,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020302,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 29
-exact_date_and_name,4-Feb,St. Andrew Corsini,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 30
-exact_date_and_name,5-Feb,St. Agatha,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 31
-exact_date_and_name,7-Feb,St. Romuald,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 33
-exact_date_and_name,9-Feb,St. Cyril of Alexandria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 35
-exact_date_and_name,10-Feb,St. Scholastica,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=021001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 36
-exact_date_and_name,11-Feb,The Apparition at Lourdes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 37
-exact_date_and_name,12-Feb,The Seven Holy Founders of the Servite Order,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=021701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 38
-exact_date_and_name,14-Feb,St. Valentine,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021402,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 39
-exact_date_and_name,23-Feb,St. Peter Damian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 42
-exact_date_and_name,4-Mar,St. Casimir,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 43
-exact_date_and_name,6-Mar,SS. Perpetua and Felicitas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 44
-exact_date_and_name,7-Mar,St. Thomas Aquinas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 45
-exact_date_and_name,8-Mar,St. John of God,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 46
-exact_date_and_name,9-Mar,St. Frances of Rome,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 47
-exact_date_and_name,17-Mar,St. Patrick,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 50
-exact_date_and_name,18-Mar,St. Cyril of Jerusalem,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 51
-exact_date_and_name,19-Mar,St. Joseph,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 52
-exact_date_and_name,21-Mar,St. Benedict,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=071101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 53
-exact_date_and_name,24-Mar,St. Gabriel,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 54
-exact_date_and_name,27-Mar,St. John Damascene,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=120402,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 55
-exact_date_and_name,28-Mar,St. John Capistrano,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=032801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 56
-exact_date_and_name,2-Apr,St. Francis of Paula,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=040201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 57
-exact_date_and_name,4-Apr,St. Isidore,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=040401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 58
-exact_date_and_name,5-Apr,St. Vincent Ferrer,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=040501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 59
-exact_date_and_name,11-Apr,Pope Leo the Great,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 60
-exact_date_and_name,13-Apr,St. Hermenegild,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=041401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 61
-exact_date_and_name,14-Apr,St. Justin,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 62
-exact_date_and_name,21-Apr,St. Anselm,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 64
-exact_date_and_name,23-Apr,St. George,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 66
-exact_date_and_name,24-Apr,St. Fidelis of Sigmaringen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 67
-exact_date_and_name,25-Apr,St. Mark,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 69
-exact_date_and_name,27-Apr,St. Peter Canisius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=122101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 71
-exact_date_and_name,28-Apr,St. Paul of the Cross,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 72
-exact_date_and_name,30-Apr,St. Catherine of Siena,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 74
-exact_date_and_name,1-May,St. Joseph the Worker,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 76
-exact_date_and_name,1-May,St. Walpurga,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 77
-exact_date_and_name,2-May,St. Athanasius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 78
-exact_date_and_name,4-May,St. Monica,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 80
-exact_date_and_name,5-May,Pope Pius V,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=043001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 81
-exact_date_and_name,7-May,St. Stanislaus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=041101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 82
-exact_date_and_name,9-May,St. Gregory Nazianzen,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=010201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 83
-exact_date_and_name,10-May,St. Antoninus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=051001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 84
-exact_date_and_name,11-May,SS. Philip & James,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 85
-exact_date_and_name,12-May,"SS. Nereus, Achilleus, Domitilla, & Pancras",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=051201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 86
-exact_date_and_name,12-May,"SS. Nereus, Achilleus, Domitilla, & Pancras",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=051202,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 86
-exact_date_and_name,13-May,St. Robert Bellarmine,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091702,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 87
-exact_date_and_name,14-May,St. Boniface of Tarsus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 88
-exact_date_and_name,15-May,St. John Baptist de la Salle,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=040701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 89
-exact_date_and_name,17-May,St. Pascal Baylon,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=052101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 91
-exact_date_and_name,20-May,St. Bernardine of Siena,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 94
-exact_date_and_name,22-May,St. Rita of Cascia,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 95
-exact_date_and_name,25-May,Pope Gregory VII,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052502,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 96
-exact_date_and_name,26-May,St. Philip Neri,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 97
-exact_date_and_name,27-May,St. Bede the Venerable,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052503,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 98
-exact_date_and_name,28-May,St. Augustine of Canterbury,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 99
-exact_date_and_name,29-May,St. Mary Magdalen of Pazzi,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=052501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 100
-exact_date_and_name,30-May,St. Joan of Arc,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=053001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 102
-exact_date_and_name,31-May,The Queenship of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 103
-exact_date_and_name,1-Jun,St. Angela Merici,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 104
-exact_date_and_name,2-Jun,"SS. Marcellinus, Peter, & St. Erasmus",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 105
-exact_date_and_name,4-Jun,St. Francis Caracciolo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 106
-exact_date_and_name,5-Jun,St. Boniface,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 107
-exact_date_and_name,6-Jun,St. Norbert,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=060601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 108
-exact_date_and_name,10-Jun,St. Margaret,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061102,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 110
-exact_date_and_name,11-Jun,St. Barnabas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 111
-exact_date_and_name,12-Jun,St. John of St. Facundo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 113
-exact_date_and_name,13-Jun,St. Anthony of Padua,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 114
-exact_date_and_name,14-Jun,St. Basil the Great,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=010201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 115
-exact_date_and_name,15-Jun,"SS. Vitus, Modestus, & Crescentia",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 116
-exact_date_and_name,17-Jun,St. Gregory Barbarigo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 117
-exact_date_and_name,18-Jun,St. Ephrem,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 119
-exact_date_and_name,20-Jun,Pope Silverius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 122
-exact_date_and_name,21-Jun,St. Aloysius Gonzaga,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 123
-exact_date_and_name,22-Jun,St. Paulinus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062203,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 124
-exact_date_and_name,26-Jun,SS. John & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 126
-exact_date_and_name,29-Jun,SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 128
-exact_date_and_name,29-Jun,SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062902,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 128
-exact_date_and_name,2-Jul,The Visitation,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=053101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 130
-exact_date_and_name,3-Jul,St. Irenaeus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 131
-exact_date_and_name,5-Jul,St. Anthony Mary Zaccaria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 132
-exact_date_and_name,7-Jul,SS. Cyril and Methodius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 133
-exact_date_and_name,8-Jul,St. Elizabeth,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 134
-exact_date_and_name,12-Jul,St. John Gualbert,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 137
-exact_date_and_name,14-Jul,St. Bonaventure,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 138
-exact_date_and_name,15-Jul,St. Henry,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 139
-exact_date_and_name,16-Jul,Our Lady of Mt. Carmel,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 140
-exact_date_and_name,17-Jul,St. Alexius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 141
-exact_date_and_name,18-Jul,St. Camillus de Lellis,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=071401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 142
-exact_date_and_name,19-Jul,St. Vincent de Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 143
-exact_date_and_name,20-Jul,St. Jerome Emilian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=020801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 144
-exact_date_and_name,21-Jul,St. Lawrence of Brindisi,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 145
-exact_date_and_name,22-Jul,St. Mary Magdalen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 147
-exact_date_and_name,23-Jul,St. Apollinaris,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 148
-exact_date_and_name,25-Jul,St. James the Greater,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 150
-exact_date_and_name,26-Jul,St. Anne,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 151
-exact_date_and_name,27-Jul,St. Pantaleon,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 152
-exact_date_and_name,28-Jul,"SS. Nazarius & Celsus, St. Victor I, St. Innocent I",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 153
-exact_date_and_name,29-Jul,St. Martha,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 154
-exact_date_and_name,31-Jul,St. Ignatius of Loyola,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=073101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 156
-exact_date_and_name,2-Aug,St. Alphonsus Liguori,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=080101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 158
-exact_date_and_name,4-Aug,St. Dominic,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 159
-exact_date_and_name,7-Aug,St. Cajetan,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=080702,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 162
-exact_date_and_name,8-Aug,St. John Mary Vianney,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 164
-exact_date_and_name,10-Aug,St. Lawrence,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 166
-exact_date_and_name,12-Aug,St. Clare,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 168
-exact_date_and_name,15-Aug,Marymass,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 171
-exact_date_and_name,16-Aug,St. Joachim,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 172
-exact_date_and_name,16-Aug,St. Roch,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 173
-exact_date_and_name,17-Aug,St. Hyacinth,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 174
-exact_date_and_name,19-Aug,St. John Eudes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 176
-exact_date_and_name,20-Aug,St. Bernard,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 177
-exact_date_and_name,21-Aug,St. Jane Frances Fremiot de Chantal,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 178
-exact_date_and_name,24-Aug,St. Bartholomew,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 181
-exact_date_and_name,25-Aug,St. Louis,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 182
-exact_date_and_name,26-Aug,Pope Zephyrinus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 183
-exact_date_and_name,27-Aug,St. Joseph Calasanctius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082502,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 184
-exact_date_and_name,28-Aug,St. Augustine,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 185
-exact_date_and_name,29-Aug,The Beheading of John the Baptist,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 186
-exact_date_and_name,30-Aug,SS. Felix & Adauctus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=083001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 187
-exact_date_and_name,30-Aug,St. Rose of Lima,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 188
-exact_date_and_name,31-Aug,St. Raymond Nonnatus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=083101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 189
-exact_date_and_name,1-Sep,St. Giles,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=090101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 190
-exact_date_and_name,2-Sep,St. Stephen I,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 191
-exact_date_and_name,3-Sep,Pope Pius X,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 192
-exact_date_and_name,5-Sep,St. Lawrence Justinian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=090501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 193
-exact_date_and_name,12-Sep,The Most Holy Name of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 198
-exact_date_and_name,15-Sep,The Seven Sorrows,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 200
-exact_date_and_name,16-Sep,Pope Cornelius & St. Cyprian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 201
-exact_date_and_name,16-Sep,Pope Cornelius & St. Cyprian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091603,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 201
-exact_date_and_name,18-Sep,St. Joseph of Cupertino,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 203
-exact_date_and_name,19-Sep,St. Januarius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 204
-exact_date_and_name,21-Sep,St. Matthew,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 206
-exact_date_and_name,22-Sep,St. Thomas of Villanova,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 207
-exact_date_and_name,27-Sep,SS. Cosmas & Damian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 211
-exact_date_and_name,29-Sep,Michaelmas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 213
-exact_date_and_name,30-Sep,St. Jerome,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=093001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 214
-exact_date_and_name,1-Oct,St. Remigius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 215
-exact_date_and_name,2-Oct,The Holy Guardian Angels,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 216
-exact_date_and_name,3-Oct,St. Theresa of Lisieux,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 217
-exact_date_and_name,4-Oct,St. Francis of Assisi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 218
-exact_date_and_name,5-Oct,St. Placid,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 219
-exact_date_and_name,6-Oct,St. Bruno,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 220
-exact_date_and_name,7-Oct,The Holy Rosary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 221
-exact_date_and_name,8-Oct,St. Bridget,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 222
-exact_date_and_name,9-Oct,St. John Leonardi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100902,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 223
-exact_date_and_name,10-Oct,St. Francis Borgi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 224
-exact_date_and_name,13-Oct,St. Edward,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 226
-exact_date_and_name,14-Oct,Pope Callistus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 227
-exact_date_and_name,15-Oct,St. Teresa of Avila,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 228
-exact_date_and_name,16-Oct,St. Hedwig,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 230
-exact_date_and_name,17-Oct,St. Margaret Mary Alacoque,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 231
-exact_date_and_name,18-Oct,St. Luke,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 232
-exact_date_and_name,19-Oct,St. Peter of Alcántara,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=102201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 233; normalized from St. Peter of Alcﾃ｡ntara
-exact_date_and_name,20-Oct,St. John Cantius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 234
-exact_date_and_name,21-Oct,St. Hilarion,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 235
-exact_date_and_name,23-Oct,St. Anthony Mary Claret,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 236
-exact_date_and_name,24-Oct,St. Raphael,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 237
-exact_date_and_name,26-Oct,Pope Evaristus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 239
-exact_date_and_name,28-Oct,SS. Simon & Jude,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 240
-exact_date_and_name,1-Nov,Hallowmas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 242
-movable_name,,All Souls' Day,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 243
-exact_date_and_name,4-Nov,St. Charles Borromeo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=110401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 244
-exact_date_and_name,9-Nov,Basilica of St. John Lateran,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 246
-exact_date_and_name,11-Nov,Martinmas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 248
-exact_date_and_name,14-Nov,St. Josaphat,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 251
-exact_date_and_name,15-Nov,St. Albert the Great,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 252
-exact_date_and_name,16-Nov,St. Gertrude,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111603,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 253
-exact_date_and_name,18-Nov,Basilicas of SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 255
-exact_date_and_name,19-Nov,St. Elizabeth of Hungary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 256
-exact_date_and_name,20-Nov,St. Felix of Valois,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 257
-exact_date_and_name,21-Nov,The Presentation of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 258
-exact_date_and_name,22-Nov,St. Cecilia,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 259
-exact_date_and_name,23-Nov,Pope Clement I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 260
-exact_date_and_name,24-Nov,St. John of the Cross,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=121401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 261
-exact_date_and_name,25-Nov,St. Catherine of Alexandria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 262
-exact_date_and_name,30-Nov,St. Andrew,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=113001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 265
-exact_date_and_name,2-Dec,St. Bibiana,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 266
-exact_date_and_name,3-Dec,St. Francis Xavier,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 267
-exact_date_and_name,4-Dec,St. Peter Chrysologus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=073002,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 269
-exact_date_and_name,5-Dec,St. Sabbas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 270
-exact_date_and_name,6-Dec,St. Nicholas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 271
-exact_date_and_name,7-Dec,St. Ambrose,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 272
-exact_date_and_name,8-Dec,The Immaculate Conception,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 273
-exact_date_and_name,11-Dec,Pope Damasus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 275
-exact_date_and_name,12-Dec,Our Lady of Guadalupe,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 276
-exact_date_and_name,13-Dec,St. Lucy,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 277
-exact_date_and_name,16-Dec,St. Eusebius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 279
-exact_date_and_name,21-Dec,St. Thomas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 281
-exact_date_and_name,25-Dec,St. Anastasia,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=122501,ja,1,WIP_fixed_feasts_terms_lack_ja_20260727.csv,reference line 2
-exact_date_and_name,26-Dec,St. Stephen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 284
-exact_date_and_name,27-Dec,St. John,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 285
-exact_date_and_name,28-Dec,Childermas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 286
-exact_date_and_name,29-Dec,St. Thomas Becket,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 287
-exact_date_and_name,31-Dec,Pope Sylvester I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=123101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 288
-exact_date_and_name,19-Jan,St. Canute,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 5
-exact_date_and_name,25-Jan,Conversion of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 7; merged from St. Peter commemoration
-exact_date_and_name,28-Jan,St. Agnes,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012101,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 8
-exact_date_and_name,9-Feb,St. Apollonia,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=020901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 10
-exact_date_and_name,22-Feb,Chair of St. Peter,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 11
-exact_date_and_name,22-Feb,Chair of St. Peter,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 12; merged from St. Paul commemoration
-exact_date_and_name,27-May,St. John I,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=051801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 19
-exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 22; merged from Commemoration of St. Paul
-exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,Peter link merged into principal event
-exact_date_and_name,25-Jul,St. Christopher,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 28
-exact_date_and_name,8-Sep,St. Hadrian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=090801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 39
-exact_date_and_name,23-Sep,St. Thecla,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092301,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 43
-exact_date_and_name,9-Oct,"Ss. Denis, Rusticus & Eleutherius",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=100901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 47
-exact_date_and_name,19-Nov,St. Pontianus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 53
-exact_date_and_name,24-Nov,St. Chrysogonus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112401,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 55
-exact_date_and_name,5-Feb,Twenty-six Martyrs of Japan,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020501,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 2
-exact_date_and_name,17-Mar,Blessed Virgin Mary of the Discovery of the Christians,https://www.pauline.or.jp/calendariocappella/cycle0/shintohakken.php,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 3
-exact_date_and_name,22-May,Bls. John the Baptist of Machado ＆ Peter of the Assumption,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052301,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 4
-exact_date_and_name,1-Jun,Bls. Alfonso Navarrete & Companions,https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A9%E3%83%B3%E3%82%BD%E3%83%BB%E3%83%8A%E3%83%90%E3%83%AC%E3%83%86%E3%83%BB%E3%83%99%E3%83%8B%E3%83%88,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 5
-exact_date_and_name,20-Jun,Bls. Francisco Pacheco & Companions,https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%A9%E3%83%B3%E3%82%B7%E3%82%B9%E3%82%B3%E3%83%BB%E3%83%91%E3%82%B7%E3%82%A7%E3%82%B3,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 6
-exact_date_and_name,19-Aug,Bls. Pedro de Z??iga & Companions,https://ja.wikipedia.org/wiki/%E3%83%9A%E3%83%89%E3%83%AD%E3%83%BB%E3%83%87%E3%83%BB%E3%82%B9%E3%83%8B%E3%82%AC,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 7
-exact_date_and_name,25-Aug,Bls. Miguel de Carvalho & Companions,https://en.wikipedia.org/wiki/Miguel_de_Carvalho,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 8
-exact_date_and_name,3-Sep,Bls. Anthony Ishida & Companions,https://www.pauline.or.jp/kirishitanland/20090914_unzench.php,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 9
-exact_date_and_name,10-Sep,"Bls. Charles Spinola, Sebastian Kimura ＆ Companions",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091001,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 11
-exact_date_and_name,10-Sep,"Bls. Charles Spinola, Sebastian Kimura ＆ Companions",https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AB%E3%83%AD%E3%83%BB%E3%82%B9%E3%83%94%E3%83%8E%E3%83%A9,ja,2,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 11
-exact_date_and_name,13-Sep,Bls. Apollinaris & Companions,https://www.catholicnewsagency.com/saint/blessed-apollinaris-franco-592,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 12
-exact_date_and_name,16-Sep,"Bls. Camillus Costanzo, Augustine Ota ＆ Companions",https://en.wikipedia.org/wiki/Camillus_Costanzo,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 13
-exact_date_and_name,16-Sep,"Bls. Camillus Costanzo, Augustine Ota ＆ Companions",https://kotobank.jp/word/%E5%A4%AA%E7%94%B0%E3%81%82%E3%81%86%E3%81%90%E3%81%99%E3%81%A1%E3%81%AE-1060415,ja,2,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 13
-exact_date_and_name,5-Nov,Bs. Paul Navarro & Companions,https://www.catholic.org/saints/saint.php?saint_id=5287,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 14
-exact_date_and_name,27-Nov,Bs. Leonardo Kimura & Companions,https://en.wikipedia.org/wiki/Leonardo_Kimura,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 15
-exact_date_and_name,4-Dec,"Bs. Jerome de Angelis, Simon Empo & Companions",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091201,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 16
-movable_name,,Bls. Diogo de Carvalho & Companions,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091101,ja,1,WIP_movable_feast_terms_local_japanese_ja_20251206.csv,reference line 2
+match_type,date,english_name,url,language,display_order,source_file,notes,description_mode,site_label,link_description
+exact_date_and_name,14-Jan,St. Hilary,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 7,localized_summary,Laudate,
+exact_date_and_name,15-Jan,St. Paul the Hermit,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 8,localized_summary,Laudate,
+exact_date_and_name,16-Jan,Pope Marcellus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 9,localized_summary,Laudate,
+exact_date_and_name,17-Jan,St. Anthony the Great,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=011701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 10,localized_summary,Laudate,
+exact_date_and_name,20-Jan,Pope Fabian & St. Sebastian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012002,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 14,localized_summary,Laudate,聖ファビアノ教皇
+exact_date_and_name,21-Jan,St. Agnes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 15,localized_summary,Laudate,聖アグネスおとめ殉教者
+exact_date_and_name,22-Jan,SS. Vincent & Anastasius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 16,localized_summary,Laudate,聖ヴィンチェンツィオ
+exact_date_and_name,24-Jan,St. Timothy,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 18,localized_summary,Laudate,
+exact_date_and_name,25-Jan,Conversion of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=012501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 19,localized_summary,Laudate,
+exact_date_and_name,26-Jan,St. Polycarp,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022302,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 20,localized_summary,Laudate,
+exact_date_and_name,27-Jan,St. John Chrysostom,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 21,localized_summary,Laudate,
+exact_date_and_name,29-Jan,St. Francis de Sales,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 23,localized_summary,Laudate,
+exact_date_and_name,31-Jan,St. John Bosco,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=013101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 25,localized_summary,Laudate,
+exact_date_and_name,1-Feb,St. Ignatius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 27,localized_summary,Laudate,
+exact_date_and_name,2-Feb,Candlemas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 28,localized_summary,Laudate,主の奉献
+exact_date_and_name,3-Feb,St. Blaise,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020302,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 29,localized_summary,Laudate,
+exact_date_and_name,4-Feb,St. Andrew Corsini,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 30,localized_summary,Laudate,
+exact_date_and_name,5-Feb,St. Agatha,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 31,localized_summary,Laudate,
+exact_date_and_name,7-Feb,St. Romuald,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 33,localized_summary,Laudate,
+exact_date_and_name,9-Feb,St. Cyril of Alexandria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 35,localized_summary,Laudate,
+exact_date_and_name,10-Feb,St. Scholastica,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=021001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 36,localized_summary,Laudate,
+exact_date_and_name,11-Feb,The Apparition at Lourdes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 37,localized_summary,Laudate,ルルドの聖母マリア
+exact_date_and_name,12-Feb,The Seven Holy Founders of the Servite Order,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=021701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 38,localized_summary,Laudate,
+exact_date_and_name,14-Feb,St. Valentine,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021402,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 39,localized_summary,Laudate,
+exact_date_and_name,23-Feb,St. Peter Damian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 42,localized_summary,Laudate,
+exact_date_and_name,4-Mar,St. Casimir,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 43,localized_summary,Laudate,
+exact_date_and_name,6-Mar,SS. Perpetua and Felicitas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 44,localized_summary,Laudate,
+exact_date_and_name,7-Mar,St. Thomas Aquinas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 45,localized_summary,Laudate,
+exact_date_and_name,8-Mar,St. John of God,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 46,localized_summary,Laudate,
+exact_date_and_name,9-Mar,St. Frances of Rome,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=030901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 47,localized_summary,Laudate,
+exact_date_and_name,17-Mar,St. Patrick,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 50,localized_summary,Laudate,
+exact_date_and_name,18-Mar,St. Cyril of Jerusalem,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 51,localized_summary,Laudate,
+exact_date_and_name,19-Mar,St. Joseph,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=031901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 52,localized_summary,Laudate,
+exact_date_and_name,21-Mar,St. Benedict,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=071101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 53,localized_summary,Laudate,
+exact_date_and_name,24-Mar,St. Gabriel,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 54,localized_summary,Laudate,
+exact_date_and_name,27-Mar,St. John Damascene,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=120402,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 55,localized_summary,Laudate,
+exact_date_and_name,28-Mar,St. John Capistrano,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=032801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 56,localized_summary,Laudate,
+exact_date_and_name,2-Apr,St. Francis of Paula,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=040201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 57,localized_summary,Laudate,
+exact_date_and_name,4-Apr,St. Isidore,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=040401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 58,localized_summary,Laudate,
+exact_date_and_name,5-Apr,St. Vincent Ferrer,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=040501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 59,localized_summary,Laudate,
+exact_date_and_name,11-Apr,Pope Leo the Great,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 60,localized_summary,Laudate,
+exact_date_and_name,13-Apr,St. Hermenegild,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=041401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 61,localized_summary,Laudate,
+exact_date_and_name,14-Apr,St. Justin,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 62,localized_summary,Laudate,
+exact_date_and_name,21-Apr,St. Anselm,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 64,localized_summary,Laudate,
+exact_date_and_name,23-Apr,St. George,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 66,localized_summary,Laudate,
+exact_date_and_name,24-Apr,St. Fidelis of Sigmaringen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 67,localized_summary,Laudate,
+exact_date_and_name,25-Apr,St. Mark,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 69,localized_summary,Laudate,
+exact_date_and_name,27-Apr,St. Peter Canisius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=122101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 71,localized_summary,Laudate,
+exact_date_and_name,28-Apr,St. Paul of the Cross,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 72,localized_summary,Laudate,
+exact_date_and_name,30-Apr,St. Catherine of Siena,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=042901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 74,localized_summary,Laudate,
+exact_date_and_name,1-May,St. Joseph the Worker,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 76,localized_summary,Laudate,
+exact_date_and_name,1-May,St. Walpurga,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 77,localized_summary,Laudate,
+exact_date_and_name,2-May,St. Athanasius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 78,localized_summary,Laudate,
+exact_date_and_name,4-May,St. Monica,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 80,localized_summary,Laudate,
+exact_date_and_name,5-May,Pope Pius V,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=043001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 81,localized_summary,Laudate,
+exact_date_and_name,7-May,St. Stanislaus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=041101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 82,localized_summary,Laudate,
+exact_date_and_name,9-May,St. Gregory Nazianzen,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=010201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 83,localized_summary,Laudate,
+exact_date_and_name,10-May,St. Antoninus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=051001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 84,localized_summary,Laudate,
+exact_date_and_name,11-May,SS. Philip & James,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=050301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 85,localized_summary,Laudate,
+exact_date_and_name,12-May,"SS. Nereus, Achilleus, Domitilla, & Pancras",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=051201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 86,localized_summary,Laudate,聖ネレオ、聖アキレオ
+exact_date_and_name,12-May,"SS. Nereus, Achilleus, Domitilla, & Pancras",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=051202,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 86,localized_summary,Laudate,聖パンクラツィオ
+exact_date_and_name,13-May,St. Robert Bellarmine,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091702,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 87,localized_summary,Laudate,
+exact_date_and_name,14-May,St. Boniface of Tarsus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 88,localized_summary,Laudate,
+exact_date_and_name,15-May,St. John Baptist de la Salle,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=040701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 89,localized_summary,Laudate,
+exact_date_and_name,17-May,St. Pascal Baylon,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=052101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 91,localized_summary,Laudate,
+exact_date_and_name,20-May,St. Bernardine of Siena,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 94,localized_summary,Laudate,
+exact_date_and_name,22-May,St. Rita of Cascia,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 95,localized_summary,Laudate,
+exact_date_and_name,25-May,Pope Gregory VII,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052502,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 96,localized_summary,Laudate,
+exact_date_and_name,26-May,St. Philip Neri,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 97,localized_summary,Laudate,
+exact_date_and_name,27-May,St. Bede the Venerable,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052503,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 98,localized_summary,Laudate,
+exact_date_and_name,28-May,St. Augustine of Canterbury,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 99,localized_summary,Laudate,
+exact_date_and_name,29-May,St. Mary Magdalen of Pazzi,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=052501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 100,localized_summary,Laudate,
+exact_date_and_name,30-May,St. Joan of Arc,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=053001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 102,localized_summary,Laudate,
+exact_date_and_name,31-May,The Queenship of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 103,localized_summary,Laudate,
+exact_date_and_name,1-Jun,St. Angela Merici,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 104,localized_summary,Laudate,
+exact_date_and_name,2-Jun,"SS. Marcellinus, Peter, & St. Erasmus",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 105,localized_summary,Laudate,聖マルチェリノ、聖ペトロ
+exact_date_and_name,4-Jun,St. Francis Caracciolo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 106,localized_summary,Laudate,
+exact_date_and_name,5-Jun,St. Boniface,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 107,localized_summary,Laudate,
+exact_date_and_name,6-Jun,St. Norbert,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=060601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 108,localized_summary,Laudate,
+exact_date_and_name,10-Jun,St. Margaret,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061102,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 110,localized_summary,Laudate,
+exact_date_and_name,11-Jun,St. Barnabas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 111,localized_summary,Laudate,
+exact_date_and_name,12-Jun,St. John of St. Facundo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 113,localized_summary,Laudate,
+exact_date_and_name,13-Jun,St. Anthony of Padua,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 114,localized_summary,Laudate,
+exact_date_and_name,14-Jun,St. Basil the Great,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=010201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 115,localized_summary,Laudate,
+exact_date_and_name,15-Jun,"SS. Vitus, Modestus, & Crescentia",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=061501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 116,localized_summary,Laudate,聖ヴィト
+exact_date_and_name,17-Jun,St. Gregory Barbarigo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=061801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 117,localized_summary,Laudate,
+exact_date_and_name,18-Jun,St. Ephrem,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=060901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 119,localized_summary,Laudate,
+exact_date_and_name,20-Jun,Pope Silverius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 122,localized_summary,Laudate,
+exact_date_and_name,21-Jun,St. Aloysius Gonzaga,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 123,localized_summary,Laudate,
+exact_date_and_name,22-Jun,St. Paulinus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062203,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 124,localized_summary,Laudate,
+exact_date_and_name,26-Jun,SS. John & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 126,localized_summary,Laudate,
+exact_date_and_name,29-Jun,SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 128,localized_summary,Laudate,聖ペトロ
+exact_date_and_name,29-Jun,SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=062902,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 128,localized_summary,Laudate,聖パウロ
+exact_date_and_name,2-Jul,The Visitation,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=053101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 130,localized_summary,Laudate,
+exact_date_and_name,3-Jul,St. Irenaeus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 131,localized_summary,Laudate,
+exact_date_and_name,5-Jul,St. Anthony Mary Zaccaria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 132,localized_summary,Laudate,
+exact_date_and_name,7-Jul,SS. Cyril and Methodius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=021401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 133,localized_summary,Laudate,
+exact_date_and_name,8-Jul,St. Elizabeth,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 134,localized_summary,Laudate,
+exact_date_and_name,9-Jul,St. Thomas More,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062202,ja,1,Google_Calendar_revision_5_20260811,approved Japanese explanatory link,localized_summary,Laudate,聖トマス・モア
+exact_date_and_name,12-Jul,St. John Gualbert,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 137,localized_summary,Laudate,
+exact_date_and_name,14-Jul,St. Bonaventure,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 138,localized_summary,Laudate,
+exact_date_and_name,15-Jul,St. Henry,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 139,localized_summary,Laudate,
+exact_date_and_name,16-Jul,Our Lady of Mt. Carmel,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 140,localized_summary,Laudate,
+exact_date_and_name,17-Jul,St. Alexius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=071701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 141,localized_summary,Laudate,
+exact_date_and_name,18-Jul,St. Camillus de Lellis,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=071401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 142,localized_summary,Laudate,
+exact_date_and_name,19-Jul,St. Vincent de Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 143,localized_summary,Laudate,
+exact_date_and_name,20-Jul,St. Jerome Emilian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=020801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 144,localized_summary,Laudate,
+exact_date_and_name,21-Jul,St. Lawrence of Brindisi,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 145,localized_summary,Laudate,
+exact_date_and_name,22-Jul,St. Mary Magdalen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 147,localized_summary,Laudate,
+exact_date_and_name,23-Jul,St. Apollinaris,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 148,localized_summary,Laudate,
+exact_date_and_name,25-Jul,St. James the Greater,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 150,localized_summary,Laudate,
+exact_date_and_name,26-Jul,St. Anne,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 151,localized_summary,Laudate,
+exact_date_and_name,27-Jul,St. Pantaleon,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 152,localized_summary,Laudate,
+exact_date_and_name,28-Jul,"SS. Nazarius & Celsus, St. Victor I, St. Innocent I",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 153,localized_summary,Laudate,聖ナザリオと聖チェルソ
+exact_date_and_name,29-Jul,St. Martha,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 154,localized_summary,Laudate,
+exact_date_and_name,31-Jul,St. Ignatius of Loyola,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=073101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 156,localized_summary,Laudate,
+exact_date_and_name,2-Aug,St. Alphonsus Liguori,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=080101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 158,localized_summary,Laudate,
+exact_date_and_name,4-Aug,St. Dominic,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 159,localized_summary,Laudate,
+exact_date_and_name,7-Aug,St. Cajetan,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=080702,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 162,localized_summary,Laudate,
+exact_date_and_name,8-Aug,St. John Mary Vianney,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 164,localized_summary,Laudate,
+exact_date_and_name,10-Aug,St. Lawrence,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 166,localized_summary,Laudate,
+exact_date_and_name,12-Aug,St. Clare,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 168,localized_summary,Laudate,
+exact_date_and_name,15-Aug,Marymass,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 171,localized_summary,Laudate,
+exact_date_and_name,16-Aug,St. Joachim,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=072601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 172,localized_summary,Laudate,
+exact_date_and_name,16-Aug,St. Roch,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 173,localized_summary,Laudate,
+exact_date_and_name,17-Aug,St. Hyacinth,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 174,localized_summary,Laudate,
+exact_date_and_name,19-Aug,St. John Eudes,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=081901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 176,localized_summary,Laudate,
+exact_date_and_name,20-Aug,St. Bernard,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 177,localized_summary,Laudate,
+exact_date_and_name,21-Aug,St. Jane Frances Fremiot de Chantal,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 178,localized_summary,Laudate,
+exact_date_and_name,24-Aug,St. Bartholomew,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 181,localized_summary,Laudate,
+exact_date_and_name,25-Aug,St. Louis,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 182,localized_summary,Laudate,
+exact_date_and_name,26-Aug,Pope Zephyrinus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 183,localized_summary,Laudate,
+exact_date_and_name,27-Aug,St. Joseph Calasanctius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082502,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 184,localized_summary,Laudate,
+exact_date_and_name,28-Aug,St. Augustine,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 185,localized_summary,Laudate,
+exact_date_and_name,29-Aug,The Beheading of John the Baptist,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=082901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 186,localized_summary,Laudate,
+exact_date_and_name,30-Aug,SS. Felix & Adauctus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=083001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 187,localized_summary,Laudate,
+exact_date_and_name,30-Aug,St. Rose of Lima,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 188,localized_summary,Laudate,
+exact_date_and_name,31-Aug,St. Raymond Nonnatus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=083101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 189,localized_summary,Laudate,
+exact_date_and_name,1-Sep,St. Giles,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=090101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 190,localized_summary,Laudate,
+exact_date_and_name,2-Sep,St. Stephen I,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=081602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 191,localized_summary,Laudate,
+exact_date_and_name,3-Sep,Pope Pius X,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=082101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 192,localized_summary,Laudate,
+exact_date_and_name,5-Sep,St. Lawrence Justinian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=090501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 193,localized_summary,Laudate,
+exact_date_and_name,12-Sep,The Most Holy Name of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091202,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 198,localized_summary,Laudate,
+exact_date_and_name,15-Sep,The Seven Sorrows,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 200,localized_summary,Laudate,
+exact_date_and_name,16-Sep,Pope Cornelius & St. Cyprian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 201,localized_summary,Laudate,聖コルネリオ
+exact_date_and_name,16-Sep,Pope Cornelius & St. Cyprian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091603,ja,2,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 201,localized_summary,Laudate,聖チプリアノ
+exact_date_and_name,18-Sep,St. Joseph of Cupertino,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 203,localized_summary,Laudate,
+exact_date_and_name,19-Sep,St. Januarius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 204,localized_summary,Laudate,
+exact_date_and_name,21-Sep,St. Matthew,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 206,localized_summary,Laudate,
+exact_date_and_name,22-Sep,St. Thomas of Villanova,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 207,localized_summary,Laudate,
+exact_date_and_name,27-Sep,SS. Cosmas & Damian,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=092601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 211,localized_summary,Laudate,
+exact_date_and_name,29-Sep,Michaelmas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 213,localized_summary,Laudate,
+exact_date_and_name,30-Sep,St. Jerome,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=093001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 214,localized_summary,Laudate,
+exact_date_and_name,1-Oct,St. Remigius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 215,localized_summary,Laudate,
+exact_date_and_name,2-Oct,The Holy Guardian Angels,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 216,localized_summary,Laudate,
+exact_date_and_name,3-Oct,St. Theresa of Lisieux,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 217,localized_summary,Laudate,
+exact_date_and_name,4-Oct,St. Francis of Assisi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 218,localized_summary,Laudate,
+exact_date_and_name,5-Oct,St. Placid,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 219,localized_summary,Laudate,
+exact_date_and_name,6-Oct,St. Bruno,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 220,localized_summary,Laudate,
+exact_date_and_name,7-Oct,The Holy Rosary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 221,localized_summary,Laudate,
+exact_date_and_name,8-Oct,St. Bridget,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=072301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 222,localized_summary,Laudate,
+exact_date_and_name,9-Oct,St. John Leonardi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=100902,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 223,localized_summary,Laudate,
+exact_date_and_name,10-Oct,St. Francis Borgi,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 224,localized_summary,Laudate,
+exact_date_and_name,13-Oct,St. Edward,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=101301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 226,localized_summary,Laudate,
+exact_date_and_name,14-Oct,Pope Callistus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 227,localized_summary,Laudate,
+exact_date_and_name,15-Oct,St. Teresa of Avila,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 228,localized_summary,Laudate,
+exact_date_and_name,16-Oct,St. Hedwig,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101602,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 230,localized_summary,Laudate,
+exact_date_and_name,17-Oct,St. Margaret Mary Alacoque,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 231,localized_summary,Laudate,
+exact_date_and_name,18-Oct,St. Luke,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=101801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 232,localized_summary,Laudate,
+exact_date_and_name,19-Oct,St. Peter of Alcántara,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=102201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 233; normalized from St. Peter of Alcﾃ｡ntara,localized_summary,Laudate,
+exact_date_and_name,20-Oct,St. John Cantius,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 234,localized_summary,Laudate,
+exact_date_and_name,21-Oct,St. Hilarion,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 235,localized_summary,Laudate,
+exact_date_and_name,23-Oct,St. Anthony Mary Claret,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 236,localized_summary,Laudate,
+exact_date_and_name,24-Oct,St. Raphael,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 237,localized_summary,Laudate,
+exact_date_and_name,26-Oct,Pope Evaristus,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 239,localized_summary,Laudate,
+exact_date_and_name,28-Oct,SS. Simon & Jude,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=102801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 240,localized_summary,Laudate,
+exact_date_and_name,1-Nov,Hallowmas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 242,localized_summary,Laudate,
+movable_name,,All Souls' Day,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 243,localized_summary,Laudate,
+exact_date_and_name,4-Nov,St. Charles Borromeo,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=110401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 244,localized_summary,Laudate,
+exact_date_and_name,9-Nov,Basilica of St. John Lateran,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=110901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 246,localized_summary,Laudate,ラテラノ教会の献堂
+exact_date_and_name,11-Nov,Martinmas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 248,localized_summary,Laudate,
+exact_date_and_name,14-Nov,St. Josaphat,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 251,localized_summary,Laudate,
+exact_date_and_name,15-Nov,St. Albert the Great,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 252,localized_summary,Laudate,
+exact_date_and_name,16-Nov,St. Gertrude,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111603,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 253,localized_summary,Laudate,
+exact_date_and_name,18-Nov,Basilicas of SS. Peter & Paul,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 255,localized_summary,Laudate,
+exact_date_and_name,19-Nov,St. Elizabeth of Hungary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=111701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 256,localized_summary,Laudate,
+exact_date_and_name,20-Nov,St. Felix of Valois,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 257,localized_summary,Laudate,
+exact_date_and_name,21-Nov,The Presentation of Mary,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 258,localized_summary,Laudate,
+exact_date_and_name,22-Nov,St. Cecilia,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 259,localized_summary,Laudate,
+exact_date_and_name,23-Nov,Pope Clement I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=112301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 260,localized_summary,Laudate,
+exact_date_and_name,24-Nov,St. John of the Cross,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=121401,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 261,localized_summary,Laudate,
+exact_date_and_name,25-Nov,St. Catherine of Alexandria,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 262,localized_summary,Laudate,
+exact_date_and_name,30-Nov,St. Andrew,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=113001,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 265,localized_summary,Laudate,
+exact_date_and_name,2-Dec,St. Bibiana,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 266,localized_summary,Laudate,
+exact_date_and_name,3-Dec,St. Francis Xavier,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 267,localized_summary,Laudate,
+exact_date_and_name,4-Dec,St. Peter Chrysologus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=073002,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 269,localized_summary,Laudate,
+exact_date_and_name,5-Dec,St. Sabbas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120501,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 270,localized_summary,Laudate,
+exact_date_and_name,6-Dec,St. Nicholas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 271,localized_summary,Laudate,
+exact_date_and_name,7-Dec,St. Ambrose,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 272,localized_summary,Laudate,
+exact_date_and_name,8-Dec,The Immaculate Conception,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=120801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 273,localized_summary,Laudate,無原罪の聖母マリア
+exact_date_and_name,11-Dec,Pope Damasus I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 275,localized_summary,Laudate,
+exact_date_and_name,12-Dec,Our Lady of Guadalupe,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 276,localized_summary,Laudate,
+exact_date_and_name,13-Dec,St. Lucy,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=121301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 277,localized_summary,Laudate,
+exact_date_and_name,16-Dec,St. Eusebius,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=080201,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 279,localized_summary,Laudate,
+exact_date_and_name,21-Dec,St. Thomas,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070301,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 281,localized_summary,Laudate,
+exact_date_and_name,25-Dec,St. Anastasia,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=122501,ja,1,WIP_fixed_feasts_terms_lack_ja_20260727.csv,reference line 2,localized_summary,Laudate,聖アナスタジアおとめ殉教者
+exact_date_and_name,26-Dec,St. Stephen,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122601,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 284,localized_summary,Laudate,
+exact_date_and_name,27-Dec,St. John,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122701,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 285,localized_summary,Laudate,
+exact_date_and_name,28-Dec,Childermas,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122801,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 286,localized_summary,Laudate,聖なる幼子殉教者
+exact_date_and_name,29-Dec,St. Thomas Becket,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=122901,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 287,localized_summary,Laudate,
+exact_date_and_name,31-Dec,Pope Sylvester I,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=123101,ja,1,WIP_feasts_seasons_terms_ja_20251206.csv,reference line 288,localized_summary,Laudate,
+exact_date_and_name,19-Jan,St. Canute,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=011901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 5,localized_summary,Laudate,
+exact_date_and_name,25-Jan,Conversion of St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 7; merged from St. Peter commemoration,localized_summary,Laudate,聖ペトロ
+exact_date_and_name,28-Jan,St. Agnes,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=012101,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 8,localized_summary,Laudate,聖アグネス
+exact_date_and_name,9-Feb,St. Apollonia,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=020901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 10,localized_summary,Laudate,
+exact_date_and_name,22-Feb,Chair of St. Peter,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=022201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 11,localized_summary,Laudate,
+exact_date_and_name,22-Feb,Chair of St. Peter,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 12; merged from St. Paul commemoration,localized_summary,Laudate,聖パウロ
+exact_date_and_name,27-May,St. John I,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=051801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 19,localized_summary,Laudate,
+exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062902,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 22; merged from Commemoration of St. Paul,localized_summary,Laudate,聖パウロ
+exact_date_and_name,30-Jun,St. Paul,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=062901,ja,2,WIP_fixed_feasts_terms_lack_ja_20251205.csv,Peter link merged into principal event,localized_summary,Laudate,聖ペトロ
+exact_date_and_name,25-Jul,St. Christopher,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=070201,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 28,localized_summary,Laudate,
+exact_date_and_name,8-Sep,St. Hadrian,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=090801,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 39,localized_summary,Laudate,
+exact_date_and_name,23-Sep,St. Thecla,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=092301,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 43,localized_summary,Laudate,
+exact_date_and_name,9-Oct,"Ss. Denis, Rusticus & Eleutherius",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=100901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 47,localized_summary,Laudate,聖ディオニジオと同志殉教者
+exact_date_and_name,19-Nov,St. Pontianus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=111901,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 53,localized_summary,Laudate,
+exact_date_and_name,24-Nov,St. Chrysogonus,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=112401,ja,1,WIP_fixed_feasts_terms_lack_ja_20251205.csv,reference line 55,localized_summary,Laudate,
+exact_date_and_name,5-Feb,Twenty-six Martyrs of Japan,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=020501,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 2,localized_summary,Laudate,
+exact_date_and_name,17-Mar,Blessed Virgin Mary of the Discovery of the Christians,https://www.pauline.or.jp/calendariocappella/cycle0/shintohakken.php,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 3,localized_summary,Laudate,
+exact_date_and_name,22-May,Bls. John the Baptist of Machado ＆ Peter of the Assumption,https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=052301,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 4,localized_summary,Laudate,
+exact_date_and_name,1-Jun,Bls. Alfonso Navarrete & Companions,https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A9%E3%83%B3%E3%82%BD%E3%83%BB%E3%83%8A%E3%83%90%E3%83%AC%E3%83%86%E3%83%BB%E3%83%99%E3%83%8B%E3%83%88,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 5,localized_summary,Wikipedia,福者アルフォンソ・ナバレテ・ベニト
+exact_date_and_name,20-Jun,Bls. Francisco Pacheco & Companions,https://ja.wikipedia.org/wiki/%E3%83%95%E3%83%A9%E3%83%B3%E3%82%B7%E3%82%B9%E3%82%B3%E3%83%BB%E3%83%91%E3%82%B7%E3%82%A7%E3%82%B3,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 6,localized_summary,Wikipedia,福者フランシスコ・パチェコ
+exact_date_and_name,19-Aug,Bls. Pedro de Z??iga & Companions,https://ja.wikipedia.org/wiki/%E3%83%9A%E3%83%89%E3%83%AD%E3%83%BB%E3%83%87%E3%83%BB%E3%82%B9%E3%83%8B%E3%82%AC,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 7,localized_summary,Wikipedia,福者ペトロ・デ・ズニガ等殉教者
+exact_date_and_name,25-Aug,Bls. Miguel de Carvalho & Companions,https://en.wikipedia.org/wiki/Miguel_de_Carvalho,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 8,localized_summary,Wikipedia,Miguel de Carvalho
+exact_date_and_name,3-Sep,Bls. Anthony Ishida & Companions,https://www.pauline.or.jp/kirishitanland/20090914_unzench.php,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 9,localized_summary,Laudate,
+exact_date_and_name,10-Sep,"Bls. Charles Spinola, Sebastian Kimura ＆ Companions",https://www.pauline.or.jp/calendariosanti/gen_saint365.php?id=091001,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 11,localized_summary,Laudate,福者セバスチャン木村司祭と204殉教者
+exact_date_and_name,10-Sep,"Bls. Charles Spinola, Sebastian Kimura ＆ Companions",https://ja.wikipedia.org/wiki/%E3%82%AB%E3%83%AB%E3%83%AD%E3%83%BB%E3%82%B9%E3%83%94%E3%83%8E%E3%83%A9,ja,2,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 11,localized_summary,Wikipedia,福者カルロ・スピノラ
+exact_date_and_name,13-Sep,Bls. Apollinaris & Companions,https://ewtn.co.uk/article-blessed-apollinaris-franco/,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 12,localized_summary,EWTN,Blessed Apollinaris Franco
+exact_date_and_name,16-Sep,"Bls. Camillus Costanzo, Augustine Ota ＆ Companions",https://en.wikipedia.org/wiki/Camillus_Costanzo,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 13,localized_summary,Wikipedia,Camillus Costanzo
+exact_date_and_name,16-Sep,"Bls. Camillus Costanzo, Augustine Ota ＆ Companions",https://kotobank.jp/word/%E5%A4%AA%E7%94%B0%E3%81%82%E3%81%86%E3%81%90%E3%81%99%E3%81%A1%E3%81%AE-1060415,ja,2,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 13,localized_summary,コトバンク,福者アウグスティノ太田
+exact_date_and_name,27-Nov,Bs. Leonardo Kimura & Companions,https://en.wikipedia.org/wiki/Leonardo_Kimura,en,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 15,localized_summary,Wikipedia,Leonardo Kimura
+exact_date_and_name,4-Dec,"Bs. Jerome de Angelis, Simon Empo & Companions",https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091201,ja,1,WIP_fixed_feasts_terms_local_japanese_ja_20251206.csv,reference line 16,localized_summary,Laudate,福者アンジェリス司祭と殉教者たち
+movable_name,,Bls. Diogo de Carvalho & Companions,https://www.pauline.or.jp/calendariosanti/gen_saint50.php?id=091101,ja,1,WIP_movable_feast_terms_local_japanese_ja_20251206.csv,reference line 2,localized_summary,Laudate,
+exact_date_and_name,25-Dec,St. Anastasia,https://www.newadvent.org/cathen/01453a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-Dec,St. Anastasia,https://en.wikipedia.org/wiki/Anastasia_of_Sirmium,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,14-Jan,St. Felix,https://www.newadvent.org/cathen/06033b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,14-Jan,St. Felix,https://en.wikipedia.org/wiki/Felix_of_Nola,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,15-Jan,St. Maurus,https://www.newadvent.org/cathen/10072a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,15-Jan,St. Maurus,https://en.wikipedia.org/wiki/Saint_Maurus,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-Jan,St. Canute,https://www.newadvent.org/cathen/03307a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-Jan,St. Canute,https://en.wikipedia.org/wiki/Canute_IV_of_Denmark,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Jan,St. Emerentiana,https://www.newadvent.org/cathen/05401b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Jan,St. Emerentiana,https://en.wikipedia.org/wiki/Saint_Emerentiana,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,28-Jan,St. Agnes,https://www.newadvent.org/cathen/01214a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,28-Jan,St. Agnes,https://en.wikipedia.org/wiki/Agnes_of_Rome,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,6-Feb,St. Dorothy,https://www.newadvent.org/cathen/05135d.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,6-Feb,St. Dorothy,https://en.wikipedia.org/wiki/Dorothea_of_Caesarea,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Feb,St. Apollonia,https://www.newadvent.org/cathen/01617c.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Feb,St. Apollonia,https://en.wikipedia.org/wiki/Saint_Apollonia,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,4-Mar,St. Lucius I,https://www.newadvent.org/cathen/09411a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,4-Mar,St. Lucius I,https://en.wikipedia.org/wiki/Pope_Lucius_I,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,14-Apr,"SS. Tiburtius, Valerian & Maximus","https://en.wikipedia.org/wiki/Tiburtius,_Valerian,_and_Maximus",en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,10-May,SS. Gordian & Epimachus,https://www.newadvent.org/cathen/06649a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,10-May,SS. Gordian & Epimachus,https://en.wikipedia.org/wiki/Gordianus_and_Epimachus,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-May,St. Pudentiana,https://www.newadvent.org/cathen/12344b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-May,St. Pudentiana,https://en.wikipedia.org/wiki/Pudentiana,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-May,St. Urban I,https://www.newadvent.org/cathen/15209a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-May,St. Urban I,https://en.wikipedia.org/wiki/Pope_Urban_I,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,26-May,St. Eleutherius,https://www.newadvent.org/cathen/05378a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,26-May,St. Eleutherius,https://en.wikipedia.org/wiki/Pope_Eleutherius,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,27-May,St. John I,https://www.newadvent.org/cathen/08421a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,27-May,St. John I,https://en.wikipedia.org/wiki/Pope_John_I,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,31-May,St. Petronilla,https://www.newadvent.org/cathen/11781b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,31-May,St. Petronilla,https://en.wikipedia.org/wiki/Saint_Petronilla,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,2-Jul,Ss. Processus & Martinian,https://www.newadvent.org/cathen/12449a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,2-Jul,Ss. Processus & Martinian,https://en.wikipedia.org/wiki/Martinian_and_Processus,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,12-Jul,Ss. Nabor ＆ Felix,https://www.newadvent.org/cathen/10666b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,12-Jul,Ss. Nabor ＆ Felix,https://en.wikipedia.org/wiki/Nabor_and_Felix,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,18-Jul,St. Symphorosa & her seven Sons,https://www.newadvent.org/cathen/14379a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,18-Jul,St. Symphorosa & her seven Sons,https://en.wikipedia.org/wiki/Symphorosa,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,20-Jul,St. Margaret,https://www.newadvent.org/cathen/09652b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,20-Jul,St. Margaret,https://www.fisheaters.com/14holyhelpers-biographies.html,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,20-Jul,St. Margaret,https://en.wikipedia.org/wiki/Margaret_the_Virgin,en,3,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Jul,St. Liborius,https://en.wikipedia.org/wiki/Liborius_of_Le_Mans,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-Jul,St. Christopher,https://www.newadvent.org/cathen/03728a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-Jul,St. Christopher,https://www.fisheaters.com/14holyhelpers-biographies.html,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,25-Jul,St. Christopher,https://en.wikipedia.org/wiki/Saint_Christopher,en,3,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,2-Aug,St. Stephen I,https://www.newadvent.org/cathen/14288a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,2-Aug,St. Stephen I,https://en.wikipedia.org/wiki/Pope_Stephen_I,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,6-Aug,"Ss. Xystus II Pope, Felicissimus ＆ Agapitus",https://www.newadvent.org/cathen/14031c.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,6-Aug,"Ss. Xystus II Pope, Felicissimus ＆ Agapitus",https://en.wikipedia.org/wiki/Pope_Sixtus_II,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,7-Aug,St. Donatus,https://en.wikipedia.org/wiki/Donatus_of_Arezzo,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Aug,St. Romanus,https://en.wikipedia.org/wiki/Romanus_of_Rome,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,14-Aug,St. Eusebius,https://www.newadvent.org/cathen/05615a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,14-Aug,St. Eusebius,https://en.wikipedia.org/wiki/Eusebius_of_Rome,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,22-Aug,"Ss. Timothy, Hippolytus ＆ Symphorian",https://en.wikipedia.org/wiki/Symphorian_and_Timotheus,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,28-Aug,St. Hermes,https://en.wikipedia.org/wiki/Saint_Hermes,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,29-Aug,St. Sabina,https://www.newadvent.org/cathen/13290a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,29-Aug,St. Sabina,https://en.wikipedia.org/wiki/Saint_Sabina,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,8-Sep,St. Hadrian,https://www.newadvent.org/cathen/07105a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,8-Sep,St. Hadrian,https://en.wikipedia.org/wiki/Adrian_and_Natalia_of_Nicomedia,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,15-Sep,St. Nicomedes,https://www.newadvent.org/cathen/11069c.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,15-Sep,St. Nicomedes,https://en.wikipedia.org/wiki/Saint_Nicomedes,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,22-Sep,Ss. Maurice ＆ Companions,https://www.newadvent.org/cathen/10068c.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,22-Sep,Ss. Maurice ＆ Companions,https://en.wikipedia.org/wiki/Saint_Maurice,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Sep,St. Thecla,https://www.newadvent.org/cathen/14564a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Sep,St. Thecla,https://en.wikipedia.org/wiki/Thecla,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,7-Oct,Pope St. Mark,https://www.newadvent.org/cathen/09674a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,7-Oct,Pope St. Mark,https://en.wikipedia.org/wiki/Pope_Mark,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Oct,"Ss. Denis, Rusticus & Eleutherius",https://www.newadvent.org/cathen/04721a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Oct,"Ss. Denis, Rusticus & Eleutherius",https://en.wikipedia.org/wiki/Denis_of_Paris,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,21-Oct,St. Ursula and Companions,https://www.newadvent.org/cathen/15225d.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,21-Oct,St. Ursula and Companions,https://en.wikipedia.org/wiki/Saint_Ursula,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,4-Nov,Ss. Vitalis and Agricola,https://www.newadvent.org/cathen/15486b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,4-Nov,Ss. Vitalis and Agricola,https://en.wikipedia.org/wiki/Vitalis_and_Agricola,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Nov,St. Theodore,https://www.newadvent.org/cathen/14573a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,9-Nov,St. Theodore,https://en.wikipedia.org/wiki/Theodore_of_Amasea,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,10-Nov,"Ss. Tryphon, Respicius ＆ Nympha",https://www.newadvent.org/cathen/15079a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,10-Nov,"Ss. Tryphon, Respicius ＆ Nympha","https://en.wikipedia.org/wiki/Tryphon,_Respicius,_and_Nympha",en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,11-Nov,St. Mennas,https://www.newadvent.org/cathen/10178d.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,11-Nov,St. Mennas,https://en.wikipedia.org/wiki/Menas_of_Egypt,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-Nov,St. Pontianus,https://www.newadvent.org/cathen/12229b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,19-Nov,St. Pontianus,https://en.wikipedia.org/wiki/Pope_Pontian,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Nov,St. Felicitas,https://www.newadvent.org/cathen/06028a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,23-Nov,St. Felicitas,https://en.wikipedia.org/wiki/Felicitas_of_Rome,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,24-Nov,St. Chrysogonus,https://www.newadvent.org/cathen/03742b.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,24-Nov,St. Chrysogonus,https://en.wikipedia.org/wiki/Chrysogonus,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,26-Nov,St. Peter of Alexandria,https://www.newadvent.org/cathen/11771a.htm,en,1,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,
+exact_date_and_name,26-Nov,St. Peter of Alexandria,https://en.wikipedia.org/wiki/Peter_I_of_Alexandria,en,2,Google_Calendar_final_visual_check_20260810,approved English explanatory link,auto,,

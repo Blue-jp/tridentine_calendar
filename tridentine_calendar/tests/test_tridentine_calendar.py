@@ -444,6 +444,85 @@ class TestLiturgicalCalendar(unittest.TestCase):
                     self.assertNotIn("St. Peter's Chair", names)
                     self.assertIn('St. Prisca', names)
 
+    def test_st_george_commemoration_uses_martyr_red(self):
+        summaries = {
+            'en': 'St. George',
+            'fr': 'St Georges',
+            'ja': '聖ジェオルジオ',
+        }
+        description_leads = {
+            'en': (
+                'Today is a commemoration. '
+                'The liturgical color is red.'
+            ),
+            'fr': (
+                "Aujourd'hui, c'est une commémoraison. "
+                'La couleur liturgique est le rouge.'
+            ),
+            'ja': '記念\n典礼色は赤です。',
+        }
+        urls = {
+            'https://www.fisheaters.com/feastofstgeorge.html',
+            'https://en.wikipedia.org/wiki/Saint_George',
+            'http://www.newadvent.org/cathen/06453a.htm',
+        }
+
+        for year in [2025, 2026, 2027, 2028]:
+            date = dt.date(year, 4, 23)
+            for lang in ['en', 'fr', 'ja']:
+                calendar = LiturgicalCalendar(
+                    [utils.liturgical_year(date)], lang=lang)
+                internal = [
+                    event for event in calendar[date]
+                    if event.name == 'St. George'
+                ]
+                with self.subTest(year=year, lang=lang, internal=True):
+                    self.assertEqual(len(internal), 1)
+                    event = internal[0]
+                    self.assertEqual(event.rank, 4)
+                    self.assertEqual(event.titles, ['Martyr'])
+                    self.assertEqual(event.color, 'Red')
+                    self.assertTrue(event.liturgical_event)
+                    self.assertTrue(event.feast)
+                    self.assertEqual(
+                        {link.url for link in event.urls}, urls)
+
+                for html_formatting in [False, True]:
+                    components = [
+                        component for component in ical.Calendar.from_ical(
+                            calendar.to_ical(html_formatting)
+                        ).walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(
+                            component['DTSTART']) == date
+                        and str(component['SUMMARY']).lstrip(' ›»')
+                        == summaries[lang]
+                    ]
+                    with self.subTest(
+                        year=year,
+                        lang=lang,
+                        html=html_formatting,
+                    ):
+                        self.assertEqual(len(components), 1)
+                        description = str(components[0]['DESCRIPTION'])
+                        if lang == 'ja' or year in [2026, 2027]:
+                            self.assertTrue(
+                                description.startswith(
+                                    description_leads[lang]))
+                        elif lang == 'en':
+                            self.assertIn(
+                                'Commemoration of St. George', description)
+                        else:
+                            self.assertIn(
+                                'commémoraison de St Georges', description)
+                        if lang == 'en':
+                            self.assertNotIn(
+                                'liturgical color is white', description)
+                        elif lang == 'fr':
+                            self.assertNotIn(
+                                'couleur liturgique est le blanc', description)
+                        else:
+                            self.assertNotIn('典礼色は白です', description)
+
     def test_february_22_chair_and_st_paul_commemoration(self):
         summaries = {
             'en': 'Chair of St. Peter',
@@ -863,7 +942,7 @@ class TestLiturgicalCalendar(unittest.TestCase):
             ),
             'ja': (
                 '今年は聖ヨゼフがご受難の主日後の金曜日に優先します。'
-                'この平休日は三級の平休日です。'
+                'この平日は三級の平日です。'
             ),
         }
         expected_names = {
@@ -1155,11 +1234,11 @@ class TestLiturgicalCalendar(unittest.TestCase):
             },
             'ja': {
                 'Fifth Day within the Octave of Christmas': (
-                    '主の御降誕の八日間内第五日'),
+                    '御降誕の大祝日の八日間中の五日目'),
                 'Sixth Day within the Octave of Christmas': (
-                    '主の御降誕の八日間内第六日'),
+                    '御降誕の大祝日の八日間中の六日目'),
                 'Seventh Day within the Octave of Christmas': (
-                    '主の御降誕の八日間内第七日'),
+                    '御降誕の大祝日の八日間中の七日目'),
                 'St. Thomas Becket': '聖トマス・ベケット',
                 'Pope Sylvester I': '聖シルヴェストロ一世教皇',
             },
@@ -1174,49 +1253,154 @@ class TestLiturgicalCalendar(unittest.TestCase):
              'Seventh Day within the Octave of Christmas',
              'Pope Sylvester I', 'White'),
         ]
+        descriptions = {
+            'en': '{} is Class II. The liturgical color is white.',
+            'fr': "Le {} est de IIe classe. La couleur liturgique est le blanc.",
+            'ja': '{}は二級です。典礼色は白です。',
+        }
+        forbidden_day_types = {
+            'en': ('feria',),
+            'fr': ('férie',),
+            'ja': ('平日', '\u5e73\u4f11\u65e5'),
+        }
 
         for lang in ['en', 'fr', 'ja']:
             calendar = LiturgicalCalendar([2026], lang=lang)
-            components = ical.Calendar.from_ical(calendar.to_ical())
-            for date, day_name, saint_name, saint_color in cases:
-                events = calendar[date]
-                date_components = [
-                    event for event in components.walk('VEVENT')
-                    if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+            for html_formatting in [False, True]:
+                components = ical.Calendar.from_ical(
+                    calendar.to_ical(html_formatting))
+                for date, day_name, saint_name, saint_color in cases:
+                    events = calendar[date]
+                    date_components = [
+                        event for event in components.walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                    ]
+                    with self.subTest(
+                        lang=lang, date=date, html=html_formatting,
+                    ):
+                        self.assertEqual(
+                            events[0].liturgical_day_kind,
+                            'day_within_octave',
+                        )
+                        self.assertEqual(events[0].name, day_name)
+                        self.assertEqual(events[0].rank, 2)
+                        self.assertEqual(events[0].color, 'White')
+                        self.assertTrue(events[0].liturgical_event)
+                        self.assertFalse(events[0].feast)
+                        translated_name = summaries[lang][day_name]
+                        self.assertEqual(
+                            str(date_components[0]['SUMMARY']).lstrip(),
+                            translated_name,
+                        )
+                        description_name = translated_name
+                        if lang == 'fr':
+                            description_name = (
+                                description_name[0].lower()
+                                + description_name[1:]
+                            )
+                        expected = descriptions[lang].format(description_name)
+                        description = str(date_components[0]['DESCRIPTION'])
+                        self.assertIn(expected, description)
+                        for forbidden in forbidden_day_types[lang]:
+                            self.assertNotIn(forbidden, description.lower())
+
+                        if saint_name is None:
+                            self.assertEqual(len(events), 1)
+                            self.assertEqual(len(date_components), 1)
+                            continue
+
+                        self.assertEqual(len(events), 2)
+                        self.assertEqual(events[1].name, saint_name)
+                        self.assertEqual(events[1].rank, 4)
+                        self.assertEqual(events[1].color, saint_color)
+                        self.assertTrue(events[1].liturgical_event)
+                        self.assertTrue(events[1].feast)
+                        self.assertEqual(
+                            str(date_components[1]['SUMMARY']),
+                            '› ' + summaries[lang][saint_name],
+                        )
+                        saint_description = str(
+                            date_components[1]['DESCRIPTION'])
+                        self.assertNotIn('Class IV', saint_description)
+                        self.assertNotIn('IVe classe', saint_description)
+                        self.assertNotIn(
+                            'also commemorated in the same Mass',
+                            saint_description,
+                        )
+
+    def test_christmas_octave_japanese_names_reuse_previous_uids(self):
+        names = [
+            (
+                'Fifth Day within the Octave of Christmas',
+                '主の御降誕の八日間内第五日',
+                '御降誕の大祝日の八日間中の五日目',
+                29,
+            ),
+            (
+                'Sixth Day within the Octave of Christmas',
+                '主の御降誕の八日間内第六日',
+                '御降誕の大祝日の八日間中の六日目',
+                30,
+            ),
+            (
+                'Seventh Day within the Octave of Christmas',
+                '主の御降誕の八日間内第七日',
+                '御降誕の大祝日の八日間中の七日目',
+                31,
+            ),
+        ]
+        old_calendar = ical.Calendar()
+        old_uids = {}
+        for year in [2025, 2026, 2027, 2028]:
+            for internal_name, old_summary, _, day in names:
+                date = dt.date(year, 12, day)
+                if date.weekday() == 6:
+                    continue
+                uid = f'old-ja-{year}-{day}@example.test'
+                old_event = ical.Event()
+                old_event.add('summary', old_summary)
+                old_event.add('dtstart', date)
+                old_event.add('uid', uid)
+                old_calendar.add_component(old_event)
+                old_uids[(date, internal_name)] = uid
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            old_path = os.path.join(tmp_dir, 'old.ics')
+            with open(old_path, 'wb') as fp:
+                fp.write(old_calendar.to_ical())
+            calendar = LiturgicalCalendar(
+                [2026, 2027, 2028, 2029],
+                reuse_uids_from=old_path,
+                lang='ja',
+            )
+            for html_formatting in [False, True]:
+                components = ical.Calendar.from_ical(
+                    calendar.to_ical(html_formatting))
+                used_uids = [
+                    str(event['UID']) for event in components.walk('VEVENT')
                 ]
-                with self.subTest(lang=lang, date=date):
-                    self.assertEqual(events[0].name, day_name)
-                    self.assertEqual(events[0].rank, 2)
-                    self.assertEqual(events[0].color, 'White')
-                    self.assertTrue(events[0].liturgical_event)
-                    self.assertFalse(events[0].feast)
-                    self.assertEqual(
-                        str(date_components[0]['SUMMARY']).lstrip(),
-                        summaries[lang][day_name],
-                    )
-                    self.assertNotIn(
-                        'Class IV', str(date_components[0]['DESCRIPTION']))
-
-                    if saint_name is None:
-                        self.assertEqual(len(events), 1)
-                        self.assertEqual(len(date_components), 1)
-                        continue
-
-                    self.assertEqual(len(events), 2)
-                    self.assertEqual(events[1].name, saint_name)
-                    self.assertEqual(events[1].rank, 4)
-                    self.assertEqual(events[1].color, saint_color)
-                    self.assertTrue(events[1].liturgical_event)
-                    self.assertTrue(events[1].feast)
-                    self.assertEqual(
-                        str(date_components[1]['SUMMARY']),
-                        '› ' + summaries[lang][saint_name],
-                    )
-                    description = str(date_components[1]['DESCRIPTION'])
-                    self.assertNotIn('Class IV', description)
-                    self.assertNotIn('IVe classe', description)
-                    self.assertNotIn(
-                        'also commemorated in the same Mass', description)
+                for (date, internal_name), old_uid in old_uids.items():
+                    _, old_summary, new_summary, _ = next(
+                        row for row in names if row[0] == internal_name)
+                    matches = [
+                        event for event in components.walk('VEVENT')
+                        if ical.vDDDTypes.from_ical(event['DTSTART']) == date
+                        and str(event['SUMMARY']).lstrip(' ›»') == new_summary
+                    ]
+                    with self.subTest(
+                        date=date,
+                        internal_name=internal_name,
+                        html=html_formatting,
+                    ):
+                        self.assertEqual(len(matches), 1)
+                        self.assertEqual(str(matches[0]['UID']), old_uid)
+                        self.assertEqual(used_uids.count(old_uid), 1)
+                        self.assertNotIn(old_summary, str(matches[0]['SUMMARY']))
+                        self.assertIn(
+                            new_summary
+                            + 'は二級です。典礼色は白です。',
+                            str(matches[0]['DESCRIPTION']),
+                        )
 
     def test_christmas_octave_weekdays_are_omitted_on_sunday(self):
         cases = [

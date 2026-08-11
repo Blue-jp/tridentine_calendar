@@ -390,6 +390,7 @@
       "liturgical_event": true,
       "feast": false,
       "omit_on_sunday": true,
+      "liturgical_day_kind": "day_within_octave",
       "description_uses_summary": true
     },
     {
@@ -418,6 +419,7 @@
       "liturgical_event": true,
       "feast": false,
       "omit_on_sunday": true,
+      "liturgical_day_kind": "day_within_octave",
       "description_uses_summary": true
     }
   ],
@@ -430,6 +432,7 @@
       "liturgical_event": true,
       "feast": false,
       "omit_on_sunday": true,
+      "liturgical_day_kind": "day_within_octave",
       "description_uses_summary": true
     },
     {
@@ -1550,6 +1553,7 @@
       ],
       "obligation": false,
       "class": 4,
+      "color": "Red",
       "liturgical_event": true
     }
   ],
