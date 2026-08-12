@@ -1941,6 +1941,13 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
             [
                 (
                     'exact_date_and_name',
+                    '4-Dec',
+                    'Bs. Jerome de Angelis, Simon Empo & Companions',
+                    '福者イエロニモ・デ・アンジェリス、'
+                    'シモン遠甫等殉教者',
+                ),
+                (
+                    'exact_date_and_name',
                     '7-Oct',
                     'The Holy Rosary',
                     '童貞聖マリアの聖なるロザリオ',
@@ -2069,6 +2076,13 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                      'Bls. Charles Spinola, Sebastian Kimura ＆ Companions')},
                 '› 福者カルロ・スピノラ、'
                 '福者セバスチアノ木村等殉教者',
+            ),
+            (
+                {'date': '4-Dec',
+                 'english_name': (
+                     'Bs. Jerome de Angelis, Simon Empo & Companions')},
+                '› 福者イエロニモ・デ・アンジェリス、'
+                '福者シモン遠甫等殉教者',
             ),
         ]
         for row, expected in cases:

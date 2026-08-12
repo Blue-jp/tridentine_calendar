@@ -682,7 +682,7 @@ class TestLiturgicalCalendar(unittest.TestCase):
         }
         japanese_uncertainty = (
             '日本固有暦では同日に福者イエロニモ・デ・アンジェリス、'
-            'シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
+            '福者シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
             'できないため、聖バルバラが実際にミサで記念されるかは未確定'
             'です。'
         )
@@ -692,6 +692,10 @@ class TestLiturgicalCalendar(unittest.TestCase):
             'https://www.newadvent.org/cathen/02284d.htm',
         ]
         local_name = 'Bs. Jerome de Angelis, Simon Empo & Companions'
+        old_local_summary = (
+            '福者イエロニモ・デ・アンジェリス、シモン遠甫等殉教者')
+        new_local_summary = (
+            '福者イエロニモ・デ・アンジェリス、福者シモン遠甫等殉教者')
 
         for year in [2025, 2026, 2027, 2028]:
             date = dt.date(year, 12, 4)
@@ -723,6 +727,11 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertEqual(local.color, 'Red')
                         self.assertEqual(local.titles, ['Martyr'])
                         self.assertTrue(local.liturgical_event)
+                        self.assertEqual(
+                            local.translator.format_summary(local.name),
+                            new_local_summary,
+                        )
+                        self.assertIn(old_local_summary, local.uid_aliases)
 
                 for html_formatting in [False, True]:
                     components = [
@@ -772,7 +781,7 @@ class TestLiturgicalCalendar(unittest.TestCase):
         )
         japanese_uncertainty = (
             '日本固有暦では同日に福者イエロニモ・デ・アンジェリス、'
-            'シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
+            '福者シモン遠甫等殉教者の固有ミサがありますが、その等級を確認'
             'できないため、聖バルバラが実際にミサで記念されるかは未確定'
             'です。'
         )
@@ -815,30 +824,36 @@ class TestLiturgicalCalendar(unittest.TestCase):
     def test_st_barbara_reuses_nonliturgical_uids(self):
         summaries = {
             'en': {
-                'St. Peter Chrysologus': 'St. Peter Chrysologus',
-                'St. Barbara': '» St. Barbara',
+                'St. Peter Chrysologus': (
+                    'St. Peter Chrysologus', 'St. Peter Chrysologus'),
+                'St. Barbara': ('» St. Barbara', '» St. Barbara'),
             },
             'fr': {
-                'St. Peter Chrysologus': 'St Pierre Chrysologue',
-                'St. Barbara': '» Ste Barbe',
+                'St. Peter Chrysologus': (
+                    'St Pierre Chrysologue', 'St Pierre Chrysologue'),
+                'St. Barbara': ('» Ste Barbe', '» Ste Barbe'),
             },
             'ja': {
-                'St. Peter Chrysologus': ' 聖ペトロ・クリゾロゴ',
-                'St. Barbara': '» 聖バルバラ',
+                'St. Peter Chrysologus': (
+                    ' 聖ペトロ・クリゾロゴ', ' 聖ペトロ・クリゾロゴ'),
+                'St. Barbara': ('» 聖バルバラ', '» 聖バルバラ'),
                 'Bs. Jerome de Angelis, Simon Empo & Companions': (
-                    '› 福者イエロニモ・デ・アンジェリス、シモン遠甫等殉教者'),
+                    '› 福者イエロニモ・デ・アンジェリス、シモン遠甫等殉教者',
+                    '› 福者イエロニモ・デ・アンジェリス、福者シモン遠甫等殉教者',
+                ),
             },
         }
+        years = [2025, 2026, 2027, 2028, 2033]
 
         for lang, named_summaries in summaries.items():
             old_calendar = ical.Calendar()
             expected = {}
-            for year in [2025, 2026, 2027, 2028]:
+            for year in years:
                 date = dt.date(year, 12, 4)
-                for internal_name, summary in named_summaries.items():
+                for internal_name, (old_summary, _) in named_summaries.items():
                     uid = f'old-{lang}-{year}-{internal_name}@example.test'
                     event = ical.Event()
-                    event.add('summary', summary)
+                    event.add('summary', old_summary)
                     event.add('dtstart', date)
                     event.add('uid', uid)
                     old_calendar.add_component(event)
@@ -850,7 +865,10 @@ class TestLiturgicalCalendar(unittest.TestCase):
                     fp.write(old_calendar.to_ical())
                 for html_formatting in [False, True]:
                     calendar = LiturgicalCalendar(
-                        [2026, 2027, 2028, 2029],
+                        sorted({
+                            utils.liturgical_year(dt.date(year, 12, 4))
+                            for year in years
+                        }),
                         reuse_uids_from=old_path,
                         lang=lang,
                     )
@@ -862,7 +880,9 @@ class TestLiturgicalCalendar(unittest.TestCase):
                     ]
                     self.assertEqual(len(output_uids), len(set(output_uids)))
                     for (date, internal_name), old_uid in expected.items():
-                        bare_summary = named_summaries[internal_name].lstrip(' ›»')
+                        old_summary, current_summary = named_summaries[
+                            internal_name]
+                        bare_summary = current_summary.lstrip(' ›»')
                         matches = [
                             event for event in components
                             if event.name == 'VEVENT'
@@ -877,6 +897,11 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         ):
                             self.assertEqual(len(matches), 1)
                             self.assertEqual(str(matches[0]['UID']), old_uid)
+                            if old_summary != current_summary:
+                                self.assertNotIn(
+                                    old_summary.lstrip(' ›»'),
+                                    str(matches[0]['SUMMARY']),
+                                )
 
     def test_passiontide_friday_and_seven_sorrows_commemoration(self):
         summaries = {
