@@ -3,9 +3,8 @@
 import datetime as dt
 import functools
 import inspect
-import random
-import string
 import urllib
+import uuid
 
 from . import movable_feasts
 from .movable_feasts import AshWednesday
@@ -28,6 +27,11 @@ ENGLISH_MONTH_NAMES = (
     'October',
     'November',
     'December',
+)
+
+UID_NAMESPACE = uuid.uuid5(
+    uuid.NAMESPACE_URL,
+    'https://github.com/joe-antognini/tridentine_calendar',
 )
 
 
@@ -207,13 +211,10 @@ def get_movable_feast_names_and_dates(year):
         yield obj.name, obj.date(year)
 
 
-def gen_uid():
-    time_str = dt.datetime.now().isoformat()
-    rand_hash = ''.join(
-        random.choices(string.ascii_letters + string.digits, k=8)
-    )
-
-    return time_str + '-' + rand_hash + '@joe-antognini.github.io'
+def gen_uid(event_identity, occurrence_date):
+    """Generate a stable UID for an event occurrence."""
+    canonical_key = '{}\n{}'.format(occurrence_date.isoformat(), event_identity)
+    return 'urn:uuid:{}'.format(uuid.uuid5(UID_NAMESPACE, canonical_key))
 
 
 def make_initial__the__lowercase(s: str) -> str:

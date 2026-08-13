@@ -257,6 +257,7 @@ class LiturgicalCalendarEvent:
         season=None,
         lang='en',
         translator=None,
+        uid_identity=None,
     ):
         """Instantiate a `LiturgicalCalendarEvent`.
 
@@ -290,6 +291,7 @@ class LiturgicalCalendarEvent:
             lang: string
                 The language of the event.
             translator: A `Translator` object.
+            uid_identity: Stable, locale-independent identity used to generate a UID.
 
         """
         self.date = date
@@ -307,6 +309,7 @@ class LiturgicalCalendarEvent:
         self.commemoration_description_top_rank_threshold = None
         self.liturgical_day_kind = None
         self.uid_aliases = []
+        self.uid_identity = uid_identity or name
         self.rank = rank
         self.color = color
         self.titles = titles
@@ -751,7 +754,8 @@ class LiturgicalYear:
                 ordinal=ordinal, season=season)
             event = LiturgicalCalendarEvent(
                 date, name=name, rank=1, lang=self.lang,
-                translator=self.translator)
+                translator=self.translator,
+                uid_identity='sunday:advent:{}'.format(i))
             self.calendar[date].append(event)
 
         # Time after Epiphany.
@@ -764,7 +768,9 @@ class LiturgicalYear:
                 'ordinal_sunday_after_full_name'].format(
                 ordinal=ordinal, event=event_name)
             event = LiturgicalCalendarEvent(
-                date, name=name, rank=2, lang=self.lang, translator=self.translator)
+                date, name=name, rank=2, lang=self.lang,
+                translator=self.translator,
+                uid_identity='sunday:after-epiphany:{}'.format(i))
             self.calendar[date].append(event)
             i += 1
             date += dt.timedelta(7)
@@ -777,7 +783,9 @@ class LiturgicalYear:
             name = self.translator.templates['ordinal_sunday_full_name'].format(
                 ordinal=ordinal, season=season)
             event = LiturgicalCalendarEvent(
-                date, name=name, rank=1, lang=self.lang, translator=self.translator)
+                date, name=name, rank=1, lang=self.lang,
+                translator=self.translator,
+                uid_identity='sunday:lent:{}'.format(i))
             self.calendar[date].append(event)
 
         # Eastertide.
@@ -791,7 +799,9 @@ class LiturgicalYear:
             name = self.translator.templates['ordinal_sunday_after_full_name'].format(
                 ordinal=ordinal, event=event_name)
         event = LiturgicalCalendarEvent(
-            date, name=name, rank=1, lang=self.lang, translator=self.translator)
+            date, name=name, rank=1, lang=self.lang,
+            translator=self.translator,
+            uid_identity='sunday:after-easter:5')
         self.calendar[date].append(event)
 
         date = mf.Ascension.date(self.year) + dt.timedelta(3)
@@ -803,7 +813,9 @@ class LiturgicalYear:
                 'ordinal_sunday_after_full_name'].format(
                     ordinal='', event=event_name).replace('  ', ' ').strip()
         event = LiturgicalCalendarEvent(
-            date, name=name, rank=1, lang=self.lang, translator=self.translator)
+            date, name=name, rank=1, lang=self.lang,
+            translator=self.translator,
+            uid_identity='sunday:after-ascension')
         self.calendar[date].append(event)
 
         # Time after Pentecost.
@@ -816,7 +828,9 @@ class LiturgicalYear:
                 'ordinal_sunday_after_full_name'].format(
                 ordinal=ordinal, event=event_name)
             event = LiturgicalCalendarEvent(
-                date, name=name, rank=2, lang=self.lang, translator=self.translator)
+                date, name=name, rank=2, lang=self.lang,
+                translator=self.translator,
+                uid_identity='sunday:after-pentecost:{}'.format(i))
             self.calendar[date].append(event)
             i += 1
             date += dt.timedelta(7)
@@ -825,7 +839,9 @@ class LiturgicalYear:
         name = self.translator.templates['last_sunday_full_name'].format(
             event=event_name)
         event = LiturgicalCalendarEvent(
-            date, name=name, rank=2, lang=self.lang, translator=self.translator)
+            date, name=name, rank=2, lang=self.lang,
+            translator=self.translator,
+            uid_identity='sunday:last-after-pentecost')
         self.calendar[date].append(event)
 
         # Then second class fixed feasts or lower.
@@ -1320,9 +1336,9 @@ class LiturgicalYear:
                             uid = self.uid_map[key]
                             break
                     if uid is None:
-                        uid = gen_uid()
+                        uid = gen_uid(elem.uid_identity, date)
                 else:
-                    uid = gen_uid()
+                    uid = gen_uid(elem.uid_identity, date)
 
                 if add_ordering_prefix:
                     # Apply the Japanese display-order prefix only after UID
