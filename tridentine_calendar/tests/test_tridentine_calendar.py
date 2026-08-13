@@ -676,8 +676,8 @@ class TestLiturgicalCalendar(unittest.TestCase):
                 'La couleur liturgique est le rouge.'
             ),
             'ja': (
-                '一般ローマ暦では記念です。\n'
-                '聖バルバラの固有ミサの典礼色は赤です。'
+                '記念\n'
+                '典礼色は赤です。'
             ),
         }
         japanese_uncertainty = (
@@ -756,6 +756,17 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertTrue(
                             description.startswith(
                                 description_leads[lang] + '\n\n'))
+                        if lang == 'ja':
+                            self.assertEqual(
+                                description.splitlines()[:2],
+                                ['記念', '典礼色は赤です。'],
+                            )
+                            self.assertNotIn(
+                                '一般ローマ暦では記念です。', description)
+                            self.assertNotIn(
+                                '聖バルバラの固有ミサの典礼色は赤です。',
+                                description,
+                            )
                         self.assertNotIn('has no special liturgy', description)
                         self.assertNotIn("n'a pas de liturgie spéciale", description)
                         self.assertNotIn('特別な典礼はありません', description)
@@ -776,8 +787,8 @@ class TestLiturgicalCalendar(unittest.TestCase):
             'ja': '聖バルバラ',
         }
         japanese_description = (
-            '一般ローマ暦では記念です。\n'
-            '聖バルバラの固有ミサの典礼色は赤です。'
+            '記念\n'
+            '典礼色は赤です。'
         )
         japanese_uncertainty = (
             '日本固有暦では同日に福者イエロニモ・デ・アンジェリス、'
@@ -818,6 +829,16 @@ class TestLiturgicalCalendar(unittest.TestCase):
                         self.assertTrue(
                             description.startswith(
                                 japanese_description + '\n\n'))
+                        self.assertEqual(
+                            description.splitlines()[:2],
+                            ['記念', '典礼色は赤です。'],
+                        )
+                        self.assertNotIn(
+                            '一般ローマ暦では記念です。', description)
+                        self.assertNotIn(
+                            '聖バルバラの固有ミサの典礼色は赤です。',
+                            description,
+                        )
                         self.assertNotIn(
                             japanese_uncertainty, description)
 

@@ -68,7 +68,7 @@ exact_date_and_name,13-Sep,Bls. Apollinaris & Companions,日本の固有ミサ�
 exact_date_and_name,16-Sep,"Bls. Camillus Costanzo, Augustine Ota ＆ Companions",日本の固有ミサ。,,,Japanese proper Mass from fixed_feasts_local.csv
 exact_date_and_name,5-Nov,Bs. Paul Navarro & Companions,日本の固有ミサ。,,,Japanese proper Mass from fixed_feasts_local.csv
 exact_date_and_name,27-Nov,Bs. Leonardo Kimura & Companions,日本の固有ミサ。,,,Japanese proper Mass from fixed_feasts_local.csv
-exact_date_and_name,4-Dec,St. Barbara,一般ローマ暦では記念です。,,,General Roman Calendar commemoration; Japanese proper rank unknown,,,聖バルバラの固有ミサの典礼色は赤です。
+exact_date_and_name,4-Dec,St. Barbara,記念,,,General Roman Calendar commemoration; Japanese proper rank unknown,,,典礼色は赤です。
 exact_date_and_name,4-Dec,"Bs. Jerome de Angelis, Simon Empo & Companions",日本の固有ミサ。,,福者イエロニモ・デ・アンジェリス、シモン遠甫等殉教者,Japanese proper Mass from fixed_feasts_local.csv
 movable_name,,Bls. Diogo de Carvalho & Companions,日本の固有ミサ。,,,Japanese proper Mass from movable_feasts_local.csv
 exact_date_and_name,25-Jan,Conversion of St. Paul,,聖ペトロも同じミサで記念されます。,,Merge St. Peter commemoration into principal event

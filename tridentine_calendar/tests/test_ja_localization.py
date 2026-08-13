@@ -1874,12 +1874,12 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(len(matches), 1)
         return matches[0]
 
-    def test_all_57_overrides_apply_in_each_year(self):
-        self.assertEqual(len(self.commemoration_rows), 57)
+    def test_all_58_overrides_apply_in_each_year(self):
+        self.assertEqual(len(self.commemoration_rows), 58)
         self.assertEqual(len({
             (row['date'], row['english_name'])
             for row in self.commemoration_rows
-        }), 57)
+        }), 58)
 
         matched_occurrences = 0
         for year in self.years:
@@ -1920,11 +1920,11 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     self.assertNotIn('第四級', html_description)
                     matched_occurrences += 1
 
-        self.assertEqual(matched_occurrences, 57 * len(self.years))
+        self.assertEqual(matched_occurrences, 58 * len(self.years))
 
     def test_override_data_is_unique_and_matches_local_sources(self):
         self.assertEqual(len(self.override_rows), 84)
-        self.assertEqual(len(self.commemoration_rows), 57)
+        self.assertEqual(len(self.commemoration_rows), 58)
         self.assertEqual(len(self.proper_mass_rows), 16)
         self.assertEqual(len(self.append_rows), 3)
         self.assertEqual(
@@ -2218,7 +2218,7 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
                     text,
                 )
 
-    def test_st_barbara_override_uses_concise_general_calendar_description(self):
+    def test_st_barbara_override_uses_concise_commemoration_description(self):
         self.assertNotIn(
             ('30-Jun', 'St. Peter'),
             {
@@ -2233,12 +2233,12 @@ class TestJapaneseDescriptionOverrides(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(
             rows[0]['description_lead'],
-            '一般ローマ暦では記念です。',
+            '記念',
         )
         self.assertNotIn('日本固有暦', rows[0]['description_lead'])
         self.assertEqual(
             rows[0]['description_color'],
-            '聖バルバラの固有ミサの典礼色は赤です。',
+            '典礼色は赤です。',
         )
         for year in [2025, 2026, 2027, 2028, 2033]:
             date = dt.date(year, 12, 4)
